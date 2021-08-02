@@ -3,9 +3,10 @@
 (function () {
     iida.appdata.physical_routers = iida.appdata.physical_routers || [];
 
+    // see position.pptx
     var x, y;
     var x_interval = y_interval = 200;
-    var routers;
+    var routers, edges;
 
     x = 8;
     y = 2;
@@ -52,16 +53,6 @@
             ]
         },
 
-        {
-            'source': "C棟サービス収容ルータ#1Hu0/0/0/20",
-            'target': "C棟コアルータ#1Hu0/0/0/16",
-            'label': "192.168.16.8/30"
-        },
-
-        {
-            'source': "C棟サービス収容ルータ#1G0/0/0/10",
-            'target': "C棟サービス収容ルータ#1G0/0/0/10Connector"
-        },
 
         {
             '__COMMENT__': "ポートを網掛けするためのparent",
@@ -117,22 +108,6 @@
             ]
         },
 
-        {
-            'source': "C棟サービス収容ルータ#2Hu0/0/0/20",
-            'target': "C棟コアルータ#2Hu0/0/0/16",
-            'label': "192.168.16.12/30"
-        },
-
-        {
-            'source': "C棟サービス収容ルータ#2Hu0/0/0/21",
-            'target': "C棟サービス収容ルータ#1Hu0/0/0/21",
-            'label': "192.168.18.4/30"
-        },
-
-        {
-            'source': "C棟サービス収容ルータ#2G0/0/0/10",
-            'target': "C棟サービス収容ルータ#2G0/0/0/10Connector",
-        },
 
     ];
     Array.prototype.push.apply(iida.appdata.physical_routers, routers);
@@ -187,16 +162,6 @@
             'classes': ['bundle_ether']
         },
 
-        {
-            'source': "B棟サービス収容ルータ#1Hu0/0/0/20",
-            'target': "B棟コアルータ#1Hu0/0/0/16",
-            'label': "192.168.16.0/30"
-        },
-
-        {
-            'source': "B棟サービス収容ルータ#1G0/0/0/9",
-            'target': "B棟サービス収容ルータ#1G0/0/0/9Connector",
-        }
     ];
     Array.prototype.push.apply(iida.appdata.physical_routers, routers);
 
@@ -243,25 +208,88 @@
             ]
         },
 
+    ];
+    Array.prototype.push.apply(iida.appdata.physical_routers, routers);
+
+
+    edges = [
         {
-            'source': "B棟サービス収容ルータ#2Hu0/0/0/21",
-            'target': "B棟サービス収容ルータ#1Hu0/0/0/21",
+            'source_router': "C棟サービス収容ルータ#1",
+            'source_port': "Hu0/0/0/20",
+            'target_router': "C棟コアルータ#1",
+            'target_port': "Hu0/0/0/16",
+            'label': "192.168.16.8/30"
+        },
+
+        {
+            'source_router': "C棟サービス収容ルータ#1",
+            'source_port': "G0/0/0/10",
+            'target_router': "C棟サービス収容ルータ#1",
+            'target_port': "G0/0/0/10Connector",
+        },
+
+        {
+            'source_router': "C棟サービス収容ルータ#2",
+            'source_port': "Hu0/0/0/20",
+            'target_router': "C棟コアルータ#2",
+            'target_port': "Hu0/0/0/16",
+            'label': "192.168.16.12/30"
+        },
+
+        {
+            'source_router': "C棟サービス収容ルータ#2",
+            'source_port': "Hu0/0/0/21",
+            'target_router': "C棟サービス収容ルータ#1",
+            'target_port': "Hu0/0/0/21",
+            'label': "192.168.18.4/30"
+        },
+
+        {
+            'source_router': "C棟サービス収容ルータ#2",
+            'source_port': "G0/0/0/10",
+            'target_router': "C棟サービス収容ルータ#2",
+            'target_port': "G0/0/0/10Connector",
+        },
+
+        {
+            'source_router': "B棟サービス収容ルータ#1",
+            'source_port': "Hu0/0/0/20",
+            'target_router': "B棟コアルータ#1",
+            'target_port': "Hu0/0/0/16",
+            'label': "192.168.16.0/30"
+        },
+
+        {
+            'source_router': "B棟サービス収容ルータ#1",
+            'source_port': "G0/0/0/9",
+            'target_router': "B棟サービス収容ルータ#1",
+            'target_port': "G0/0/0/9Connector",
+        },
+
+        {
+            'source_router': "B棟サービス収容ルータ#2",
+            'source_port': "Hu0/0/0/21",
+            'target_router': "B棟サービス収容ルータ#1",
+            'target_port': "Hu0/0/0/21",
             'label': "192.168.18.0/30"
         },
 
         {
-            'source': "B棟サービス収容ルータ#2Hu0/0/0/20",
-            'target': "B棟コアルータ#2Hu0/0/0/16",
+            'source_router': "B棟サービス収容ルータ#2",
+            'source_port': "Hu0/0/0/20",
+            'target_router': "B棟コアルータ#2",
+            'target_port': "Hu0/0/0/16",
             'label': "192.168.16.4/30"
         },
 
         {
-            'source': "B棟サービス収容ルータ#2G0/0/0/9",
-            'target': "B棟サービス収容ルータ#2G0/0/0/9Connector"
+            'source_router': "B棟サービス収容ルータ#2",
+            'source_port': "G0/0/0/9",
+            'target_router': "B棟サービス収容ルータ#2",
+            'target_port': "G0/0/0/9Connector",
         },
-
     ];
-    Array.prototype.push.apply(iida.appdata.physical_routers, routers);
 
+    Array.prototype.push.apply(iida.appdata.physical_edges, edges);
 
 })();

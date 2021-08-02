@@ -5,7 +5,7 @@
 
     var x, y;
     var x_interval = y_interval = 200;
-    var routers;
+    var routers, edges;
 
     x = 4;
     y = 1;
@@ -55,28 +55,6 @@
                     'align': ['C', 'OT']
                 }
             ]
-        },
-
-        {
-            'source': "C棟ユーザ収容ルータ#1Hu0/0/1/5",
-            'target': "C棟ユーザ収容ルータ#1Hu0/0/1/5Connector"
-        },
-
-        {
-            'source': "C棟ユーザ収容ルータ#1Hu0/0/1/4",
-            'target': "C棟ユーザ収容ルータ#1Hu0/0/1/4Connector"
-        },
-
-        {
-            'source': "C棟ユーザ収容ルータ#1Hu0/0/1/5Connector",
-            'target': "C棟ユーザ収容ルータ#1Hu0/0/1/4Connector",
-            'label': ".253"
-        },
-
-        {
-            'source': "C棟コアルータ#1Hu0/0/0/0",
-            'target': "C棟ユーザ収容ルータ#1Hu0/0/1/0",
-            'label': "192.168.10.88/30"
         },
 
         {
@@ -135,35 +113,9 @@
             ]
         },
 
-        {
-            'source': "C棟ユーザ収容ルータ#2Hu0/0/1/5",
-            'target': "C棟ユーザ収容ルータ#2Hu0/0/1/5Connector"
-        },
-
-        {
-            'source': "C棟ユーザ収容ルータ#2Hu0/0/1/4",
-            'target': "C棟ユーザ収容ルータ#2Hu0/0/1/4Connector"
-        },
-
-        {
-            'source': "C棟ユーザ収容ルータ#2Hu0/0/1/5Connector",
-            'target': "C棟ユーザ収容ルータ#2Hu0/0/1/4Connector",
-            'label': ".254"
-        },
-
-        {
-            'source': "C棟ユーザ収容ルータ#1Hu0/0/1/2",
-            'target': "C棟ユーザ収容ルータ#2Hu0/0/1/2",
-            'label': "192.168.14.44/30"
-        },
-
-        {
-            'source': "C棟コアルータ#2Hu0/0/0/0",
-            'target': "C棟ユーザ収容ルータ#2Hu0/0/1/0",
-            'label': "192.168.10.92/30"
-        },
     ];
     Array.prototype.push.apply(iida.appdata.physical_routers, routers);
+
 
     y = 3;
     routers = [
@@ -194,16 +146,11 @@
         },
 
         {
-            'source': "C棟ユーザ収容ルータ#3Hu0/0/1/0",
-            'target': "C棟コアルータ#1Hu0/0/0/1",
-            'label': "192.168.10.96/30"
-        },
-
-        {
             '__COMMENT__': "ポートを網掛けするためのparent",
             'id': "C棟ユーザ収容ルータ#3#4Bundle-Ether1000",
             'classes': ['bundle_ether']
         },
+
     ];
     Array.prototype.push.apply(iida.appdata.physical_routers, routers);
 
@@ -235,17 +182,6 @@
             ]
         },
 
-        {
-            'source': "C棟ユーザ収容ルータ#3Hu0/0/1/2",
-            'target': "C棟ユーザ収容ルータ#4Hu0/0/1/2",
-            'label': "192.168.14.48/30"
-        },
-
-        {
-            'source': "C棟ユーザ収容ルータ#4Hu0/0/1/0",
-            'target': "C棟コアルータ#2Hu0/0/0/1",
-            'label': "192.168.10.100/30"
-        },
     ];
     Array.prototype.push.apply(iida.appdata.physical_routers, routers);
 
@@ -277,11 +213,6 @@
             ]
         },
 
-        {
-            'source': "B棟ユーザ収容ルータ#1Hu0/0/1/0",
-            'target': "B棟コアルータ#1Hu0/0/0/0",
-            'label': "192.168.10.0/30"
-        },
 
         {
             '__COMMENT__': "ポートを網掛けするためのparent",
@@ -319,17 +250,6 @@
             ]
         },
 
-        {
-            'source': "B棟ユーザ収容ルータ#1Hu0/0/1/2",
-            'target': "B棟ユーザ収容ルータ#2Hu0/0/1/2",
-            'label': "192.168.14.0/30"
-        },
-
-        {
-            'source': "B棟ユーザ収容ルータ#2Hu0/0/1/0",
-            'target': "B棟コアルータ#2Hu0/0/0/0",
-            'label': "192.168.10.4/30"
-        },
     ];
     Array.prototype.push.apply(iida.appdata.physical_routers, routers);
 
@@ -359,12 +279,6 @@
                     'parent': "B棟ユーザ収容ルータ#3#4Bundle-Ether1000"
                 }
             ]
-        },
-
-        {
-            'source': "B棟ユーザ収容ルータ#3Hu0/0/1/0",
-            'target': "B棟コアルータ#1Hu0/0/0/1",
-            'label': "192.168.10.8/30"
         },
 
         {
@@ -403,19 +317,154 @@
             ]
         },
 
+
+    ];
+    Array.prototype.push.apply(iida.appdata.physical_routers, routers);
+
+
+    edges = [
         {
-            'source': "B棟ユーザ収容ルータ#3Hu0/0/1/2",
-            'target': "B棟ユーザ収容ルータ#4Hu0/0/1/2",
+            'source_router': "C棟ユーザ収容ルータ#1",
+            'source_port': "Hu0/0/1/5",
+            'target_router': "C棟ユーザ収容ルータ#1",
+            'target_port': "Hu0/0/1/5Connector",
+        },
+
+        {
+            'source_router': "C棟ユーザ収容ルータ#1",
+            'source_port': "Hu0/0/1/4",
+            'target_router': "C棟ユーザ収容ルータ#1",
+            'target_port': "Hu0/0/1/4Connector",
+        },
+
+        {
+            'source_router': "C棟ユーザ収容ルータ#1",
+            'source_port': "Hu0/0/1/5Connector",
+            'target_router': "C棟ユーザ収容ルータ#1",
+            'target_port': "Hu0/0/1/4Connector",
+            'label': ".253"
+        },
+
+        {
+            'source_router': "C棟コアルータ#1",
+            'source_port': "Hu0/0/0/0",
+            'target_router': "C棟ユーザ収容ルータ#1",
+            'target_port': "Hu0/0/1/0",
+            'label': "192.168.10.88/30"
+        },
+
+        {
+            'source_router': "C棟ユーザ収容ルータ#2",
+            'source_port': "Hu0/0/1/5",
+            'target_router': "C棟ユーザ収容ルータ#2",
+            'target_port': "Hu0/0/1/5Connector",
+        },
+
+        {
+            'source_router': "C棟ユーザ収容ルータ#2",
+            'source_port': "Hu0/0/1/4",
+            'target_router': "C棟ユーザ収容ルータ#2",
+            'target_port': "Hu0/0/1/4Connector",
+        },
+
+        {
+            'source_router': "C棟ユーザ収容ルータ#2",
+            'source_port': "Hu0/0/1/5Connector",
+            'target_router': "C棟ユーザ収容ルータ#2",
+            'target_port': "Hu0/0/1/4Connector",
+            'label': ".254"
+        },
+
+        {
+            'source_router': "C棟ユーザ収容ルータ#1",
+            'source_port': "Hu0/0/1/2",
+            'target_router': "C棟ユーザ収容ルータ#2",
+            'target_port': "Hu0/0/1/2",
+            'label': "192.168.14.44/30"
+        },
+
+        {
+            'source_router': "C棟コアルータ#2",
+            'source_port': "Hu0/0/0/0",
+            'target_router': "C棟ユーザ収容ルータ#2",
+            'target_port': "Hu0/0/1/0",
+            'label': "192.168.10.92/30"
+        },
+
+        {
+            'source_router': "C棟ユーザ収容ルータ#3",
+            'source_port': "Hu0/0/1/0",
+            'target_router': "C棟コアルータ#1",
+            'target_port': "Hu0/0/0/1",
+            'label': "192.168.10.96/30"
+        },
+
+        {
+            'source_router': "C棟ユーザ収容ルータ#3",
+            'source_port': "Hu0/0/1/2",
+            'target_router': "C棟ユーザ収容ルータ#4",
+            'target_port': "Hu0/0/1/2",
+            'label': "192.168.14.48/30"
+        },
+
+        {
+            'source_router': "C棟ユーザ収容ルータ#4",
+            'source_port': "Hu0/0/1/0",
+            'target_router': "C棟コアルータ#2",
+            'target_port': "Hu0/0/0/1",
+            'label': "192.168.10.100/30"
+        },
+
+        {
+            'source_router': "B棟ユーザ収容ルータ#1",
+            'source_port': "Hu0/0/1/0",
+            'target_router': "B棟コアルータ#1",
+            'target_port': "Hu0/0/0/0",
+            'label': "192.168.10.0/30"
+        },
+
+        {
+            'source_router': "B棟ユーザ収容ルータ#1",
+            'source_port': "Hu0/0/1/2",
+            'target_router': "B棟ユーザ収容ルータ#2",
+            'target_port': "Hu0/0/1/2",
+            'label': "192.168.14.0/30"
+        },
+
+        {
+            'source_router': "B棟ユーザ収容ルータ#2",
+            'source_port': "Hu0/0/1/0",
+            'target_router': "B棟コアルータ#2",
+            'target_port': "Hu0/0/0/0",
+            'label': "192.168.10.4/30"
+        },
+
+        {
+            'source_router': "B棟ユーザ収容ルータ#3",
+            'source_port': "Hu0/0/1/0",
+            'target_router': "B棟コアルータ#1",
+            'target_port': "Hu0/0/0/1",
+            'label': "192.168.10.8/30"
+        },
+
+        {
+            'source_router': "B棟ユーザ収容ルータ#3",
+            'source_port': "Hu0/0/1/2",
+            'target_router': "B棟ユーザ収容ルータ#4",
+            'target_port': "Hu0/0/1/2",
             'label': "192.168.14.4/30"
         },
 
         {
-            'source': "B棟ユーザ収容ルータ#4Hu0/0/1/0",
-            'target': "B棟コアルータ#2Hu0/0/0/1",
+            'source_router': "B棟ユーザ収容ルータ#4",
+            'source_port': "Hu0/0/1/0",
+            'target_router': "B棟コアルータ#2",
+            'target_port': "Hu0/0/0/1",
             'label': "192.168.10.12/30"
         },
 
     ];
-    Array.prototype.push.apply(iida.appdata.physical_routers, routers);
+
+    Array.prototype.push.apply(iida.appdata.physical_edges, edges);
 
 })();

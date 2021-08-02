@@ -3,9 +3,10 @@
 (function () {
     iida.appdata.physical_routers = iida.appdata.physical_routers || [];
 
+    // see position.pptx
     var x, y;
     var x_interval = y_interval = 200;
-    var routers;
+    var routers, edges;
 
     x = 6;
     y = 3;
@@ -95,13 +96,9 @@
             ]
         },
 
-        {
-            'source': "C棟コアルータ#1Hu0/0/0/22",
-            'target': "C棟コアルータ#2Hu0/0/0/22",
-            'label': "192.168.19.36/30"
-        },
     ];
     Array.prototype.push.apply(iida.appdata.physical_routers, routers);
+
 
     y = 6;
     routers = [
@@ -188,42 +185,70 @@
                 },
             ]
         },
+    ];
+    Array.prototype.push.apply(iida.appdata.physical_routers, routers);
+
+    edges = [
+        {
+            'source_router': "C棟コアルータ#1",
+            'source_port': "Hu0/0/0/22",
+            'target_router': "C棟コアルータ#2",
+            'target_port': "Hu0/0/0/22",
+            'label': "192.168.19.36/30"
+        },
 
         {
-            'source': "B棟コアルータ#1Hu0/0/0/22",
-            'target': "B棟コアルータ#2Hu0/0/0/22",
+            'source_router': "B棟コアルータ#1",
+            'source_port': "Hu0/0/0/22",
+            'target_router': "B棟コアルータ#2",
+            'target_port': "Hu0/0/0/22",
             'label': "192.168.19.32/30"
         },
 
         {
-            'source': "C棟コアルータ#1Hu0/0/0/27",
-            'target': "C棟コアルータ#1Hu0/0/0/27Connector"
+            'source_router': "C棟コアルータ#1",
+            'source_port': "Hu0/0/0/27",
+            'target_router': "C棟コアルータ#1",
+            'target_port': "Hu0/0/0/27Connector"
         },
+
         {
-            'source': "C棟コアルータ#1Hu0/0/0/27Connector",
-            'target': "B棟コアルータ#1Hu0/0/0/27Connector",
+            'source_router': "C棟コアルータ#1",
+            'source_port': "Hu0/0/0/27Connector",
+            'target_router': "B棟コアルータ#1",
+            'target_port': "Hu0/0/0/27Connector",
             'label': "192.168.19.40/30"
         },
+
         {
-            'source': "B棟コアルータ#1Hu0/0/0/27Connector",
-            'target': "B棟コアルータ#1Hu0/0/0/27"
+            'source_router': "B棟コアルータ#1",
+            'source_port': "Hu0/0/0/27Connector",
+            'target_router': "B棟コアルータ#1",
+            'target_port': "Hu0/0/0/27"
         },
 
         {
-            'source': "C棟コアルータ#2Hu0/0/0/27",
-            'target': "C棟コアルータ#2Hu0/0/0/27Connector"
+            'source_router': "C棟コアルータ#2",
+            'source_port': "Hu0/0/0/27",
+            'target_router': "C棟コアルータ#2",
+            'target_port': "Hu0/0/0/27Connector"
         },
+
         {
-            'source': "C棟コアルータ#2Hu0/0/0/27Connector",
-            'target': "B棟コアルータ#2Hu0/0/0/27Connector",
+            'source_router': "C棟コアルータ#2",
+            'source_port': "Hu0/0/0/27Connector",
+            'target_router': "B棟コアルータ#2",
+            'target_port': "Hu0/0/0/27Connector",
             'label': "192.168.19.44/30"
         },
-        {
-            'source': "B棟コアルータ#2Hu0/0/0/27Connector",
-            'target': "B棟コアルータ#2Hu0/0/0/27"
-        }
 
+        {
+            'source_router': "B棟コアルータ#2",
+            'source_port': "Hu0/0/0/27Connector",
+            'target_router': "B棟コアルータ#2",
+            'target_port': "Hu0/0/0/27"
+        }
     ];
-    Array.prototype.push.apply(iida.appdata.physical_routers, routers);
+    Array.prototype.push.apply(iida.appdata.physical_edges, edges);
 
 })();

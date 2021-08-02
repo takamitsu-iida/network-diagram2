@@ -8,6 +8,7 @@
     var DEFAULT_PORT_HEIGHT = 20;
     var DEFAULT_OUTSIDE_OFFSET = 20;
 
+
     var create_node = function (id) {
 
         // for router node
@@ -113,7 +114,7 @@
             if (!_) {
                 return this;
             }
-            if (typeof(_) === 'string') {
+            if (typeof (_) === 'string') {
                 _ = _.split(",");
             }
             Array.prototype.push.apply(_classes, _);
@@ -285,7 +286,7 @@
             if (!_) {
                 return this;
             }
-            if (typeof(_) === 'string') {
+            if (typeof (_) === 'string') {
                 _ = _.split(",");
             }
             Array.prototype.push.apply(_classes, _);
@@ -297,16 +298,126 @@
     };
 
     //
-    // iida.appdata.physical_routers配列から足りないデータを補完してcytoscape.js用のデータを作成する
+    // create cytoscape.js elements from iida.appdata.physical_routers array
     //
-    var create_elements = function () {
+    var create_physical_elements = function () {
+        var nodes = [];
+        var edges = [];
+
+        // create router and port node
+        iida.appdata.physical_routers.forEach(router => {
+
+            var position = router.position || { x: 0, y: 0 };
+            var router_id = router.id;
+            var label = router.label || '';
+            var node_width = router.width || DEFAULT_NODE_WIDTH;
+            var node_height = router.height || DEFAULT_NODE_HEIGHT;
+            var classes = router.classes || ['router', 'physical_router'];  // if classes is defined then use it. if not, use these classes as default
+            var drag_with = router.drag_with || [];
+
+            var r = create_node(router_id)
+                .position(position)
+                .label(label)
+                .width(node_width)
+                .height(node_height)
+                .classes(classes)
+                .drag_with(drag_with);
+
+            nodes.push(r.toObject());
+
+            // create port node
+            var ports = router.ports || [];
+            ports.forEach(port => {
+                var port_id = port.id;
+                var label = port.label || port_id;
+                var align = port.align || 'TL';
+                var port_width = port.width || DEFAULT_PORT_WIDTH;
+                var port_height = port.height || DEFAULT_PORT_HEIGHT;
+                var classes = port.classes || ['port', 'physical_port'];
+                var parent = port.parent || undefined;
+
+                var p = create_node(router_id + port_id)
+                    .router_id(router_id)
+                    .align(align)
+                    .label(label)
+                    .width(port_width)
+                    .height(port_height)
+                    .classes(classes)
+                    .parent(parent)
+                    .fit(position, node_width, node_height);
+
+                nodes.push(p.toObject());
+            });
+        });
+
+        // create edge
+        iida.appdata.physical_edges.forEach(edge => {
+            var source_router = edge.source_router;
+            if (!source_router) {
+                console.log("ERROR: source_router is not defined in edge data");
+                return;
+            }
+            var source_port = edge.source_port;
+            if (!source_port) {
+                console.log("ERROR: source_port is not defined in edge data");
+                return;
+            }
+            var target_router = edge.target_router;
+            if (!target_router) {
+                console.log("ERROR: target_router is not defined in edge data");
+                return;
+            }
+            var target_port = edge.target_port;
+            if (!target_port) {
+                console.log("ERROR: target_port is not defined in edge data");
+                return;
+            }
+            var source_port_id = source_router + source_port;
+            if (!nodes.filter(({ data }) => data.id === source_port_id)) {
+                console.log("ERROR: failed to create edge, source port not found.")
+                return;
+            }
+            var target_port_id = target_router + target_port;
+            if (!nodes.filter(({ data }) => data.id === target_port_id)) {
+                console.log("ERROR: failed to create edge, target port not found.")
+                return;
+            }
+            var edge_id = source_port_id + target_port_id;
+            var label = edge.label || "";
+
+            var e = create_edge(edge_id)
+                .source(source_port_id)
+                .target(target_port_id)
+                .label(label);
+
+            edges.push(e.toObject());
+        });
+
+        return {
+            'nodes': nodes,
+            'edges': edges
+        };
+    };
+
+    iida.appdata.physical_elements = create_physical_elements();
+
+    //
+    // create topology model from iida.appdata.physical_elements
+    //
+    var create_topology_elements = function () {
         var eles = []
-        iida.appdata.physical_routers.forEach(element => {
+        iida.appdata.physical_elements.forEach(element => {
             if (element.source && element.target) {
                 // edge
-                var source = element.source;
-                var target = element.target;
-                var label = element.label || "";
+                var source = element.data.source;
+                var target = element.data.target;
+                var source_router = source.data.router_id;
+                var target_router = target.data.router_id;
+                if (source_router && target_router && source_router === target_router) {
+                    // just ignore self loopback edge
+                    return;
+                }
+                var label = element.data.label || "";
                 var edge = create_edge(source + target).source(source).target(target).label(label);
                 eles.push(edge.toObject());
             } else {
@@ -316,6 +427,7 @@
                 var label = element.label || '';
                 var node_width = element.width || DEFAULT_NODE_WIDTH;
                 var node_height = element.height || DEFAULT_NODE_HEIGHT;
+
                 // if classes is defined, use it
                 // if not defined, use these classes as default
                 var classes = element.classes || ['router', 'physical_router'];
@@ -342,7 +454,6 @@
         return eles;
     };
 
-    iida.appdata.physical_elements = create_elements();
 
     iida.appdata.current = "physical"
 
