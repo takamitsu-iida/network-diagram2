@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+
+<head>
+    <title>network diagram</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <link rel="stylesheet" type="text/css" href="./static/site/css/iida.css" />
+
+    <!-- jQuery -->
+    <script src="https://unpkg.com/jquery/dist/jquery.min.js"></script>
+
+    <!-- cytoscape.js -->
+    <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+
+    <script src="https://unpkg.com/cytoscape-panzoom/cytoscape-panzoom.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/cytoscape-panzoom/cytoscape.js-panzoom.css" />
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/cytoscape-panzoom/font-awesome-4.0.3/css/font-awesome.min.css" />
+
+    <!-- automove -->
+    <!--
+    <script src="https://unpkg.com/cytoscape-automove/cytoscape-automove.js"></script>
+    -->
+
+    <!-- cytoscape-fcose -->
+    <script src="https://unpkg.com/layout-base/layout-base.js"></script>
+    <script src="https://unpkg.com/cose-base/cose-base.js"></script>
+    <script src="https://unpkg.com/cytoscape-fcose/cytoscape-fcose.js"></script>
+
+    <!-- iida.startup.js -->
+    <script type="text/javascript" src="./static/site/js/iida.startup.js"></script>
+
+    <!-- iida.appdata -->
+    <script type="text/javascript" src="./static/site/js/iida.appdata.physical_routers_core.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.appdata.physical_routers_service.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.appdata.physical_routers_user.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.appdata.physical.js"></script>
+
+    <!-- iida.nwdiagram.js -->
+    <script type="text/javascript" src="./static/site/js/iida.nwdiagram.js"></script>
+
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <div class="left_panel">
+
+            <table style="width: 100%;">
+                <tr>
+                    <th width="45%"></th>
+                    <th width="55%"></th>
+                </tr>
+                <tr>
+                    <td><span title="レイアウトアルゴリズムの変更"> レイアウト </span></td>
+                    <td>
+                        <select id="idLayout" name="nameLayout">
+                            <option value="preset" selected>preset</option>
+                            <option value="fcose">fcose</option>
+                            <!--
+                            <option value="grid">grid</option>
+                            <option value="circle">circle</option>
+                            <option value="concentric">concentric</option>
+                            <option value="breadthfirst">breadthfirst</option>
+                            -->
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>-----</td>
+                    <td>-----</td>
+                </tr>
+
+                <tr>
+                    <td><span title="初期位置に戻す"> 初期位置 </span></td>
+                    <td><input id="idInitialPosition" , type="button" value="戻す"></td>
+                </tr>
+
+                <tr>
+                    <td>-----</td>
+                    <td>-----</td>
+                </tr>
+
+            </table>
+        </div>
+
+        <div class="right_top_panel">
+            <div id="cy"></div>
+        </div>
+
+        <div class="right_bottom_panel">
+            <div id="cy2"></div>
+        </div>
+
+    </div>
+
+</body>
+
+<script>
+    document.addEventListener("DOMContentLoaded", iida.main)
+</script>
+
+</html>
