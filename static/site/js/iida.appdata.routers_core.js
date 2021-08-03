@@ -1,7 +1,9 @@
 /* global iida */
 
 (function () {
-    iida.appdata.physical_routers = iida.appdata.physical_routers || [];
+    iida.appdata = iida.appdata || {};
+    iida.appdata.routers = iida.appdata.routers || [];
+    iida.appdata.edges = iida.appdata.edges || [];
 
     // see position.pptx
     var x, y;
@@ -16,8 +18,8 @@
             'id': "C棟コアルータ#1",
             'label': "C棟コアルータ#1\nNCS-55A1-36H-B\ntac-his-cr103\nloopback:172.16.11.3\nMgmt 10.100.1.244",
             'width': 200,
-            'drag_with': ["C棟コアルータ#2", "B棟コアルータ#1", "B棟コアルータ#2"],
-            'classes': ['router', 'physical_router', 'P'],
+            'drag_with': ["C棟コアルータ#2"],
+            'classes': ['router', 'P'],
             'ports': [
                 {
                     'id': "Hu0/0/0/0",
@@ -36,7 +38,7 @@
                 },
                 {
                     'id': "Hu0/0/0/27Connector",
-                    'classes': ['physical_connector'],
+                    'classes': ['connector'],
                     'align': ['OR', 'C']
                 },
                 {
@@ -52,16 +54,18 @@
             ],
         },
     ];
-    Array.prototype.push.apply(iida.appdata.physical_routers, routers);
+    Array.prototype.push.apply(iida.appdata.routers, routers);
 
+
+    x = 6;
     y = 4;
     routers = [
         {
             'position': { 'x': x * x_interval, 'y': y * y_interval },
             'id': "C棟コアルータ#2",
             'label': "C棟コアルータ#2\nNCS-55A1-36H-B\ntac-his-cr104\nloopback:172.16.11.4\nMgmt 10.100.1.243",
-            'drag_with': ["C棟コアルータ#1", "B棟コアルータ#1", "B棟コアルータ#2"],
-            'classes': ['router', 'physical_router', 'P'],
+            'drag_with': ["C棟コアルータ#1"],
+            'classes': ['router', 'P'],
             'ports': [
                 {
                     'id': "Hu0/0/0/0",
@@ -85,7 +89,7 @@
                 },
                 {
                     'id': "Hu0/0/0/27Connector",
-                    'classes': ['physical_connector'],
+                    'classes': ['connector'],
                     'align': ['ORR', 'B']
                 },
                 {
@@ -97,17 +101,18 @@
         },
 
     ];
-    Array.prototype.push.apply(iida.appdata.physical_routers, routers);
+    Array.prototype.push.apply(iida.appdata.routers, routers);
 
 
+    x = 7;
     y = 6;
     routers = [
         {
             'position': { 'x': x * x_interval, 'y': y * y_interval },
             'id': "B棟コアルータ#1",
             'label': "B棟コアルータ#1\nNCS-55A1-36H-B\ntab-his-cr201\nloopback:172.16.11.1\nMgmt 10.100.1.246",
-            'drag_with': ["B棟コアルータ#2", "C棟コアルータ#1", "C棟コアルータ#2"],
-            'classes': ['router', 'physical_router', 'P'],
+            'drag_with': ["B棟コアルータ#2"],
+            'classes': ['router', 'router', 'P'],
             'ports': [
                 {
                     'id': "Hu0/0/0/27",
@@ -116,7 +121,7 @@
                 },
                 {
                     'id': "Hu0/0/0/27Connector",
-                    'classes': ['physical_connector'],
+                    'classes': ['connector'],
                     'align': ['OR', 'T']
                 },
                 {
@@ -142,16 +147,18 @@
             ]
         },
     ];
-    Array.prototype.push.apply(iida.appdata.physical_routers, routers);
+    Array.prototype.push.apply(iida.appdata.routers, routers);
 
+
+    x = 7;
     y = 7;
     routers = [
         {
             'position': { 'x': x * x_interval, 'y': y * y_interval },
             'id': "B棟コアルータ#2",
             'label': "B棟コアルータ#2\nNCS-55A1-36H-B\ntab-his-cr202\nloopback:172.16.11.2\nMgmt 10.100.1.245",
-            'drag_with': ["B棟コアルータ#1", "C棟コアルータ#1", "C棟コアルータ#2"],
-            'classes': ['router', 'physical_router', 'P'],
+            'drag_with': ["B棟コアルータ#1"],
+            'classes': ['router', 'P'],
             'ports': [
                 {
                     'id': "Hu0/0/0/22",
@@ -165,7 +172,7 @@
                 },
                 {
                     'id': "Hu0/0/0/27Connector",
-                    'classes': ['physical_connector'],
+                    'classes': ['connector'],
                     'align': ['ORR', 'C']
                 },
                 {
@@ -186,7 +193,8 @@
             ]
         },
     ];
-    Array.prototype.push.apply(iida.appdata.physical_routers, routers);
+    Array.prototype.push.apply(iida.appdata.routers, routers);
+
 
     edges = [
         {
@@ -194,7 +202,8 @@
             'source_port': "Hu0/0/0/22",
             'target_router': "C棟コアルータ#2",
             'target_port': "Hu0/0/0/22",
-            'label': "192.168.19.36/30"
+            'label': "192.168.19.36/30",
+            'weight': 1,
         },
 
         {
@@ -202,7 +211,8 @@
             'source_port': "Hu0/0/0/22",
             'target_router': "B棟コアルータ#2",
             'target_port': "Hu0/0/0/22",
-            'label': "192.168.19.32/30"
+            'label': "192.168.19.32/30",
+            'weight': 1,
         },
 
         {
@@ -217,7 +227,8 @@
             'source_port': "Hu0/0/0/27Connector",
             'target_router': "B棟コアルータ#1",
             'target_port': "Hu0/0/0/27Connector",
-            'label': "192.168.19.40/30"
+            'label': "192.168.19.40/30",
+            'weight': 1,
         },
 
         {
@@ -239,7 +250,8 @@
             'source_port': "Hu0/0/0/27Connector",
             'target_router': "B棟コアルータ#2",
             'target_port': "Hu0/0/0/27Connector",
-            'label': "192.168.19.44/30"
+            'label': "192.168.19.44/30",
+            'weight': 5
         },
 
         {
@@ -249,6 +261,6 @@
             'target_port': "Hu0/0/0/27"
         }
     ];
-    Array.prototype.push.apply(iida.appdata.physical_edges, edges);
+    Array.prototype.push.apply(iida.appdata.edges, edges);
 
 })();

@@ -1,7 +1,9 @@
 /* global iida */
 
 (function () {
-    iida.appdata.physical_routers = iida.appdata.physical_routers || [];
+    iida.appdata = iida.appdata || {};
+    iida.appdata.routers = iida.appdata.routers || [];
+    iida.appdata.edges = iida.appdata.edges || [];
 
     // see position.pptx
     var x, y;
@@ -15,7 +17,7 @@
             'position': { 'x': x * x_interval, 'y': y * y_interval },
             'id': "C棟サービス収容ルータ#1",
             'label': "C棟サービス収容ルータ#1\nASR 9901\ntac-his-sr103\nloopback:172.16.13.3\nMgmt 10.100.1.240",
-            'classes': ['router', 'physical_router', 'PE'],
+            'classes': ['router', 'PE'],
             'drag_with': ["C棟サービス収容ルータ#2"],
             'ports': [
                 {
@@ -45,7 +47,7 @@
                 },
                 {
                     'id': "G0/0/0/10Connector",
-                    'classes': ['physical_connector'],
+                    'classes': ['connector'],
                     'align': ['OR', 'C'],
                     'parent': "C棟サービス収容ルータ#1#2Bundle-Ether1010"
                 },
@@ -61,15 +63,16 @@
             'classes': ['bundle_ether']
         },
     ];
-    Array.prototype.push.apply(iida.appdata.physical_routers, routers);
+    Array.prototype.push.apply(iida.appdata.routers, routers);
 
+    x = 8;
     y = 3;
     routers = [
         {
             'position': { 'x': x * x_interval, 'y': y * y_interval },
             'id': "C棟サービス収容ルータ#2",
             'label': "C棟サービス収容ルータ#2\nASR 9901\ntac-his-sr104\nloopback:172.16.13.4\nMgmt 10.100.1.239",
-            'classes': ['router', 'physical_router', 'PE'],
+            'classes': ['router', 'PE'],
             'drag_with': ["C棟サービス収容ルータ#1"],
             'ports': [
                 {
@@ -99,7 +102,7 @@
                 },
                 {
                     'id': "G0/0/0/10Connector",
-                    'classes': ['physical_connector'],
+                    'classes': ['connector'],
                     'align': ['OR', 'C'],
                     'parent': "C棟サービス収容ルータ#1#2Bundle-Ether1010"
                 },
@@ -110,16 +113,17 @@
 
 
     ];
-    Array.prototype.push.apply(iida.appdata.physical_routers, routers);
+    Array.prototype.push.apply(iida.appdata.routers, routers);
 
 
+    x = 9;
     y = 7;
     routers = [
         {
             'position': { 'x': x * x_interval, 'y': y * y_interval },
             'id': "B棟サービス収容ルータ#1",
             'label': "B棟サービス収容ルータ#1\nASR 9901\ntab-his-sr201\nloopback:172.16.13.1\nMgmt 10.100.1.242",
-            'classes': ['router', 'physical_router', 'PE'],
+            'classes': ['router', 'PE'],
             'drag_with': ["B棟サービス収容ルータ#2"],
             'ports': [
                 {
@@ -148,7 +152,7 @@
 
                 {
                     'id': "G0/0/0/9Connector",
-                    'classes': ['physical_connector'],
+                    'classes': ['connector'],
                     'align': ['OR', 'C'],
                     'parent': "B棟サービス収容ルータ#1#2Bundle-Ether1009"
                 },
@@ -163,16 +167,17 @@
         },
 
     ];
-    Array.prototype.push.apply(iida.appdata.physical_routers, routers);
+    Array.prototype.push.apply(iida.appdata.routers, routers);
 
 
+    x = 9;
     y = 8;
     routers = [
         {
             'position': { 'x': x * x_interval, 'y': y * y_interval },
             'id': "B棟サービス収容ルータ#2",
             'label': "B棟サービス収容ルータ#2\nASR 9901\ntab-his-sr202\nloopback:172.16.13.2\nMgmt 10.100.1.241",
-            'classes': ['router', 'physical_router', 'PE'],
+            'classes': ['router', 'PE'],
             'drag_with': ["B棟サービス収容ルータ#1"],
             'ports': [
                 {
@@ -201,7 +206,7 @@
 
                 {
                     'id': "G0/0/0/9Connector",
-                    'classes': ['physical_connector'],
+                    'classes': ['connector'],
                     'align': ['OR', 'C'],
                     'parent': "B棟サービス収容ルータ#1#2Bundle-Ether1009"
                 },
@@ -209,7 +214,7 @@
         },
 
     ];
-    Array.prototype.push.apply(iida.appdata.physical_routers, routers);
+    Array.prototype.push.apply(iida.appdata.routers, routers);
 
 
     edges = [
@@ -218,7 +223,8 @@
             'source_port': "Hu0/0/0/20",
             'target_router': "C棟コアルータ#1",
             'target_port': "Hu0/0/0/16",
-            'label': "192.168.16.8/30"
+            'label': "192.168.16.8/30",
+            'weight': 1
         },
 
         {
@@ -233,7 +239,8 @@
             'source_port': "Hu0/0/0/20",
             'target_router': "C棟コアルータ#2",
             'target_port': "Hu0/0/0/16",
-            'label': "192.168.16.12/30"
+            'label': "192.168.16.12/30",
+            'weight': 5
         },
 
         {
@@ -241,7 +248,8 @@
             'source_port': "Hu0/0/0/21",
             'target_router': "C棟サービス収容ルータ#1",
             'target_port': "Hu0/0/0/21",
-            'label': "192.168.18.4/30"
+            'label': "192.168.18.4/30",
+            'weight': 1
         },
 
         {
@@ -256,7 +264,8 @@
             'source_port': "Hu0/0/0/20",
             'target_router': "B棟コアルータ#1",
             'target_port': "Hu0/0/0/16",
-            'label': "192.168.16.0/30"
+            'label': "192.168.16.0/30",
+            'weight': 1
         },
 
         {
@@ -271,7 +280,8 @@
             'source_port': "Hu0/0/0/21",
             'target_router': "B棟サービス収容ルータ#1",
             'target_port': "Hu0/0/0/21",
-            'label': "192.168.18.0/30"
+            'label': "192.168.18.0/30",
+            'weight': 1
         },
 
         {
@@ -279,7 +289,8 @@
             'source_port': "Hu0/0/0/20",
             'target_router': "B棟コアルータ#2",
             'target_port': "Hu0/0/0/16",
-            'label': "192.168.16.4/30"
+            'label': "192.168.16.4/30",
+            'weight': 5
         },
 
         {
@@ -290,6 +301,6 @@
         },
     ];
 
-    Array.prototype.push.apply(iida.appdata.physical_edges, edges);
+    Array.prototype.push.apply(iida.appdata.edges, edges);
 
 })();

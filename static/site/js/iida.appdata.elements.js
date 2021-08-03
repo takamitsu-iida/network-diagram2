@@ -8,7 +8,6 @@
     var DEFAULT_PORT_HEIGHT = 20;
     var DEFAULT_OUTSIDE_OFFSET = 20;
 
-
     var create_node = function (id) {
 
         // for router node
@@ -219,7 +218,11 @@
     var create_edge = function (id) {
         var _id = id;
         var _source;
+        var _source_router;
+        var _source_port;
         var _target;
+        var _target_router;
+        var _target_port;
         var _weight = 1;
         var _label = "";
         var _classes = ['autorotate'];
@@ -229,14 +232,19 @@
         };
 
         exports.toObject = function () {
+            var data = {
+                'id': _id,
+                'source': _source,
+                'source_router': _source_router,
+                'source_port': _source_port,
+                'target': _target,
+                'target_router': _target_router,
+                'target_port': _target_port,
+                'weight': _weight,
+                'label': _label,
+            };
             return {
-                'data': {
-                    'id': _id,
-                    'source': _source,
-                    'target': _target,
-                    'weight': _weight,
-                    'label': _label
-                },
+                'data': data,
                 'classes': _classes
             }
         }
@@ -255,11 +263,43 @@
             return this;
         };
 
+        exports.source_router = function (_) {
+            if (!arguments.length) {
+                return _source_router;
+            }
+            _source_router = _;
+            return this;
+        };
+
+        exports.source_port = function (_) {
+            if (!arguments.length) {
+                return _source_port;
+            }
+            _source_port = _;
+            return this;
+        };
+
         exports.target = function (_) {
             if (!arguments.length) {
                 return _target;
             }
             _target = _;
+            return this;
+        };
+
+        exports.target_router = function (_) {
+            if (!arguments.length) {
+                return _target_router;
+            }
+            _target_router = _;
+            return this;
+        };
+
+        exports.target_port = function (_) {
+            if (!arguments.length) {
+                return _target_port;
+            }
+            _target_port = _;
             return this;
         };
 
@@ -298,21 +338,21 @@
     };
 
     //
-    // create cytoscape.js elements from iida.appdata.physical_routers array
+    // create cytoscape.js elements from iida.appdata.routers array
     //
-    var create_physical_elements = function () {
+    var create_elements = function () {
         var nodes = [];
         var edges = [];
 
         // create router and port node
-        iida.appdata.physical_routers.forEach(router => {
+        iida.appdata.routers.forEach(router => {
 
             var position = router.position || { x: 0, y: 0 };
             var router_id = router.id;
             var label = router.label || '';
             var node_width = router.width || DEFAULT_NODE_WIDTH;
             var node_height = router.height || DEFAULT_NODE_HEIGHT;
-            var classes = router.classes || ['router', 'physical_router'];  // if classes is defined then use it. if not, use these classes as default
+            var classes = router.classes || ['router'];  // if classes is defined then use it. if not, use these classes as default
             var drag_with = router.drag_with || [];
 
             var r = create_node(router_id)
@@ -333,7 +373,7 @@
                 var align = port.align || 'TL';
                 var port_width = port.width || DEFAULT_PORT_WIDTH;
                 var port_height = port.height || DEFAULT_PORT_HEIGHT;
-                var classes = port.classes || ['port', 'physical_port'];
+                var classes = port.classes || ['port'];
                 var parent = port.parent || undefined;
 
                 var p = create_node(router_id + port_id)
@@ -351,7 +391,7 @@
         });
 
         // create edge
-        iida.appdata.physical_edges.forEach(edge => {
+        iida.appdata.edges.forEach(edge => {
             var source_router = edge.source_router;
             if (!source_router) {
                 console.log("ERROR: source_router is not defined in edge data");
@@ -362,6 +402,12 @@
                 console.log("ERROR: source_port is not defined in edge data");
                 return;
             }
+            var source = source_router + source_port;
+            if (!nodes.filter(({ data }) => data.id === source)) {
+                console.log("ERROR: failed to create edge, source port not found.")
+                return;
+            }
+
             var target_router = edge.target_router;
             if (!target_router) {
                 console.log("ERROR: target_router is not defined in edge data");
@@ -372,89 +418,124 @@
                 console.log("ERROR: target_port is not defined in edge data");
                 return;
             }
-            var source_port_id = source_router + source_port;
-            if (!nodes.filter(({ data }) => data.id === source_port_id)) {
-                console.log("ERROR: failed to create edge, source port not found.")
-                return;
-            }
-            var target_port_id = target_router + target_port;
-            if (!nodes.filter(({ data }) => data.id === target_port_id)) {
+            var target = target_router + target_port;
+            if (!nodes.filter(({ data }) => data.id === target)) {
                 console.log("ERROR: failed to create edge, target port not found.")
                 return;
             }
-            var edge_id = source_port_id + target_port_id;
+
+            var edge_id = source + target;
             var label = edge.label || "";
 
             var e = create_edge(edge_id)
-                .source(source_port_id)
-                .target(target_port_id)
+                .source(source)
+                .source_router(source_router)
+                .source_port(source_port)
+                .target(target)
+                .target_router(target_router)
+                .target_port(target_port)
                 .label(label);
 
             edges.push(e.toObject());
         });
 
-        return {
+        iida.appdata.elements = {
             'nodes': nodes,
             'edges': edges
         };
     };
+    create_elements();
 
-    iida.appdata.physical_elements = create_physical_elements();
 
     //
-    // create topology model from iida.appdata.physical_elements
+    // create topology model from iida.appdata.elements
     //
     var create_topology_elements = function () {
-        var eles = []
-        iida.appdata.physical_elements.forEach(element => {
-            if (element.source && element.target) {
-                // edge
-                var source = element.data.source;
-                var target = element.data.target;
-                var source_router = source.data.router_id;
-                var target_router = target.data.router_id;
-                if (source_router && target_router && source_router === target_router) {
-                    // just ignore self loopback edge
-                    return;
-                }
-                var label = element.data.label || "";
-                var edge = create_edge(source + target).source(source).target(target).label(label);
-                eles.push(edge.toObject());
-            } else {
-                // router node
-                var position = element.position || { x: 0, y: 0 };
-                var router_id = element.id;
-                var label = element.label || '';
-                var node_width = element.width || DEFAULT_NODE_WIDTH;
-                var node_height = element.height || DEFAULT_NODE_HEIGHT;
+        var nodes = [];
+        var edges = [];
 
-                // if classes is defined, use it
-                // if not defined, use these classes as default
-                var classes = element.classes || ['router', 'physical_router'];
-                var ports = element.ports || [];
-                var drag_with = element.drag_with || [];
-                var router_node = create_node(router_id).position(position).label(label).width(node_width).height(node_height).classes(classes).drag_with(drag_with);
-                eles.push(router_node.toObject());
-
-                // port node
-                ports.forEach(element => {
-                    var port_id = element.id;
-                    var label = element.label || port_id;
-                    var align = element.align || 'TL';
-                    var port_width = element.width || DEFAULT_PORT_WIDTH;
-                    var port_height = element.height || DEFAULT_PORT_HEIGHT;
-                    var classes = element.classes || ['port', 'physical_port'];
-                    var parent = element.parent || undefined;
-                    var port = create_node(router_id + port_id).router_id(router_id).align(align).label(label).width(port_width).height(port_height).classes(classes).parent(parent).fit(position, node_width, node_height);
-                    eles.push(port.toObject());
-                });
+        // router node is same as elements
+        iida.appdata.elements.nodes.forEach(node => {
+            if (node.classes.includes('router')) {
+                var new_node = JSON.parse(JSON.stringify(node));  // deep copy
+                nodes.push(new_node);
             }
-
         });
-        return eles;
+
+        iida.appdata.elements.edges.forEach(edge => {
+            var source_router = edge.data.source_router;
+            var target_router = edge.data.target_router;
+            if (source_router === target_router) {
+                return;
+            }
+            var new_edge = JSON.parse(JSON.stringify(edge));  // deep copy
+
+            new_edge.data.source = source_router;
+            new_edge.data.target = target_router;
+            edges.push(new_edge);
+        });
+
+
+        iida.appdata.topology_elements = {
+            'nodes': nodes,
+            'edges': edges
+        };
     };
+    create_topology_elements();
 
 
-    iida.appdata.current = "physical"
+    //
+    // fcose option
+    // https://github.com/iVis-at-Bilkent/cytoscape.js-fcose
+    //
+    iida.appdata.fcose_option = {
+        name: "fcose",
+
+        quality: "default",  // default,
+        randomize: true,  // default
+
+        // quality: "proof",
+        // randomize: false,  // if quality is "proof"
+
+        animate: true,
+        animationDuration: 1000,
+        animationEasing: "ease",
+        fit: true,  // default is true
+        padding: 20,
+
+        // Separation amount between nodes
+        nodeSeparation: 150,
+
+        // Ideal edge (non nested) length
+        idealEdgeLength: edge => 150,
+
+        // Fix desired nodes to predefined positions
+        // [{nodeId: 'n1', position: {x: 100, y: 200}}, {...}]
+        fixedNodeConstraint: undefined,
+
+        // Align desired nodes in vertical/horizontal direction
+        // {vertical: [['n1', 'n2'], [...]], horizontal: [['n2', 'n4'], [...]]}
+        alignmentConstraint: {
+            'vertical': [
+                ["C棟コアルータ#1", "C棟コアルータ#2"],
+                ["B棟コアルータ#1", "B棟コアルータ#2"],
+                ["C棟ユーザ収容ルータ#1", "C棟ユーザ収容ルータ#2", "C棟ユーザ収容ルータ#3", "C棟ユーザ収容ルータ#4"],
+                ["B棟ユーザ収容ルータ#1", "B棟ユーザ収容ルータ#2", "B棟ユーザ収容ルータ#3", "B棟ユーザ収容ルータ#4"],
+                ["B棟サービス収容ルータ#1", "B棟サービス収容ルータ#2"],
+                ["C棟サービス収容ルータ#1", "C棟サービス収容ルータ#2"]],
+        },
+
+        // Place two nodes relatively in vertical/horizontal direction
+        // [{top: 'n1', bottom: 'n2', gap: 100}, {left: 'n3', right: 'n4', gap: 75}, {...}]
+        relativePlacementConstraint: [
+            { 'left': "C棟ユーザ収容ルータ#1", 'right': "C棟コアルータ#1", 'gap': 300 },
+            { 'left': "C棟コアルータ#1", 'right': "C棟サービス収容ルータ#1", 'gap': 300 },
+            { 'left': "B棟ユーザ収容ルータ#1", 'right': "B棟コアルータ#1", 'gap': 300 },
+            { 'left': "B棟コアルータ#1", 'right': "B棟サービス収容ルータ#1", 'gap': 300 },
+            { 'top': "C棟コアルータ#1", 'bottom': "C棟コアルータ#2", 'gap': 300 },
+            { 'top': "C棟コアルータ#2", 'bottom': "B棟コアルータ#1", 'gap': 500 },
+            { 'top': "B棟コアルータ#1", 'bottom': "B棟コアルータ#2", 'gap': 300 },
+        ],
+    };
 
 })();

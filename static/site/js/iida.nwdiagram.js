@@ -37,7 +37,7 @@
             },
 
             {
-                'selector': ".physical_router",
+                'selector': ".router",
                 'style': {
                     'border-color': "#000",
                     'border-width': 1,
@@ -56,7 +56,7 @@
             },
 
             {
-                'selector': ".physical_port",
+                'selector': ".port",
                 'style': {
                     'border-color': "#000",
                     'border-width': 1,
@@ -75,7 +75,7 @@
             },
 
             {
-                'selector': ".physical_connector",
+                'selector': ".connector",
                 'style': {
                     'shape': "rectangle",
                     'background-color': "#a9a9a9",  // darkgray
@@ -100,11 +100,11 @@
             },
 
             {
-                'selector': ".logical_router.P",
+                'selector': ".router.P",
                 'style': {
                     'border-color': "#000",
                     'border-width': 1,
-                    'shape': "round-rectangle",
+                    'shape': "rectangle",
                     'background-color': "#20b2aa",  // lightseagreen
                     'label': "data(label)",
                     'width': "data(width)",
@@ -119,11 +119,11 @@
             },
 
             {
-                'selector': ".logical_router.PE",
+                'selector': ".router.PE",
                 'style': {
                     'border-color': "#000",
                     'border-width': 1,
-                    'shape': "round-rectangle",
+                    'shape': "rectangle",
                     'background-color': "#40e0d0",  // turquoise
                     'label': "data(label)",
                     'width': "data(width)",
@@ -175,7 +175,7 @@
             autounselectify: true,
             layout: { 'name': "preset" },
             style: basic_style,
-            elements: iida.appdata.get_elements()
+            elements: iida.appdata.elements
         });
 
         var cy2 = {};
@@ -183,12 +183,12 @@
         if (cy2_container) {
             cy2 = window.cy2 = cytoscape({
                 container: cy2_container,
-                minZoom: 0.5,
+                minZoom: 0.2,
                 maxZoom: 3,
                 boxSelectionEnabled: false,
                 autounselectify: true,
                 style: cytoscape.stylesheet()
-                    .selector(".logical_router.P")
+                    .selector(".router.P")
                     .style({
                         'border-color': "#000",
                         'border-width': 1,
@@ -201,7 +201,7 @@
                         'text-valign': "center",
                         'text-halign': "center",
                     })
-                    .selector(".logical_router.PE")
+                    .selector(".router.PE")
                     .style({
                         'border-color': "#000",
                         'border-width': 1,
@@ -227,10 +227,10 @@
                         'label': edge => edge.data('weight') ? `\u2060${edge.data('weight')}\n\n\u2060` : '',
                         'font-size': "20px",
                     }),
-
-                elements: [],
-                layout: { 'name': "grid" }
+                layout: { 'name': "preset" },  // iida.appdata.fcose_option,
+                elements: iida.appdata.topology_elements,
             });
+            cy2.fit();
         }
 
         // add the panzoom control with default parameter
@@ -277,7 +277,7 @@
             });
         });
 
-        // on position, fix physical port position
+        // on position, fix port position
         cy.on('position', '.router', function (evt) {
             var router = evt.target;
             var router_position = router.position();
@@ -297,14 +297,16 @@
         // the button to revert to initial position
         var initial_position = document.getElementById('idInitialPosition');
         if (initial_position) {
-            initial_position.addEventListener('click', function (evt) {
-                animate_to_initial_position();
+            initial_position.addEventListener('click', function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                animate_to_initial_position(cy);
             });
         };
 
         var get_initial_position = function (node) { return node.data('initial_position'); };
 
-        var animate_to_initial_position = function () {
+        var animate_to_initial_position = function (cy) {
             Promise.all(cy.nodes('.router').map(node => {
                 return node.animation({
                     position: get_initial_position(node),
@@ -318,21 +320,19 @@
         var layout_change = document.getElementById('idLayout');
         if (layout_change) {
             layout_change.addEventListener('change', function (evt) {
-                CyLayout.set_layout(cy, evt.target.value);
+                CyLayout.set_layout(cy2, evt.target.value);
             });
         }
 
         var CyLayout = (function () {
             var _set_layout = function (cy, layout_name) {
                 if (layout_name === 'preset') {
-                    animate_to_initial_position();
+                    animate_to_initial_position(cy);
                     return;
                 }
 
                 if (layout_name === 'fcose') {
-                    if (iida.appdata.current === "logical") {
-                        cy.layout(iida.appdata.logical_fcose_option).run();
-                    }
+                    cy.layout(iida.appdata.fcose_option).run();
                     return;
                 }
 
@@ -342,11 +342,9 @@
                     animate: true,
                 };
 
-                if (iida.appdata.current === "physical") {
-                    cy.$('.router').layout(layout).run();
-                } else if (iida.appdata.current === "logical") {
-                    cy.layout(layout).run();
-                }
+                // cy.$('.router').layout(layout).run();
+                cy.layout(layout).run();
+
             };
             return {
                 set_layout: _set_layout

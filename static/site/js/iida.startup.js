@@ -40,16 +40,10 @@
 // define iida.appdata global variables
 (function () {
     iida.appdata = iida.appdata || {
-        'physical_routers': [],  // original data of routers
-        'physical_edges': [],  // original data of edges
-        'physical_elements': {},  // calculated elements for cytoscape.js
+        'routers': [],  // data of routers and ports
+        'edges': [],  // data of edges
 
-        'logical_routers': [],
-        'logical_edges':  [],
-        'logical_elements': {},
-
-        'get_elements': function () {
-            return iida.appdata.physical_elements;
-        }
+        'elements': {},  // cytoscape.js eles
+        'topology_elements': {},  // cytoscape.js eles
     };
 })();

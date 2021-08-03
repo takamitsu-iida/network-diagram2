@@ -32,19 +32,22 @@ body {
     height: calc(100vh - 50px);
 }
 
-
 .right_top_panel {
     /* parent of cy */
+    /* parent of on_cy */
     grid-row: 1;
     grid-column: 2;
-    height: calc(100vh - 120px - 50px);
+    height: calc(100vh - 300px - 50px);
+    position:  relative;
 }
 
 .right_bottom_panel {
     /* parent of cy2 */
+    /* parent of on_cy2 */
     grid-row: 2;
     grid-column: 2;
-    height: 120px;
+    height: 300px;
+    position:  relative;
 }
 
 #cy {
@@ -55,12 +58,34 @@ body {
     border: 1px solid #aaa;
 }
 
+#on_cy {
+    position: absolute;  /* parent is relative */
+    width: 200px;
+    top: 0;
+    right: 0;
+    height: auto;
+    padding: 10px;
+    z-index: 20;
+    overflow-x: hidden;  /* Disable horizontal scroll */
+}
+
 #cy2 {
     position: relative;  /* parent node must have dimension width and height */
     height: 100%;
     z-index: 10;
     background-color: #ffffff;
     border: 1px solid #aaa;
+}
+
+#on_cy2 {
+    position: absolute;  /* parent is relative */
+    width: 200px;
+    top: 0;
+    right: 0;
+    height: auto;
+    padding: 10px;
+    z-index: 20;
+    overflow-x: hidden;  /* Disable horizontal scroll */
 }
 
 .top_right_fixed {
