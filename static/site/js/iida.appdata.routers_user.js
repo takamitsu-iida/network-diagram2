@@ -192,7 +192,7 @@
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
 
-    x = 5;
+    x = 4;
     y = 6;
     routers = [
         {
@@ -231,7 +231,7 @@
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
 
-    x = 5;
+    x = 4;
     y = 7;
     routers = [
         {
@@ -264,7 +264,7 @@
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
 
-    x = 5;
+    x = 4;
     y = 8;
     routers = [
         {
@@ -302,7 +302,7 @@
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
 
-    x = 5;
+    x = 4;
     y = 9;
     routers = [
         {

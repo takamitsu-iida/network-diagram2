@@ -339,6 +339,7 @@
                 var layout = {
                     name: layout_name,
                     fit: true,
+                    roots: ["C棟コアルータ#1", "C棟コアルータ#2", "B棟コアルータ#1", "B棟コアルータ#2"],
                     animate: true,
                 };
 

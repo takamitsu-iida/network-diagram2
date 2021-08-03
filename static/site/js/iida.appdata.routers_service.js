@@ -116,7 +116,7 @@
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
 
-    x = 9;
+    x = 8;
     y = 7;
     routers = [
         {
@@ -170,7 +170,7 @@
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
 
-    x = 9;
+    x = 8;
     y = 8;
     routers = [
         {

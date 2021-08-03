@@ -26,7 +26,7 @@
         var _offset_x = 0;
         var _offset_y = 0;
 
-        // for grouping
+        // for grouping purpose
         var _parent = undefined;
 
         function exports() {
@@ -75,44 +75,32 @@
         };
 
         exports.label = function (_) {
-            if (!arguments.length) {
-                return _label;
-            }
+            if (!arguments.length) { return _label; }
             _label = _;
             return this;
         };
 
         exports.position = function (_) {
-            if (!arguments.length) {
-                return _position;
-            }
+            if (!arguments.length) { return _position; }
             _position = _;
             return this;
         };
 
         exports.width = function (_) {
-            if (!arguments.length) {
-                return _width;
-            }
+            if (!arguments.length) { return _width; }
             _width = _;
             return this;
         };
 
         exports.height = function (_) {
-            if (!arguments.length) {
-                return _height;
-            }
+            if (!arguments.length) { return _height; }
             _height = _;
             return this;
         };
 
         exports.classes = function (_) {
-            if (!arguments.length) {
-                return _classes;
-            }
-            if (!_) {
-                return this;
-            }
+            if (!arguments.length) { return _classes; }
+            if (!_) { return this; }
             if (typeof (_) === 'string') {
                 _ = _.split(",");
             }
@@ -216,7 +204,7 @@
 
 
     var create_edge = function (id) {
-        var _id = id;
+        var _id;
         var _source;
         var _source_router;
         var _source_port;
@@ -256,76 +244,56 @@
         };
 
         exports.source = function (_) {
-            if (!arguments.length) {
-                return _source;
-            }
+            if (!arguments.length) { return _source; }
             _source = _;
             return this;
         };
 
         exports.source_router = function (_) {
-            if (!arguments.length) {
-                return _source_router;
-            }
+            if (!arguments.length) { return _source_router; }
             _source_router = _;
             return this;
         };
 
         exports.source_port = function (_) {
-            if (!arguments.length) {
-                return _source_port;
-            }
+            if (!arguments.length) { return _source_port; }
             _source_port = _;
             return this;
         };
 
         exports.target = function (_) {
-            if (!arguments.length) {
-                return _target;
-            }
+            if (!arguments.length) { return _target; }
             _target = _;
             return this;
         };
 
         exports.target_router = function (_) {
-            if (!arguments.length) {
-                return _target_router;
-            }
+            if (!arguments.length) { return _target_router; }
             _target_router = _;
             return this;
         };
 
         exports.target_port = function (_) {
-            if (!arguments.length) {
-                return _target_port;
-            }
+            if (!arguments.length) { return _target_port; }
             _target_port = _;
             return this;
         };
 
         exports.label = function (_) {
-            if (!arguments.length) {
-                return _label;
-            }
+            if (!arguments.length) { return _label; }
             _label = _;
             return this;
         };
 
         exports.weight = function (_) {
-            if (!arguments.length) {
-                return _weight;
-            }
+            if (!arguments.length) { return _weight; }
             _weight = _;
             return this;
         };
 
         exports.classes = function (_) {
-            if (!arguments.length) {
-                return _classes;
-            }
-            if (!_) {
-                return this;
-            }
+            if (!arguments.length) { return _classes; }
+            if (!_) { return this; }
             if (typeof (_) === 'string') {
                 _ = _.split(",");
             }
@@ -338,14 +306,16 @@
     };
 
     //
-    // create cytoscape.js elements from iida.appdata.routers array
+    // create cytoscape.js elements from iida.appdata.routers and iida.appdata.edges
     //
-    var create_elements = function () {
-        var nodes = [];
-        var edges = [];
+    var create_elements = function (routers, edges) {
+        var eles = {
+            'nodes': [],
+            'edges': []
+        };
 
         // create router and port node
-        iida.appdata.routers.forEach(router => {
+        routers.forEach(router => {
 
             var position = router.position || { x: 0, y: 0 };
             var router_id = router.id;
@@ -355,7 +325,8 @@
             var classes = router.classes || ['router'];  // if classes is defined then use it. if not, use these classes as default
             var drag_with = router.drag_with || [];
 
-            var r = create_node(router_id)
+            var r = create_node()
+                .id(router_id)
                 .position(position)
                 .label(label)
                 .width(node_width)
@@ -363,7 +334,7 @@
                 .classes(classes)
                 .drag_with(drag_with);
 
-            nodes.push(r.toObject());
+            eles.nodes.push(r.toObject());
 
             // create port node
             var ports = router.ports || [];
@@ -376,7 +347,8 @@
                 var classes = port.classes || ['port'];
                 var parent = port.parent || undefined;
 
-                var p = create_node(router_id + port_id)
+                var p = create_node()
+                    .id(router_id + port_id)
                     .router_id(router_id)
                     .align(align)
                     .label(label)
@@ -386,12 +358,12 @@
                     .parent(parent)
                     .fit(position, node_width, node_height);
 
-                nodes.push(p.toObject());
+                eles.nodes.push(p.toObject());
             });
         });
 
         // create edge
-        iida.appdata.edges.forEach(edge => {
+        edges.forEach(edge => {
             var source_router = edge.source_router;
             if (!source_router) {
                 console.log("ERROR: source_router is not defined in edge data");
@@ -403,7 +375,7 @@
                 return;
             }
             var source = source_router + source_port;
-            if (!nodes.filter(({ data }) => data.id === source)) {
+            if (!eles.nodes.filter(({ data }) => data.id === source)) {
                 console.log("ERROR: failed to create edge, source port not found.")
                 return;
             }
@@ -419,50 +391,50 @@
                 return;
             }
             var target = target_router + target_port;
-            if (!nodes.filter(({ data }) => data.id === target)) {
+            if (!eles.nodes.filter(({ data }) => data.id === target)) {
                 console.log("ERROR: failed to create edge, target port not found.")
                 return;
             }
 
             var edge_id = source + target;
             var label = edge.label || "";
+            var weight = edge.weight || 1;
 
-            var e = create_edge(edge_id)
+            var e = create_edge()
+                .id(edge_id)
                 .source(source)
                 .source_router(source_router)
                 .source_port(source_port)
                 .target(target)
                 .target_router(target_router)
                 .target_port(target_port)
-                .label(label);
+                .label(label)
+                .weight(weight);
 
-            edges.push(e.toObject());
+            eles.edges.push(e.toObject());
         });
 
-        iida.appdata.elements = {
-            'nodes': nodes,
-            'edges': edges
-        };
+        return eles;
     };
-    create_elements();
-
 
     //
     // create topology model from iida.appdata.elements
     //
-    var create_topology_elements = function () {
-        var nodes = [];
-        var edges = [];
+    var create_topology_elements = function (elements) {
+        var eles = {
+            'nodes': [],
+            'edges': []
+        };
 
         // router node is same as elements
-        iida.appdata.elements.nodes.forEach(node => {
+        elements.nodes.forEach(node => {
             if (node.classes.includes('router')) {
                 var new_node = JSON.parse(JSON.stringify(node));  // deep copy
-                nodes.push(new_node);
+                eles.nodes.push(new_node);
             }
         });
 
-        iida.appdata.elements.edges.forEach(edge => {
+        elements.edges.forEach(edge => {
             var source_router = edge.data.source_router;
             var target_router = edge.data.target_router;
             if (source_router === target_router) {
@@ -472,17 +444,16 @@
 
             new_edge.data.source = source_router;
             new_edge.data.target = target_router;
-            edges.push(new_edge);
+            eles.edges.push(new_edge);
         });
 
-
-        iida.appdata.topology_elements = {
-            'nodes': nodes,
-            'edges': edges
-        };
+        return eles;
     };
-    create_topology_elements();
 
+    var elements = create_elements(iida.appdata.routers, iida.appdata.edges);
+
+    iida.appdata.elements = elements;
+    iida.appdata.topology_elements = create_topology_elements(elements);
 
     //
     // fcose option
@@ -491,11 +462,11 @@
     iida.appdata.fcose_option = {
         name: "fcose",
 
-        quality: "default",  // default,
-        randomize: true,  // default
+        // quality: "default",  // default,
+        // randomize: true,
 
-        // quality: "proof",
-        // randomize: false,  // if quality is "proof"
+        quality: "proof",
+        randomize: false,  // if quality is "proof"
 
         animate: true,
         animationDuration: 1000,
@@ -504,10 +475,10 @@
         padding: 20,
 
         // Separation amount between nodes
-        nodeSeparation: 150,
+        nodeSeparation: 300,
 
         // Ideal edge (non nested) length
-        idealEdgeLength: edge => 150,
+        idealEdgeLength: edge => 300,
 
         // Fix desired nodes to predefined positions
         // [{nodeId: 'n1', position: {x: 100, y: 200}}, {...}]
@@ -519,8 +490,10 @@
             'vertical': [
                 ["C棟コアルータ#1", "C棟コアルータ#2"],
                 ["B棟コアルータ#1", "B棟コアルータ#2"],
-                ["C棟ユーザ収容ルータ#1", "C棟ユーザ収容ルータ#2", "C棟ユーザ収容ルータ#3", "C棟ユーザ収容ルータ#4"],
-                ["B棟ユーザ収容ルータ#1", "B棟ユーザ収容ルータ#2", "B棟ユーザ収容ルータ#3", "B棟ユーザ収容ルータ#4"],
+                ["C棟ユーザ収容ルータ#1", "C棟ユーザ収容ルータ#2"],
+                ["C棟ユーザ収容ルータ#3", "C棟ユーザ収容ルータ#4"],
+                ["B棟ユーザ収容ルータ#1", "B棟ユーザ収容ルータ#2"],
+                ["B棟ユーザ収容ルータ#3", "B棟ユーザ収容ルータ#4"],
                 ["B棟サービス収容ルータ#1", "B棟サービス収容ルータ#2"],
                 ["C棟サービス収容ルータ#1", "C棟サービス収容ルータ#2"]],
         },
@@ -528,13 +501,7 @@
         // Place two nodes relatively in vertical/horizontal direction
         // [{top: 'n1', bottom: 'n2', gap: 100}, {left: 'n3', right: 'n4', gap: 75}, {...}]
         relativePlacementConstraint: [
-            { 'left': "C棟ユーザ収容ルータ#1", 'right': "C棟コアルータ#1", 'gap': 300 },
-            { 'left': "C棟コアルータ#1", 'right': "C棟サービス収容ルータ#1", 'gap': 300 },
-            { 'left': "B棟ユーザ収容ルータ#1", 'right': "B棟コアルータ#1", 'gap': 300 },
-            { 'left': "B棟コアルータ#1", 'right': "B棟サービス収容ルータ#1", 'gap': 300 },
-            { 'top': "C棟コアルータ#1", 'bottom': "C棟コアルータ#2", 'gap': 300 },
-            { 'top': "C棟コアルータ#2", 'bottom': "B棟コアルータ#1", 'gap': 500 },
-            { 'top': "B棟コアルータ#1", 'bottom': "B棟コアルータ#2", 'gap': 300 },
+            { left: "C棟コアルータ#1", right: "B棟コアルータ#1", gap: 1200 }
         ],
     };
 
