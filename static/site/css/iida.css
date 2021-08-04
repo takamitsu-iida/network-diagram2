@@ -59,7 +59,7 @@ body {
 }
 
 #on_cy {
-    position: absolute;  /* parent is relative */
+    position: absolute;  /* parent should be relative */
     width: 200px;
     top: 0;
     right: 0;
@@ -78,7 +78,7 @@ body {
 }
 
 #on_cy2 {
-    position: absolute;  /* parent is relative */
+    position: absolute;  /* parent should be relative */
     width: 200px;
     top: 0;
     right: 0;

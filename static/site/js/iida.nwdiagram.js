@@ -4,6 +4,26 @@
 
     iida.nwdiagram = function () {
 
+        var _h = function (tag, attrs, children) {
+            var el = document.createElement(tag);
+
+            Object.keys(attrs).forEach(function (key) {
+                var val = attrs[key];
+                el.setAttribute(key, val);
+            });
+
+            children.forEach(function (child) {
+                el.appendChild(child);
+            });
+
+            return el;
+        };
+
+        var _t = function (text) {
+            return el = document.createTextNode(text);
+        };
+
+
         var basic_style = [
             {
                 'selector': "edge",
@@ -22,6 +42,55 @@
                     'edge-text-rotation': "autorotate",
                     // 'source-text-offset': 10,
                     // 'target-text-offset': 10,
+                }
+            },
+
+            {
+                'selector': "edge.segments_m50",
+                'style': {
+                    "curve-style": "segments",
+                    'segment-distances': "-50 -50",
+                    'segment-weights': "0 1",
+                    'edge-distances': "node-position",
+                }
+            },
+
+            {
+                'selector': "edge.segments_p50",
+                'style': {
+                    "curve-style": "segments",
+                    'segment-distances': "50 50",
+                    'segment-weights': "0 1",
+                    'edge-distances': "node-position",
+                }
+            },
+
+            {
+                'selector': "edge.segments_m70",
+                'style': {
+                    "curve-style": "segments",
+                    'segment-distances': "-70 -70",
+                    'segment-weights': "0 1",
+                    'edge-distances': "node-position",
+                }
+            },
+
+            {
+                'selector': "edge.segments_p70",
+                'style': {
+                    "curve-style": "segments",
+                    'segment-distances': "70 70",
+                    'segment-weights': "0 1",
+                    'edge-distances': "node-position",
+                }
+            },
+
+            {
+                'selector': "edge.overlay_10",
+                'style': {
+                    'overlay-color': "black",
+                    'overlay-padding': 10,
+                    'overlay-opacity': "0.2",
                 }
             },
 
@@ -71,16 +140,6 @@
                     'text-halign': "center",
                     'opacity': 0.8,
                     'border-opacity': 1.0
-                }
-            },
-
-            {
-                'selector': ".connector",
-                'style': {
-                    'shape': "rectangle",
-                    'background-color': "#a9a9a9",  // darkgray
-                    'width': 2,  // this must be same as line width
-                    'height': 2,  // this must be same as line width
                 }
             },
 
@@ -146,6 +205,13 @@
             },
 
             {
+                'selector': '.router:selected',
+                'style': {
+                    'background-color': 'yellow',
+                }
+            },
+
+            {
                 selector: '.loop',
                 style: {
                     'control-point-step-size': 90,
@@ -169,10 +235,11 @@
 
         var cy = window.cy = cytoscape({
             container: document.getElementById('cy'),
-            minZoom: 0.2,
+            minZoom: 0.1,
             maxZoom: 3,
-            boxSelectionEnabled: false,
-            autounselectify: true,
+            boxSelectionEnabled: true,
+            autounselectify: false,  // true if all nodes are unselectable
+            selectionType: "single",  // "single" or "additive",
             layout: { 'name': "preset" },
             style: basic_style,
             elements: iida.appdata.elements
@@ -183,10 +250,11 @@
         if (cy2_container) {
             cy2 = window.cy2 = cytoscape({
                 container: cy2_container,
-                minZoom: 0.2,
+                minZoom: 0.1,
                 maxZoom: 3,
-                boxSelectionEnabled: false,
-                autounselectify: true,
+                boxSelectionEnabled: true,
+                autounselectify: false,
+                selectionType: "single",  // "single" or "additive",
                 style: cytoscape.stylesheet()
                     .selector(".router.P")
                     .style({
@@ -226,9 +294,67 @@
                         'text-wrap': "wrap",
                         'label': edge => edge.data('weight') ? `\u2060${edge.data('weight')}\n\n\u2060` : '',
                         'font-size': "20px",
+                    })
+                    .selector(':selected')
+                    .style({
+                        'background-color': 'blue',
+                        'line-color': 'blue',
+                        'target-arrow-color': 'blue',
+                        'source-arrow-color': 'blue',
+                    })
+                    .selector("edge.segments_m50")
+                    .style({
+                        "curve-style": "segments",
+                        'segment-distances': "-100 -100",
+                        'segment-weights': "0 1",
+                        'edge-distances': "node-position",
+                    })
+                    .selector("edge.segments_p50")
+                    .style({
+                        "curve-style": "segments",
+                        'segment-distances': "100 100",
+                        'segment-weights': "0 1",
+                        'edge-distances': "node-position",
+                    })
+                    .selector("edge.segments_m70")
+                    .style({
+                        "curve-style": "segments",
+                        'segment-distances': "-120 -120",
+                        'segment-weights': "0 1",
+                        'edge-distances': "node-position"
+                    })
+                    .selector("edge.segments_p70")
+                    .style({
+                        "curve-style": "segments",
+                        'segment-distances': "120 120",
+                        'segment-weights': "0 1",
+                        'edge-distances': "node-position",
+                    })
+                    .selector('edge.segments')
+                    .style({
+                        "curve-style": "segments",
+                        'segment-distances': "-50 -50",
+                        'segment-weights': "0 1",
+                        'edge-distances': "node-position",
+                        'line-color': "#0000ff",  // blue
+                        'target-arrow-color': "#0000ff",  // blue
+                        'source-arrow-color': "#0000ff",  // blue
+                        'target-arrow-shape': "circle",
+                        'source-arrow-shape': "circle",
+                        'width': 2,
+                        'text-wrap': "wrap",
+                        'label': edge => edge.data('weight') ? `\u2060${edge.data('weight')}\n\n\u2060` : '',
+                        'font-size': "20px",
+                        'overlay-color': "black",
+                        'overlay-padding': 10,
+                        'overlay-opacity': "0.5",
                     }),
-                layout: { 'name': "preset" },  // iida.appdata.fcose_option,
+
+
+                layout: { 'name': "preset" },  // in case of fcose, use iida.appdata.fcose_option
+
                 elements: iida.appdata.topology_elements,
+
             });
             cy2.fit();
         }
@@ -291,6 +417,47 @@
                 var offset_x = port.data('offset_x');
                 var offset_y = port.data('offset_y');
                 port.position({ x: router_position.x + offset_x, y: router_position.y + offset_y })
+            });
+        });
+
+        cy.on('select', '.router', function (evt) {
+            var ports = evt.target.data('ports') || [];
+            ports.forEach(p => {
+                console.log(p.id);
+            });
+
+
+        });
+
+
+        cy.nodes().forEach(function (n) {
+            return n;
+            var g = n.data('name');
+
+            var $links = [
+                {
+                    name: 'GeneCard',
+                    url: 'http://www.genecards.org/cgi-bin/carddisp.pl?gene=' + g
+                },
+                {
+                    name: 'UniProt search',
+                    url: 'http://www.uniprot.org/uniprot/?query=' + g + '&fil=organism%3A%22Homo+sapiens+%28Human%29+%5B9606%5D%22&sort=score'
+                },
+                {
+                    name: 'GeneMANIA',
+                    url: 'http://genemania.org/search/human/' + g
+                }
+            ].map(function (link) {
+                return _h('a', { target: '_blank', href: link.url, 'class': 'tip-link' }, [_t(link.name)]);
+            });
+
+            // var tippy = makeTippy(n, h('div', {}, $links));
+            // n.data('tippy', tippy);
+
+            n.on('click', function (e) {
+                // tippy.show();
+                // cy.nodes().not(n).forEach(hideTippy);
+                console.log(e.target.select());
             });
         });
 

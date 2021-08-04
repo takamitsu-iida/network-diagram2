@@ -17,7 +17,7 @@
             'position': { 'x': x * x_interval, 'y': y * y_interval },
             'id': "C棟ユーザ収容ルータ#1",
             'label': "C棟ユーザ収容ルータ#1\nNCS5501\ntac-his-ur527\nloopback:172.16.14.27\nMgmt 10.100.1.86",
-            'classes': ['router', 'PE'],
+            'classes': ['PE'],
             'drag_with': "C棟ユーザ収容ルータ#2",
             'ports': [
                 {
@@ -33,40 +33,23 @@
                 {
                     'id': "Gi0/0/0/0",
                     'label': "Gi0/0/0/0\nBundle-E1000",
-                    'align': ['L', 'C'],
-                    'parent': "C棟ユーザ収容ルータ#1#2Bundle-Ether1000"
+                    'align': ['L', 'C']
                 },
                 {
                     'id': "Hu0/0/1/4",
                     'label': "Hu0/0/1/4",
-                    'align': ['L', 'T'],
-                    'parent': "C棟ユーザ収容ルータ#1#2Bundle-Ether1000"
-                },
-                {
-                    'id': "Hu0/0/1/4Connector",
-                    'classes': ['connector'],
-                    'align': ['L', 'OT']
+                    'align': ['L', 'T']
                 },
                 {
                     'id': "Hu0/0/1/5",
                     'label': "Hu0/0/1/5\n.253",
                     'align': ['C', 'T']
                 },
-                {
-                    'id': "Hu0/0/1/5Connector",
-                    'classes': ['connector'],
-                    'align': ['C', 'OT']
-                }
-            ]
-        },
-
-        {
-            '__COMMENT__': "ポートを網掛けするためのparent",
-            'id': "C棟ユーザ収容ルータ#1#2Bundle-Ether1000",
-            'classes': ['bundle_ether']
+            ],
         },
     ];
     Array.prototype.push.apply(iida.appdata.routers, routers);
+
 
     x = 4;
     y = 2;
@@ -75,7 +58,7 @@
             'position': { 'x': x * x_interval, 'y': y * y_interval },
             'id': "C棟ユーザ収容ルータ#2",
             'label': "C棟ユーザ収容ルータ#2\nNCS5501\ntac-his-ur528\nloopback:172.16.14.28\nMgmt 10.100.1.92",
-            'classes': ['router', 'PE'],
+            'classes': ['PE'],
             'drag_with': "C棟ユーザ収容ルータ#1",
             'ports': [
                 {
@@ -94,27 +77,15 @@
                     'align': ['C', 'B'],
                 },
                 {
-                    'id': "Hu0/0/1/5Connector",
-                    'align': ['C', 'OB'],
-                    'classes': ['connector']
-                },
-                {
                     'id': "Hu0/0/1/4",
-                    'align': ['L', 'B'],
-                    'parent': "C棟ユーザ収容ルータ#1#2Bundle-Ether1000"
-                },
-                {
-                    'id': "Hu0/0/1/4Connector",
-                    'align': ['L', 'OB'],
-                    'classes': ['connector']
+                    'align': ['L', 'B']
                 },
                 {
                     'id': "G0/0/0/0",
                     'label': "G0/0/0/0\nBundle-E1000",
                     'align': ['L', 'C'],
-                    'parent': "C棟ユーザ収容ルータ#1#2Bundle-Ether1000"
                 }
-            ]
+            ],
         },
 
     ];
@@ -128,7 +99,7 @@
             'position': { 'x': x * x_interval, 'y': y * y_interval },
             'id': "C棟ユーザ収容ルータ#3",
             'label': "C棟ユーザ収容ルータ#3\nNCS5501\ntac-his-ur529\nloopback:172.16.14.29\nMgmt 10.100.1.98\n",
-            'classes': ['router', 'PE'],
+            'classes': ['PE'],
             'drag_with': "C棟ユーザ収容ルータ#4",
             'ports': [
                 {
@@ -145,19 +116,12 @@
                     'id': "G0/0/0/0",
                     'label': "G0/0/0/0\nBundle-E1000",
                     'align': ['L', 'C'],
-                    'parent': "C棟ユーザ収容ルータ#3#4Bundle-Ether1000"
                 }
             ]
         },
-
-        {
-            '__COMMENT__': "ポートを網掛けするためのparent",
-            'id': "C棟ユーザ収容ルータ#3#4Bundle-Ether1000",
-            'classes': ['bundle_ether']
-        },
-
     ];
     Array.prototype.push.apply(iida.appdata.routers, routers);
+
 
     x = 4;
     y = 4;
@@ -166,7 +130,7 @@
             'position': { 'x': x * x_interval, 'y': y * y_interval },
             'id': "C棟ユーザ収容ルータ#4",
             'label': "C棟ユーザ収容ルータ#4\nNCS5501\ntac-his-ur530\nloobback:172.16.14.30\nMgmt 10.100.1.104",
-            'classes': ['router', 'PE'],
+            'classes': ['PE'],
             'drag_with': "C棟ユーザ収容ルータ#3",
             'ports': [
                 {
@@ -183,7 +147,6 @@
                     'id': "G0/0/0/0",
                     'label': "G0/0/0/0\nBundle-E1000",
                     'align': ['L', 'C'],
-                    'parent': "C棟ユーザ収容ルータ#3#4Bundle-Ether1000"
                 }
             ]
         },
@@ -199,7 +162,7 @@
             'position': { 'x': x * x_interval, 'y': y * y_interval },
             'id': "B棟ユーザ収容ルータ#1",
             'label': "B棟ユーザ収容ルータ#1\nNCS5501\ntab-his-ur517\nloopback:172.16.14.17\nMgmt 10.100.1.44",
-            'classes': ['router', 'PE'],
+            'classes': ['PE'],
             'drag_with': "B棟ユーザ収容ルータ#2",
             'ports': [
                 {
@@ -216,16 +179,8 @@
                     'id': "G0/0/0/0",
                     'label': "G0/0/0/0\nBundle-E1000",
                     'align': ['L', 'C'],
-                    'parent': "B棟ユーザ収容ルータ#1#2Bundle-Ether1000"
                 }
             ]
-        },
-
-
-        {
-            '__COMMENT__': "ポートを網掛けするためのparent",
-            'id': "B棟ユーザ収容ルータ#1#2Bundle-Ether1000",
-            'classes': ['bundle_ether']
         },
     ];
     Array.prototype.push.apply(iida.appdata.routers, routers);
@@ -238,7 +193,7 @@
             'position': { 'x': x * x_interval, 'y': y * y_interval },
             'id': "B棟ユーザ収容ルータ#2",
             'label': "B棟ユーザ収容ルータ#2\nNCS5501\ntab-his-ur518\nloopback:172.16.14.18\nMgmt 10.100.1.45",
-            'classes': ['router', 'PE'],
+            'classes': ['PE'],
             'drag_with': "B棟ユーザ収容ルータ#1",
             'ports': [
                 {
@@ -255,7 +210,6 @@
                     'id': "G0/0/0/0",
                     'label': "G0/0/0/0\nBundle-E1000",
                     'align': ['L', 'C'],
-                    'parent': "B棟ユーザ収容ルータ#1#2Bundle-Ether1000"
                 }
             ]
         },
@@ -271,7 +225,7 @@
             'position': { 'x': x * x_interval, 'y': y * y_interval },
             'id': "B棟ユーザ収容ルータ#3",
             'label': "B棟ユーザ収容ルータ#3\nNCS5501\ntab-his-ur519\nloopback:172.16.14.19\nMgmt 10.100.1.50",
-            'classes': ['router', 'PE'],
+            'classes': ['PE'],
             'drag_with': "B棟ユーザ収容ルータ#4",
             'ports': [
                 {
@@ -288,15 +242,8 @@
                     'id': "G0/0/0/0",
                     'label': "G0/0/0/0\nBundle-E1000",
                     'align': ['L', 'C'],
-                    'parent': "B棟ユーザ収容ルータ#3#4Bundle-Ether1000"
                 }
             ]
-        },
-
-        {
-            '__COMMENT__': "ポートを網掛けするためのparent",
-            'id': "B棟ユーザ収容ルータ#3#4Bundle-Ether1000",
-            'classes': ['bundle_ether']
         },
     ];
     Array.prototype.push.apply(iida.appdata.routers, routers);
@@ -309,7 +256,7 @@
             'position': { 'x': x * x_interval, 'y': y * y_interval },
             'id': "B棟ユーザ収容ルータ#4",
             'label': "B棟ユーザ収容ルータ#4\nNCS5501\ntab-his-ur520\nloopback:172.16.14.20\nMgmt 10.100.1.51\n",
-            'classes': ['router', 'PE'],
+            'classes': ['PE'],
             'drag_with': "B棟ユーザ収容ルータ#3",
             'ports': [
                 {
@@ -325,13 +272,10 @@
                 {
                     'id': "G0/0/0/0",
                     'label': "G0/0/0/0\nBundle-E1000",
-                    'align': ['L', 'C'],
-                    'parent': "B棟ユーザ収容ルータ#3#4Bundle-Ether1000"
+                    'align': ['L', 'C']
                 }
             ]
         },
-
-
     ];
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
@@ -341,23 +285,10 @@
             'source_router': "C棟ユーザ収容ルータ#1",
             'source_port': "Hu0/0/1/5",
             'target_router': "C棟ユーザ収容ルータ#1",
-            'target_port': "Hu0/0/1/5Connector",
-        },
-
-        {
-            'source_router': "C棟ユーザ収容ルータ#1",
-            'source_port': "Hu0/0/1/4",
-            'target_router': "C棟ユーザ収容ルータ#1",
-            'target_port': "Hu0/0/1/4Connector",
-        },
-
-        {
-            'source_router': "C棟ユーザ収容ルータ#1",
-            'source_port': "Hu0/0/1/5Connector",
-            'target_router': "C棟ユーザ収容ルータ#1",
-            'target_port': "Hu0/0/1/4Connector",
+            'target_port': "Hu0/0/1/4",
             'label': ".253",
-            'weight': 1
+            'weight': 1,
+            'classes': ["segments_p50"]
         },
 
         {
@@ -373,23 +304,10 @@
             'source_router': "C棟ユーザ収容ルータ#2",
             'source_port': "Hu0/0/1/5",
             'target_router': "C棟ユーザ収容ルータ#2",
-            'target_port': "Hu0/0/1/5Connector",
-        },
-
-        {
-            'source_router': "C棟ユーザ収容ルータ#2",
-            'source_port': "Hu0/0/1/4",
-            'target_router': "C棟ユーザ収容ルータ#2",
-            'target_port': "Hu0/0/1/4Connector",
-        },
-
-        {
-            'source_router': "C棟ユーザ収容ルータ#2",
-            'source_port': "Hu0/0/1/5Connector",
-            'target_router': "C棟ユーザ収容ルータ#2",
-            'target_port': "Hu0/0/1/4Connector",
+            'target_port': "Hu0/0/1/4",
             'label': ".254",
-            'weight': 1
+            'weight': 1,
+            'classes': ["segments_m50"]
         },
 
         {
