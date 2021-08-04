@@ -44,9 +44,9 @@
                     'id': "Hu0/0/1/5",
                     'label': "Hu0/0/1/5\n.253",
                     'align': ['C', 'T']
-                },
-            ],
-        },
+                }
+            ]
+        }
     ];
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
@@ -74,7 +74,7 @@
                 {
                     'id': "Hu0/0/1/5",
                     'label': "Hu0/0/1/5\n.254",
-                    'align': ['C', 'B'],
+                    'align': ['C', 'B']
                 },
                 {
                     'id': "Hu0/0/1/4",
@@ -83,11 +83,10 @@
                 {
                     'id': "G0/0/0/0",
                     'label': "G0/0/0/0\nBundle-E1000",
-                    'align': ['L', 'C'],
+                    'align': ['L', 'C']
                 }
-            ],
-        },
-
+            ]
+        }
     ];
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
@@ -115,10 +114,10 @@
                 {
                     'id': "G0/0/0/0",
                     'label': "G0/0/0/0\nBundle-E1000",
-                    'align': ['L', 'C'],
+                    'align': ['L', 'C']
                 }
             ]
-        },
+        }
     ];
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
@@ -146,11 +145,10 @@
                 {
                     'id': "G0/0/0/0",
                     'label': "G0/0/0/0\nBundle-E1000",
-                    'align': ['L', 'C'],
+                    'align': ['L', 'C']
                 }
             ]
-        },
-
+        }
     ];
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
@@ -178,10 +176,10 @@
                 {
                     'id': "G0/0/0/0",
                     'label': "G0/0/0/0\nBundle-E1000",
-                    'align': ['L', 'C'],
+                    'align': ['L', 'C']
                 }
             ]
-        },
+        }
     ];
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
@@ -209,11 +207,10 @@
                 {
                     'id': "G0/0/0/0",
                     'label': "G0/0/0/0\nBundle-E1000",
-                    'align': ['L', 'C'],
+                    'align': ['L', 'C']
                 }
             ]
-        },
-
+        }
     ];
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
@@ -241,10 +238,10 @@
                 {
                     'id': "G0/0/0/0",
                     'label': "G0/0/0/0\nBundle-E1000",
-                    'align': ['L', 'C'],
+                    'align': ['L', 'C']
                 }
             ]
-        },
+        }
     ];
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
@@ -275,7 +272,7 @@
                     'align': ['L', 'C']
                 }
             ]
-        },
+        }
     ];
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
@@ -407,8 +404,7 @@
             'target_port': "Hu0/0/0/1",
             'label': "192.168.10.12/30",
             'weight': 1
-        },
-
+        }
     ];
 
     Array.prototype.push.apply(iida.appdata.edges, edges);

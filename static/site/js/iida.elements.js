@@ -228,7 +228,7 @@
                 'target_router': _target_router,
                 'target_port': _target_port,
                 'weight': _weight,
-                'label': _label,
+                'label': _label
             };
             return {
                 'data': data,

@@ -39,7 +39,7 @@
                     'text-wrap': "wrap",  // wrap is needed to work \n
                     'label': edge => edge.data('label') ? `\u2060${edge.data('label')}\n\n\u2060` : '',
                     'font-size': "8px",
-                    'edge-text-rotation': "autorotate",
+                    'edge-text-rotation': "autorotate"
                     // 'source-text-offset': 10,
                     // 'target-text-offset': 10,
                 }
@@ -51,7 +51,7 @@
                     "curve-style": "segments",
                     'segment-distances': "-50 -50",
                     'segment-weights': "0 1",
-                    'edge-distances': "node-position",
+                    'edge-distances': "node-position"
                 }
             },
 
@@ -61,7 +61,7 @@
                     "curve-style": "segments",
                     'segment-distances': "50 50",
                     'segment-weights': "0 1",
-                    'edge-distances': "node-position",
+                    'edge-distances': "node-position"
                 }
             },
 
@@ -71,7 +71,7 @@
                     "curve-style": "segments",
                     'segment-distances': "-70 -70",
                     'segment-weights': "0 1",
-                    'edge-distances': "node-position",
+                    'edge-distances': "node-position"
                 }
             },
 
@@ -81,7 +81,7 @@
                     "curve-style": "segments",
                     'segment-distances': "70 70",
                     'segment-weights': "0 1",
-                    'edge-distances': "node-position",
+                    'edge-distances': "node-position"
                 }
             },
 
@@ -90,7 +90,7 @@
                 'style': {
                     'overlay-color': "black",
                     'overlay-padding': 10,
-                    'overlay-opacity': "0.2",
+                    'overlay-opacity': "0.2"
                 }
             },
 
@@ -120,7 +120,7 @@
                     'text-valign': "center",
                     'text-halign': "center",
                     'opacity': 0.8,
-                    'border-opacity': 1.0,
+                    'border-opacity': 1.0
                 }
             },
 
@@ -173,7 +173,7 @@
                     'text-valign': "center",
                     'text-halign': "center",
                     'opacity': 0.8,
-                    'border-opacity': 1.0,
+                    'border-opacity': 1.0
                 }
             },
 
@@ -192,7 +192,7 @@
                     'text-valign': "center",
                     'text-halign': "center",
                     'opacity': 0.8,
-                    'border-opacity': 1.0,
+                    'border-opacity': 1.0
                 }
             },
 
@@ -200,21 +200,21 @@
                 'selector': ".router.highlighted",
                 'style': {
                     'border-color': "#0000ff",  // blue
-                    'border-width': 4,
+                    'border-width': 4
                 }
             },
 
             {
                 'selector': '.router:selected',
                 'style': {
-                    'background-color': 'yellow',
+                    'background-color': 'yellow'
                 }
             },
 
             {
                 selector: '.loop',
                 style: {
-                    'control-point-step-size': 90,
+                    'control-point-step-size': 90
                 }
             },
 
@@ -267,7 +267,7 @@
                         'height': 100,
                         'font-size': "10px",
                         'text-valign': "center",
-                        'text-halign': "center",
+                        'text-halign': "center"
                     })
                     .selector(".router.PE")
                     .style({
@@ -280,7 +280,7 @@
                         'height': 100,
                         'font-size': "10px",
                         'text-valign': "center",
-                        'text-halign': "center",
+                        'text-halign': "center"
                     })
                     .selector('edge')
                     .style({
@@ -293,28 +293,28 @@
                         'width': 2,
                         'text-wrap': "wrap",
                         'label': edge => edge.data('weight') ? `\u2060${edge.data('weight')}\n\n\u2060` : '',
-                        'font-size': "20px",
+                        'font-size': "20px"
                     })
                     .selector(':selected')
                     .style({
                         'background-color': 'blue',
                         'line-color': 'blue',
                         'target-arrow-color': 'blue',
-                        'source-arrow-color': 'blue',
+                        'source-arrow-color': 'blue'
                     })
                     .selector("edge.segments_m50")
                     .style({
                         "curve-style": "segments",
                         'segment-distances': "-100 -100",
                         'segment-weights': "0 1",
-                        'edge-distances': "node-position",
+                        'edge-distances': "node-position"
                     })
                     .selector("edge.segments_p50")
                     .style({
                         "curve-style": "segments",
                         'segment-distances': "100 100",
                         'segment-weights': "0 1",
-                        'edge-distances': "node-position",
+                        'edge-distances': "node-position"
                     })
                     .selector("edge.segments_m70")
                     .style({
@@ -328,7 +328,7 @@
                         "curve-style": "segments",
                         'segment-distances': "120 120",
                         'segment-weights': "0 1",
-                        'edge-distances': "node-position",
+                        'edge-distances': "node-position"
                     })
                     .selector('edge.segments')
                     .style({
@@ -347,13 +347,13 @@
                         'font-size': "20px",
                         'overlay-color': "black",
                         'overlay-padding': 10,
-                        'overlay-opacity': "0.5",
+                        'overlay-opacity': "0.5"
                     }),
 
 
                 layout: { 'name': "preset" },  // in case of fcose, use iida.appdata.fcose_option
 
-                elements: iida.appdata.topology_elements,
+                elements: iida.appdata.topology_elements
 
             });
             cy2.fit();
@@ -425,8 +425,6 @@
             ports.forEach(p => {
                 console.log(p.id);
             });
-
-
         });
 
 
@@ -507,7 +505,7 @@
                     name: layout_name,
                     fit: true,
                     roots: ["C棟コアルータ#1", "C棟コアルータ#2", "B棟コアルータ#1", "B棟コアルータ#2"],
-                    animate: true,
+                    animate: true
                 };
 
                 // cy.$('.router').layout(layout).run();
@@ -540,8 +538,6 @@
                 set_data: _set_data
             };
         })();
-
-
 
     };
     //

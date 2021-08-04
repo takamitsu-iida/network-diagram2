@@ -45,8 +45,8 @@
                     'label': "G0/0/0/10",
                     'align': ['R', 'C']
                 },
-            ],
-        },
+            ]
+        }
     ];
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
@@ -86,8 +86,8 @@
                     'label': "G0/0/0/10",
                     'align': ['R', 'C']
                 },
-            ],
-        },
+            ]
+        }
     ];
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
@@ -165,10 +165,8 @@
                     'label': "G0/0/0/9",
                     'align': ['R', 'C']
                 },
-
-            ],
-        },
-
+            ]
+        }
     ];
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
@@ -226,8 +224,7 @@
             'target_port': "Hu0/0/0/16",
             'label': "192.168.16.4/30",
             'weight': 5
-        },
-
+        }
     ];
 
     Array.prototype.push.apply(iida.appdata.edges, edges);

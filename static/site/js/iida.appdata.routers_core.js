@@ -46,8 +46,8 @@
                     'label': "Hu0/0/0/1\n.97",
                     'align': ['L', 'C']
                 }
-            ],
-        },
+            ]
+        }
     ];
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
@@ -87,9 +87,8 @@
                     'label': "Hu0/0/0/1\n.101",
                     'align': ['L', 'C']
                 }
-            ],
-        },
-
+            ]
+        }
     ];
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
@@ -128,9 +127,9 @@
                     'id': "Hu0/0/0/0",
                     'label': "Hu0/0/0/0\n.1",
                     'align': ['L', 'C']
-                },
-            ],
-        },
+                }
+            ]
+        }
     ];
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
@@ -169,9 +168,9 @@
                     'id': "Hu0/0/0/0",
                     'label': "Hu0/0/0/0\n.5",
                     'align': ['L', 'C']
-                },
-            ],
-        },
+                }
+            ]
+        }
     ];
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
@@ -183,7 +182,7 @@
             'target_router': "C棟コアルータ#2",
             'target_port': "Hu0/0/0/22",
             'label': "192.168.19.36/30",
-            'weight': 1,
+            'weight': 1
         },
 
         {
@@ -192,7 +191,7 @@
             'target_router': "B棟コアルータ#2",
             'target_port': "Hu0/0/0/22",
             'label': "192.168.19.32/30",
-            'weight': 1,
+            'weight': 1
         },
 
         {
@@ -213,8 +212,7 @@
             'label': "192.168.19.44/30",
             'weight': 5,
             'classes': ["segments_m70"]
-        },
-
+        }
     ];
     Array.prototype.push.apply(iida.appdata.edges, edges);
 
