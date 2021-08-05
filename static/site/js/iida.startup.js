@@ -10,8 +10,26 @@
 })();
 
 
-// define iida.main function
+// define global variables
+
 (function () {
+
+    // see iida.appda.routers_xxx.js
+    iida.appdata = iida.appdata || {
+        'routers': [],  // data of routers and ports
+        'edges': [],  // data of edges
+
+        'elements': {},  // cytoscape.js eles
+        'topology_elements': {},  // cytoscape.js eles
+    };
+
+    // see iida.styles.js
+    iida.styles = iida.styles || {}
+
+    // see iida.layouts.js
+    iida.layouts = iida.layouts || {}
+
+    // see iida.nwdiagram.js
     iida.main = function () {
 
         // HTMLの<script>タグで読まずにネットワーク経由でデータを取得する場合
@@ -21,29 +39,17 @@
             .then(function (res) {
               return res.json()
             }),
-          fetch('static/json/style.json', { mode: 'no-cors' })
+          fetch('static/json/styles.json', { mode: 'no-cors' })
             .then(function (res) {
               return res.json()
             })
         ]).then(function (dataArray) {
           iida.appdata.topology = dataArray[0];
-          iida.appdata.style = dataArray[1];
+          iida.appdata.styles = dataArray[1];
         });
         */
 
-        // see iida.nwdiagram.js
         iida.nwdiagram();
     };
-})();
-
-
-// define iida.appdata global variables
-(function () {
-    iida.appdata = iida.appdata || {
-        'routers': [],  // data of routers and ports
-        'edges': [],  // data of edges
-
-        'elements': {},  // cytoscape.js eles
-        'topology_elements': {},  // cytoscape.js eles
-    };
+    //
 })();

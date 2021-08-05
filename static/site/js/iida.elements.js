@@ -212,7 +212,7 @@
         var _target_router;
         var _target_port;
         var _weight = 1;
-        var _classes = ['autorotate'];
+        var _classes = [];  // ['autorotate'];
 
         function exports() {
             return this;

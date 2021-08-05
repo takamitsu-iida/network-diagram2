@@ -1,9 +1,6 @@
 /* global iida */
 
 (function () {
-    iida.appdata = iida.appdata || {};
-    iida.appdata.routers = iida.appdata.routers || [];
-    iida.appdata.edges = iida.appdata.edges || [];
 
     // see position.pptx
     var x, y;
@@ -201,7 +198,7 @@
             'target_port': "Hu0/0/0/27",
             'label': "192.168.19.40/30",
             'weight': 1,
-            'classes': ["segments_m50"]
+            'classes': ["segments_right"]
         },
 
         {
@@ -211,7 +208,7 @@
             'target_port': "Hu0/0/0/27",
             'label': "192.168.19.44/30",
             'weight': 5,
-            'classes': ["segments_m70"]
+            'classes': ["segments_right2"]
         }
     ];
     Array.prototype.push.apply(iida.appdata.edges, edges);

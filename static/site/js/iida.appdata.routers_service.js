@@ -1,9 +1,6 @@
 /* global iida */
 
 (function () {
-    iida.appdata = iida.appdata || {};
-    iida.appdata.routers = iida.appdata.routers || [];
-    iida.appdata.edges = iida.appdata.edges || [];
 
     // see position.pptx
     var x, y;

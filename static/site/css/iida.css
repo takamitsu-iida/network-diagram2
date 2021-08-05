@@ -23,7 +23,8 @@ body {
     top: 0;
     left: 0;
     background-color: #b7ffff;
-    overflow-x: hidden;  /* Disable horizontal scroll */
+    overflow-x: hidden;
+    /* Disable horizontal scroll */
 }
 
 .right_panel {
@@ -32,26 +33,25 @@ body {
     height: calc(100vh - 50px);
 }
 
+/* parent of cy, on_cy*/
 .right_top_panel {
-    /* parent of cy */
-    /* parent of on_cy */
     grid-row: 1;
     grid-column: 2;
     height: calc(100vh - 300px - 50px);
-    position:  relative;
+    position: relative;
 }
 
+/* parent of cy2, on_cy */
 .right_bottom_panel {
-    /* parent of cy2 */
-    /* parent of on_cy2 */
     grid-row: 2;
     grid-column: 2;
     height: 300px;
-    position:  relative;
+    position: relative;
 }
 
 #cy {
-    position: relative;  /* parent node must have dimension width and height */
+    /* parent of this must have dimension width and height */
+    position: relative;
     height: 100%;
     z-index: 10;
     background-color: #e9e9e9;
@@ -59,18 +59,21 @@ body {
 }
 
 #on_cy {
-    position: absolute;  /* parent should be relative */
+    /* parent of this must be position:relative */
+    position: absolute;
     width: 200px;
     top: 0;
     right: 0;
     height: auto;
     padding: 10px;
     z-index: 20;
-    overflow-x: hidden;  /* Disable horizontal scroll */
+    overflow-x: hidden;
+    /* Disable horizontal scroll */
 }
 
 #cy2 {
-    position: relative;  /* parent node must have dimension width and height */
+    /* parent of cy2 must have dimension width and height */
+    position: relative;
     height: 100%;
     z-index: 10;
     background-color: #ffffff;
@@ -78,14 +81,16 @@ body {
 }
 
 #on_cy2 {
-    position: absolute;  /* parent should be relative */
+    /* parent of this must be position:relative */
+    position: absolute;
     width: 200px;
     top: 0;
     right: 0;
     height: auto;
     padding: 10px;
     z-index: 20;
-    overflow-x: hidden;  /* Disable horizontal scroll */
+    overflow-x: hidden;
+    /* Disable horizontal scroll */
 }
 
 .top_right_fixed {
@@ -112,6 +117,23 @@ body {
     white-space: nowrap;
 }
 
+.popper-div {
+    display: none;
+    max-width: 200px;
+    background: #fff;
+    z-index: 9999;
+    padding: 1rem;
+    pointer-events: none;
+    text-align: left;
+    border-radius: 0;
+    border: 1px solid #ccc;
+}
+
+.active {
+    display: block;
+}
+
+
 /* https://migi.me/css/video-play-pause-icon/ */
 
 .video_play_pause {
@@ -125,11 +147,11 @@ body {
     font-size: 200px;
 }
 
-.video_play_pause > input {
+.video_play_pause>input {
     display: none;
 }
 
-.video_play_pause > input:not(:checked) + span::before {
+.video_play_pause>input:not(:checked)+span::before {
     position: absolute;
     top: 50%;
     left: 30%;
@@ -142,8 +164,8 @@ body {
     content: "";
 }
 
-.video_play_pause > input:checked + span::before,
-.video_play_pause > input:checked + span::after {
+.video_play_pause>input:checked+span::before,
+.video_play_pause>input:checked+span::after {
     position: absolute;
     top: 50%;
     transform: translateX(-50%) translateY(-50%);
@@ -153,9 +175,11 @@ body {
     background-color: currentColor;
     content: "";
 }
-.video_play_pause > input:checked + span::before {
+
+.video_play_pause>input:checked+span::before {
     left: 40%;
 }
-.video_play_pause > input:checked + span::after {
+
+.video_play_pause>input:checked+span::after {
     left: 60%;
 }
