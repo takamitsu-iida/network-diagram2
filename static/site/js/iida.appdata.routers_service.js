@@ -3,15 +3,16 @@
 (function () {
 
     // see position.pptx
-    var x, y;
-    var x_interval = y_interval = 200;
-    var routers, edges;
+    var col, row;
 
-    x = 8;
-    y = 2;
+    var routers
+    var edges;
+
+    col = 8;
+    row = 2;
     routers = [
         {
-            'position': { 'x': x * x_interval, 'y': y * y_interval },
+            'grid': { 'row': row, 'col': col },
             'id': "C棟サービス収容ルータ#1",
             'label': "C棟サービス収容ルータ#1\nASR 9901\ntac-his-sr103\nloopback:172.16.13.3\nMgmt 10.100.1.240",
             'classes': ['PE'],
@@ -48,11 +49,11 @@
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
 
-    x = 8;
-    y = 3;
+    col = 8;
+    row = 3;
     routers = [
         {
-            'position': { 'x': x * x_interval, 'y': y * y_interval },
+            'grid': { 'row': row, 'col': col },
             'id': "C棟サービス収容ルータ#2",
             'label': "C棟サービス収容ルータ#2\nASR 9901\ntac-his-sr104\nloopback:172.16.13.4\nMgmt 10.100.1.239",
             'classes': ['PE'],
@@ -89,11 +90,11 @@
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
 
-    x = 8;
-    y = 7;
+    col = 8;
+    row = 7;
     routers = [
         {
-            'position': { 'x': x * x_interval, 'y': y * y_interval },
+            'grid': { 'row': row, 'col': col },
             'id': "B棟サービス収容ルータ#1",
             'label': "B棟サービス収容ルータ#1\nASR 9901\ntab-his-sr201\nloopback:172.16.13.1\nMgmt 10.100.1.242",
             'classes': ['PE'],
@@ -129,11 +130,11 @@
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
 
-    x = 8;
-    y = 8;
+    col = 8;
+    row = 8;
     routers = [
         {
-            'position': { 'x': x * x_interval, 'y': y * y_interval },
+            'grid': { 'row': row, 'col': col },
             'id': "B棟サービス収容ルータ#2",
             'label': "B棟サービス収容ルータ#2\nASR 9901\ntab-his-sr202\nloopback:172.16.13.2\nMgmt 10.100.1.241",
             'classes': ['PE'],

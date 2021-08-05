@@ -3,15 +3,16 @@
 (function () {
 
     // see position.pptx
-    var x, y;
-    var x_interval = y_interval = 200;
-    var routers, edges;
+    var col, row;
 
-    x = 6;
-    y = 3;
+    var routers
+    var edges;
+
+    col = 6;
+    row = 3;
     routers = [
         {
-            'position': { 'x': x * x_interval, 'y': y * y_interval },
+            'grid': { 'row': row, 'col': col },
             'id': "C棟コアルータ#1",
             'label': "C棟コアルータ#1\nNCS-55A1-36H-B\ntac-his-cr103\nloopback:172.16.11.3\nMgmt 10.100.1.244",
             'width': 200,
@@ -49,11 +50,11 @@
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
 
-    x = 6;
-    y = 4;
+    col = 6;
+    row = 4;
     routers = [
         {
-            'position': { 'x': x * x_interval, 'y': y * y_interval },
+            'grid': { 'row': row, 'col': col },
             'id': "C棟コアルータ#2",
             'label': "C棟コアルータ#2\nNCS-55A1-36H-B\ntac-his-cr104\nloopback:172.16.11.4\nMgmt 10.100.1.243",
             'drag_with': ["C棟コアルータ#1", "B棟コアルータ#1", "B棟コアルータ#2"],
@@ -90,11 +91,11 @@
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
 
-    x = 6;
-    y = 6;
+    col = 6;
+    row = 6;
     routers = [
         {
-            'position': { 'x': x * x_interval, 'y': y * y_interval },
+            'grid': { 'row': row, 'col': col },
             'id': "B棟コアルータ#1",
             'label': "B棟コアルータ#1\nNCS-55A1-36H-B\ntab-his-cr201\nloopback:172.16.11.1\nMgmt 10.100.1.246",
             'drag_with': ["C棟コアルータ#1", "C棟コアルータ#2", "B棟コアルータ#2"],
@@ -131,11 +132,11 @@
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
 
-    x = 6;
-    y = 7;
+    col = 6;
+    row = 7;
     routers = [
         {
-            'position': { 'x': x * x_interval, 'y': y * y_interval },
+            'grid': { 'row': row, 'col': col },
             'id': "B棟コアルータ#2",
             'label': "B棟コアルータ#2\nNCS-55A1-36H-B\ntab-his-cr202\nloopback:172.16.11.2\nMgmt 10.100.1.245",
             'drag_with': ["C棟コアルータ#1", "C棟コアルータ#2", "B棟コアルータ#1"],

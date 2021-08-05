@@ -45,9 +45,9 @@
     <script type="text/javascript" src="./static/site/js/iida.appdata.routers_user.js"></script>
     <script type="text/javascript" src="./static/site/js/iida.elements.js"></script>
 
-    <!-- iida.style.js and iida.layouts.js-->
-    <script type="text/javascript" src="./static/site/js/iida.styles.js"></script>
-    <script type="text/javascript" src="./static/site/js/iida.layouts.js"></script>
+    <!-- iida.cystyles.js and iida.cylayouts.js-->
+    <script type="text/javascript" src="./static/site/js/iida.cystyles.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.cylayouts.js"></script>
 
     <!-- iida.nwdiagram.js -->
     <script type="text/javascript" src="./static/site/js/iida.nwdiagram.js"></script>
@@ -68,8 +68,8 @@
                     </tr>
 
                     <tr>
-                        <td><span title="初期位置に戻す"> 初期位置 </span></td>
-                        <td><input id="idInitialPosition" , type="button" value="戻す"></td>
+                        <td><span title="Revert to initial position"> Initial Position </span></td>
+                        <td><input id="idInitialPosition" , type="button" value="Revert"></td>
                     </tr>
 
                     <tr>
@@ -92,17 +92,15 @@
                         <th width="55%"></th>
                     </tr>
                     <tr>
-                        <td><span title="レイアウトアルゴリズムの変更"> レイアウト </span></td>
+                        <td><span title="Change layout algorithm"> Layout </span></td>
                         <td>
                             <select id="idLayout" name="nameLayout">
-                                <option value="preset" selected>preset</option>
+                                <option value="grid" selected>grid</option>
+                                <option value="preset">preset</option>
                                 <option value="fcose">fcose</option>
-
-                                <option value="grid">grid</option>
                                 <option value="circle">circle</option>
                                 <option value="concentric">concentric</option>
                                 <option value="breadthfirst">breadthfirst</option>
-
                             </select>
                         </td>
                     </tr>

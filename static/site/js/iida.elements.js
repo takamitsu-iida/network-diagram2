@@ -6,14 +6,13 @@
     var DEFAULT_NODE_HEIGHT = 120;
     var DEFAULT_PORT_WIDTH = 60;
     var DEFAULT_PORT_HEIGHT = 20;
-    var DEFAULT_OUTSIDE_OFFSET = 20;
 
     var create_node = function () {
 
         // for router node
         var _id;
         var _label = "";
-        var _position = { x: 0, y: 0 };
+        var _grid = { 'row': 1, 'col': 1 };
         var _classes = [];
         var _node_type = "router";  // "router" or "port"
         var _width = DEFAULT_NODE_WIDTH;
@@ -42,7 +41,7 @@
             data['width'] = _width;
             data['height'] = _height;
             data['drag_with'] = _drag_with;
-            data['initial_position'] = Object.assign({}, _position);  // store initial position to revert to preset position
+            data['grid'] = _grid;
             data['ports'] = _ports;
 
             // for port only parameters
@@ -56,7 +55,6 @@
 
             return {
                 'data': data,
-                'position': _position,
                 'classes': _classes,
                 'grabbable': _grabbable
             };
@@ -83,9 +81,9 @@
             return this;
         };
 
-        exports.position = function (_) {
-            if (!arguments.length) { return _position; }
-            if (_) { _position = _; }
+        exports.grid = function (_) {
+            if (!arguments.length) { return _grid; }
+            if (_) { _grid = _; }
             return this;
         };
 
@@ -145,56 +143,44 @@
             return this;
         };
 
-        exports.fit = function (router_position, router_width, router_height) {
-            var nw = router_width / 2;
-            var nh = router_height / 2;
-            var pw = _width / 2;
-            var ph = _height / 2;
-            var oo = DEFAULT_OUTSIDE_OFFSET;
+        exports.offset = function (router_width, router_height, port_width, port_height) {
+            var rw = router_width / 2;
+            var rh = router_height / 2;
+            var pw = port_width / 2;
+            var ph = port_height / 2;
 
             switch (_align[0]) {
                 case 'L':  // Left
-                    _offset_x = -1 * (nw - pw);
-                    break;
-                case 'OL':  // Outside Left
-                    _offset_x = -1 * (nw + oo);
+                    _offset_x = -1 * (rw - pw);
                     break;
                 case 'C':  // Center
                     _offset_x = 0;
                     break;
                 case 'R':  // Right
-                    _offset_x = nw - pw;
-                    break;
-                case 'OR':  // Outside Right
-                    _offset_x = nw + oo;
-                    break;
-                case 'ORR':  // Outside Right Right
-                    _offset_x = nw + oo + oo;
+                    _offset_x = rw - pw;
                     break;
             }
 
             switch (_align[1]) {
                 case 'T':  // Top
-                    _offset_y = -1 * (nh - ph);
+                    _offset_y = -1 * (rh - ph);
                     break;
                 case 'T2':  // 2nd Top
-                    _offset_y = -1 * (nh - ph) + _height;
-                    break;
-                case 'OT':  // Outside Top
-                    _offset_y = -1 * (nh + oo);
+                    _offset_y = -1 * (rh - ph) + port_height;
                     break;
                 case 'C':  // Center
                     _offset_y = 0;
                     break;
                 case 'B':  // Bottom
-                    _offset_y = nh - ph;
-                    break;
-                case 'OB':  // Outside Bottom
-                    _offset_y = nh + oo;
+                    _offset_y = rh - ph;
                     break;
             }
-            _position = { x: router_position.x + _offset_x, y: router_position.y + _offset_y }
 
+            return this;
+        };
+
+        exports.fit = function (router_position) {
+            _position = { x: router_position.x + _offset_x, y: router_position.y + _offset_y }
             return this;
         };
 
@@ -317,11 +303,11 @@
         // create router and port node
         routers.forEach(router => {
 
-            var position = router.position || { x: 0, y: 0 };
+            var grid = router.grid || {};
             var router_id = router.id;
             var label = router.label || '';
-            var node_width = router.width || DEFAULT_NODE_WIDTH;
-            var node_height = router.height || DEFAULT_NODE_HEIGHT;
+            var router_width = router.width || DEFAULT_NODE_WIDTH;
+            var router_height = router.height || DEFAULT_NODE_HEIGHT;
             var classes = router.classes || [];
             var drag_with = router.drag_with || [];
             var ports = router.ports || [];
@@ -329,11 +315,11 @@
             var n = create_node()
                 .id(router_id)
                 .node_type('router')
-                .position(position)
+                .grid(grid)
                 .label(label)
                 .ports(ports)
-                .width(node_width)
-                .height(node_height)
+                .width(router_width)
+                .height(router_height)
                 .classes(classes)
                 .drag_with(drag_with);
 
@@ -357,7 +343,7 @@
                     .width(port_width)
                     .height(port_height)
                     .classes(classes)
-                    .fit(position, node_width, node_height);
+                    .offset(router_width, router_height, port_width, port_height);
 
                 eles.nodes.push(n.toObject());
             });
@@ -459,55 +445,5 @@
 
     iida.appdata.elements = elements;
     iida.appdata.topology_elements = create_topology_elements(elements);
-
-    //
-    // fcose option
-    // https://github.com/iVis-at-Bilkent/cytoscape.js-fcose
-    //
-    iida.appdata.fcose_option = {
-        name: "fcose",
-
-        // quality: "default",  // default,
-        // randomize: true,
-
-        quality: "proof",
-        randomize: false,  // if quality is "proof"
-
-        animate: true,
-        animationDuration: 1000,
-        animationEasing: "ease",
-        fit: true,  // default is true
-        padding: 20,
-
-        // Separation amount between nodes
-        nodeSeparation: 300,
-
-        // Ideal edge (non nested) length
-        idealEdgeLength: edge => 300,
-
-        // Fix desired nodes to predefined positions
-        // [{nodeId: 'n1', position: {x: 100, y: 200}}, {...}]
-        fixedNodeConstraint: undefined,
-
-        // Align desired nodes in vertical/horizontal direction
-        // {vertical: [['n1', 'n2'], [...]], horizontal: [['n2', 'n4'], [...]]}
-        alignmentConstraint: {
-            'vertical': [
-                ["C棟コアルータ#1", "C棟コアルータ#2"],
-                ["B棟コアルータ#1", "B棟コアルータ#2"],
-                ["C棟ユーザ収容ルータ#1", "C棟ユーザ収容ルータ#2"],
-                ["C棟ユーザ収容ルータ#3", "C棟ユーザ収容ルータ#4"],
-                ["B棟ユーザ収容ルータ#1", "B棟ユーザ収容ルータ#2"],
-                ["B棟ユーザ収容ルータ#3", "B棟ユーザ収容ルータ#4"],
-                ["B棟サービス収容ルータ#1", "B棟サービス収容ルータ#2"],
-                ["C棟サービス収容ルータ#1", "C棟サービス収容ルータ#2"]],
-        },
-
-        // Place two nodes relatively in vertical/horizontal direction
-        // [{top: 'n1', bottom: 'n2', gap: 100}, {left: 'n3', right: 'n4', gap: 75}, {...}]
-        relativePlacementConstraint: [
-            { left: "C棟コアルータ#1", right: "B棟コアルータ#1", gap: 1200 }
-        ],
-    };
 
 })();

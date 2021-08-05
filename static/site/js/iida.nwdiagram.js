@@ -4,7 +4,6 @@
 
     iida.nwdiagram = function () {
 
-
         var cy_container = document.getElementById('cy');
         if (cy_container) {
             var cy = window.cy = cytoscape({
@@ -14,9 +13,9 @@
                 boxSelectionEnabled: true,
                 autounselectify: false,  // true if all nodes are unselectable
                 selectionType: "single",  // "single" or "additive",
-                layout: { 'name': "preset" },
                 style: iida.styles.cy,
-                elements: iida.appdata.elements
+                layout: { 'name': "preset" },
+                elements: []
             });
 
             // add the panzoom control with default parameter
@@ -74,6 +73,11 @@
                 });
             });
 
+            // add elements
+            set_elements(cy, iida.appdata.elements);
+
+            // run grid layout
+            set_layout(cy, "grid");
         }
 
 
@@ -87,11 +91,9 @@
                 autounselectify: false,
                 selectionType: "single",  // "single" or "additive",
                 style: iida.styles.cy2,
-                layout: { 'name': "preset" },  // in case of fcose, use iida.layouts.fcose_option
-                elements: iida.appdata.topology_elements
+                layout: { 'name': "preset" },
+                elements: []
             });
-
-            cy2.fit();
 
             cy2.on('mouseover', 'node', function (evt) {
                 var sel = evt.target;
@@ -104,6 +106,9 @@
                 cy.elements().removeClass('semitransp');
                 sel.removeClass('highlight').outgoers().removeClass('highlight');
             });
+
+            set_elements(cy2, iida.appdata.topology_elements);
+            set_layout(cy2, "grid");
 
             cy2.nodes().forEach(t => {
                 bindPopper(t);
@@ -174,7 +179,6 @@
             })
         }
 
-
         // get edge between two nodes
         function get_edge_by_nodes(cy, start_node_id, end_node_id) {
             var edges = cy.edges().filter(edge => {
@@ -186,8 +190,7 @@
                 return edges[0];
             }
             return undefined;
-        };
-
+        }
 
         // the button to revert to initial position
         var initial_position = document.getElementById('idInitialPosition');
@@ -197,11 +200,11 @@
                 e.preventDefault();
                 animate_to_initial_position(cy);
             });
-        };
+        }
 
-        function get_initial_position(node) { return node.data('initial_position'); };
+        function get_initial_position(node) { return node.data('initial_position'); }
 
-        var animate_to_initial_position = function (cy) {
+        function animate_to_initial_position(cy) {
             Promise.all(cy.nodes('.router').map(node => {
                 return node.animation({
                     position: get_initial_position(node),
@@ -209,37 +212,17 @@
                     easing: "ease"
                 }).play().promise();
             }));
-        };
+        }
+
+
 
         // the dropdown list to change layout
         var layout_change = document.getElementById('idLayout');
         if (layout_change) {
             layout_change.addEventListener('change', function (evt) {
-                CyLayout.set_layout(cy2, evt.target.value);
+                set_layout(cy2, evt.target.value);
             });
         }
-
-        var CyLayout = (function () {
-
-            var _set_layout = function (cy, layout_name) {
-                if (layout_name === 'preset') {
-                    animate_to_initial_position(cy);
-                    return;
-                }
-                var option = iida.layouts[layout_name] || {
-                    name: layout_name,
-                    fit: true,
-                    animate: true
-                }
-                // cy.$('.router').layout(option).run();
-                cy.layout(option).run();
-            };
-
-            return {
-                set_layout: _set_layout
-            };
-
-        })();
 
         // currently not used
         // change data dynamically
@@ -248,21 +231,7 @@
             data_change.addEventListener('change', function (evt) {
                 CyData.set_data(cy, evt.target.value);
             });
-        };
-
-        var CyData = (function () {
-            var _set_data = function (cy, data_name) {
-                iida.appdata.current = data_name;
-                var eles = iida.appdata.get_elements();
-                cy.elements().remove();
-                cy.reset();
-                cy.add(eles);
-                // CyLayout.set_layout()
-            };
-            return {
-                set_data: _set_data
-            };
-        })();
+        }
 
         function create_tag(tag, attrs, children) {
             var el = document.createElement(tag);
@@ -274,11 +243,35 @@
                 el.appendChild(child);
             });
             return el;
-        };
+        }
 
         function create_a(link) {
             return create_tag('a', { 'target': '_blank', 'href': link.url, 'class': 'tip-link' }, [document.createTextNode(link.name)]);
         }
+
+        function set_elements(cy, eles) {
+            cy.elements().remove();
+            cy.reset();
+            cy.add(eles);
+        }
+
+
+        function set_layout(cy, layout_name) {
+            if (layout_name === 'preset') {
+                animate_to_initial_position(cy);
+                return;
+            }
+            var option = iida.layouts[layout_name] || {
+                name: layout_name,
+                fit: true,
+                animate: true
+            }
+            cy.$('.router').layout(option).run();
+            // cy.layout(option).run();
+        }
+
+
+
 
 
     };

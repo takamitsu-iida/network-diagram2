@@ -3,15 +3,16 @@
 (function () {
 
     // see position.pptx
-    var x, y;
-    var x_interval = y_interval = 200;
-    var routers, edges;
+    var col, row;
 
-    x = 4;
-    y = 1;
+    var routers
+    var edges;
+
+    col = 4;
+    row = 1;
     routers = [
         {
-            'position': { 'x': x * x_interval, 'y': y * y_interval },
+            'grid': { 'row': row, 'col': col },
             'id': "C棟ユーザ収容ルータ#1",
             'label': "C棟ユーザ収容ルータ#1\nNCS5501\ntac-his-ur527\nloopback:172.16.14.27\nMgmt 10.100.1.86",
             'classes': ['PE'],
@@ -48,11 +49,11 @@
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
 
-    x = 4;
-    y = 2;
+    col = 4;
+    row = 2;
     routers = [
         {
-            'position': { 'x': x * x_interval, 'y': y * y_interval },
+            'grid': { 'row': row, 'col': col },
             'id': "C棟ユーザ収容ルータ#2",
             'label': "C棟ユーザ収容ルータ#2\nNCS5501\ntac-his-ur528\nloopback:172.16.14.28\nMgmt 10.100.1.92",
             'classes': ['PE'],
@@ -88,11 +89,11 @@
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
 
-    x = 4;
-    y = 3;
+    col = 4;
+    row = 3;
     routers = [
         {
-            'position': { 'x': x * x_interval, 'y': y * y_interval },
+            'grid': { 'row': row, 'col': col },
             'id': "C棟ユーザ収容ルータ#3",
             'label': "C棟ユーザ収容ルータ#3\nNCS5501\ntac-his-ur529\nloopback:172.16.14.29\nMgmt 10.100.1.98\n",
             'classes': ['PE'],
@@ -119,11 +120,11 @@
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
 
-    x = 4;
-    y = 4;
+    col = 4;
+    row = 4;
     routers = [
         {
-            'position': { 'x': x * x_interval, 'y': y * y_interval },
+            'grid': { 'row': row, 'col': col },
             'id': "C棟ユーザ収容ルータ#4",
             'label': "C棟ユーザ収容ルータ#4\nNCS5501\ntac-his-ur530\nloobback:172.16.14.30\nMgmt 10.100.1.104",
             'classes': ['PE'],
@@ -150,11 +151,11 @@
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
 
-    x = 4;
-    y = 6;
+    col = 4;
+    row = 6;
     routers = [
         {
-            'position': { 'x': x * x_interval, 'y': y * y_interval },
+            'grid': { 'row': row, 'col': col },
             'id': "B棟ユーザ収容ルータ#1",
             'label': "B棟ユーザ収容ルータ#1\nNCS5501\ntab-his-ur517\nloopback:172.16.14.17\nMgmt 10.100.1.44",
             'classes': ['PE'],
@@ -181,11 +182,11 @@
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
 
-    x = 4;
-    y = 7;
+    col = 4;
+    row = 7;
     routers = [
         {
-            'position': { 'x': x * x_interval, 'y': y * y_interval },
+            'grid': { 'row': row, 'col': col },
             'id': "B棟ユーザ収容ルータ#2",
             'label': "B棟ユーザ収容ルータ#2\nNCS5501\ntab-his-ur518\nloopback:172.16.14.18\nMgmt 10.100.1.45",
             'classes': ['PE'],
@@ -212,11 +213,11 @@
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
 
-    x = 4;
-    y = 8;
+    col = 4;
+    row = 8;
     routers = [
         {
-            'position': { 'x': x * x_interval, 'y': y * y_interval },
+            'grid': { 'row': row, 'col': col },
             'id': "B棟ユーザ収容ルータ#3",
             'label': "B棟ユーザ収容ルータ#3\nNCS5501\ntab-his-ur519\nloopback:172.16.14.19\nMgmt 10.100.1.50",
             'classes': ['PE'],
@@ -243,11 +244,11 @@
     Array.prototype.push.apply(iida.appdata.routers, routers);
 
 
-    x = 4;
-    y = 9;
+    col = 4;
+    row = 9;
     routers = [
         {
-            'position': { 'x': x * x_interval, 'y': y * y_interval },
+            'grid': { 'row': row, 'col': col },
             'id': "B棟ユーザ収容ルータ#4",
             'label': "B棟ユーザ収容ルータ#4\nNCS5501\ntab-his-ur520\nloopback:172.16.14.20\nMgmt 10.100.1.51\n",
             'classes': ['PE'],
