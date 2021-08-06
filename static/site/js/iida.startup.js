@@ -18,6 +18,7 @@
     iida.appdata = iida.appdata || {
         'routers': [],  // data of routers and ports
         'edges': [],  // data of edges
+        'bundle_ethers': [],  // data of bundleEther
 
         'elements': {},  // cytoscape.js eles
         'topology_elements': {},  // cytoscape.js eles

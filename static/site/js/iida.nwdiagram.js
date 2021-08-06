@@ -249,47 +249,59 @@
             // cy.layout(option).run();
         }
 
-        var bundleEther1000 = document.getElementById('idBundleEther1000');
-        if (bundleEther1000) {
-            bundleEther1000.addEventListener('change', function (evt) {
-                var id = "bundleEther1000";
-                var ports = [
-                    "C棟ユーザ収容ルータ#1Hu0/0/1/4",
-                    "C棟ユーザ収容ルータ#1G0/0/0/0",
-                    "C棟ユーザ収容ルータ#2Hu0/0/1/4",
-                    "C棟ユーザ収容ルータ#2G0/0/0/0",
-                ];
+        var bundleEtherDiv = document.getElementById('idBundleEther');
+        if (bundleEtherDiv) {
+            iida.appdata.bundle_ethers.forEach(be => {
+                var input = document.createElement('input');
+                input.setAttribute('type', 'checkbox');
+                input.setAttribute('id', be.id);
+                input.setAttribute('value', be.id);
+                input.setAttribute('name', be.id);
 
-                if (evt.target.checked) {
-                    var parent = cy.add({
-                        'group': 'nodes',
-                        'data': { 'id': id, 'label': id },
-                        'grabbable': false,
-                        'classes': ["bundle_ether"]
-                    });
+                var label = document.createElement('label');
+                label.htmlFor = be.id;
+                label.appendChild(document.createTextNode(be.id));
+                bundleEtherDiv.appendChild(input);
+                bundleEtherDiv.appendChild(label);
 
-                    ports.forEach(p => {
-                        var port = cy.$id(p);
-                        if (port) {
-                            port.move({'parent': id});
-                            port.addClass("bundle_ether_port");
+                bundleEtherDiv.appendChild(document.createElement('br'));
+
+                input.addEventListener('change', function (evt) {
+                    var id = evt.target.value;
+
+                    if (evt.target.checked) {
+                        var parent = cy.add({
+                            'group': 'nodes',
+                            'data': { 'id': id, 'label': id },
+                            'grabbable': false,
+                            'classes': ["bundle_ether"]
+                        });
+
+                        be.ports.forEach(p => {
+                            var port = cy.$id(p);
+                            if (port) {
+                                port.move({ 'parent': id });
+                                port.addClass("bundle_ether_port");
+                            }
+                        });
+
+                    } else {
+                        be.ports.forEach(p => {
+                            var port = cy.$id(p);
+                            if (port) {
+                                port.move({ parent: null });
+                                port.removeClass("bundle_ether_port");
+                            }
+                        });
+
+                        var parent = cy.$id(id);
+                        if (parent) {
+                            cy.remove(parent);
                         }
-                    });
-
-                } else {
-                    ports.forEach(p => {
-                        var port = cy.$id(p);
-                        if (port) {
-                            port.move({parent: null});
-                            port.removeClass("bundle_ether_port");
-                        }
-                    });
-
-                    var parent = cy.$id(id);
-                    if (parent) {
-                        cy.remove(parent);
                     }
-                }
+
+                });
+
             });
         }
 
