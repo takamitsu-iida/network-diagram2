@@ -2,6 +2,120 @@
 
 (function () {
 
+    var commons = [
+
+        {
+            selector: '.loop',
+            style: {
+                'control-point-step-size': 90
+            }
+        },
+
+        {
+            'selector': ".router.highlighted",
+            'style': {
+                'border-color': "#0000ff",  // blue
+                'border-width': 4
+            }
+        },
+
+        {
+            'selector': '.router:selected',
+            'style': {
+                'background-color': 'yellow'
+            }
+        },
+
+        {
+            // ] shape
+            'selector': "edge.segments_right",
+            'style': {
+                "curve-style": "segments",
+                'segment-weights': "0 1",
+                'edge-distances': "node-position",  // "intersection" or "node-position"
+                'segment-distances': function (edge) {
+                    // return "-55 -55";
+                    var s = -1 * (edge.source().data('width') / 2 + 25);
+                    var t = -1 * (edge.target().data('width') / 2 + 25);
+                    return "" + s + " " + t;
+                },
+            }
+        },
+
+        {
+            // ] shape bigger distance
+            'selector': "edge.segments_right2",
+            'style': {
+                "curve-style": "segments",
+                'segment-weights': "0 1",
+                'edge-distances': "node-position",  // "intersection" or "node-position"
+                'segment-distances': function (edge) {
+                    // return "-80 -80";
+                    var s = -1 * (edge.source().data('width') / 2 + 25 + 25);
+                    var t = -1 * (edge.target().data('width') / 2 + 25 + 25);
+                    return "" + s + " " + t;
+                },
+            }
+        },
+
+        {
+            // [ shape
+            'selector': "edge.segments_left",
+            'style': {
+                "curve-style": "segments",
+                'segment-weights': "0 1",
+                'edge-distances': "node-position",  // "intersection" or "node-position"
+                'segment-distances': function (edge) {
+                    // return "55 55";
+                    var s = edge.source().data('width') / 2 + 25;
+                    var t = edge.target().data('width') / 2 + 25;
+                    return "" + s + " " + t;
+                },
+            }
+        },
+
+        {
+            // [ shape with bigger distance
+            'selector': "edge.segments_left2",
+            'style': {
+                "curve-style": "segments",
+                'segment-weights': "0 1",
+                'edge-distances': "node-position",  // "intersection" or "node-position"
+                'segment-distances': function (edge) {
+                    // return "80 80";
+                    var s = edge.source().data('width') / 2 + 25 + 25;
+                    var t = edge.target().data('width') / 2 + 25 + 25;
+                    return "" + s + " " + t;
+                },
+            }
+        },
+
+        {
+            'selector': "edge.overlay_10",
+            'style': {
+                'overlay-color': "black",
+                'overlay-padding': 10,
+                'overlay-opacity': "0.2"
+            }
+        },
+
+        {
+            'selector': ".img_router",
+            'style': {
+                'background-image': "https://takamitsu-iida.github.io/network-diagram2/static/site/img/router.jpg"
+            }
+        },
+
+        {
+            'selector': ".img_firewall",
+            'style': {
+                'background-image': "https://takamitsu-iida.github.io/network-diagram2/static/site/img/firewall.jpg"
+            }
+        },
+
+    ];
+
+
     iida.styles.cy = [
         {
             'selector': "edge",
@@ -14,55 +128,6 @@
                 'label': edge => edge.data('label') ? `\u2060${edge.data('label')}\n\n\u2060` : '',
                 'font-size': "8px",
                 'edge-text-rotation': "autorotate"
-            }
-        },
-
-        {
-            'selector': "edge.segments_right",  // ]
-            'style': {
-                "curve-style": "segments",
-                'segment-distances': "-50 -50",
-                'segment-weights': "0 1",
-                'edge-distances': "node-position"  // "intersection" or "node-position"
-            }
-        },
-
-        {
-            'selector': "edge.segments_left",  // [
-            'style': {
-                "curve-style": "segments",
-                'segment-distances': "50 50",
-                'segment-weights': "0 1",
-                'edge-distances': "node-position"  // "intersection" or "node-position"
-            }
-        },
-
-        {
-            'selector': "edge.segments_right2",  // ]
-            'style': {
-                "curve-style": "segments",
-                'segment-distances': "-75 -75",
-                'segment-weights': "0 1",
-                'edge-distances': "node-position"  // "intersection" or "node-position"
-            }
-        },
-
-        {
-            'selector': "edge.segments_left2",
-            'style': {
-                "curve-style": "segments",
-                'segment-distances': "75 75",  // [
-                'segment-weights': "0 1",
-                'edge-distances': "node-position"  // "intersection" or "node-position"
-            }
-        },
-
-        {
-            'selector': "edge.overlay_10",
-            'style': {
-                'overlay-color': "black",
-                'overlay-padding': 10,
-                'overlay-opacity': "0.2"
             }
         },
 
@@ -84,6 +149,44 @@
                 'border-width': 1,
                 'shape': 'rectangle',
                 'background-color': "#ffffff",
+                'label': "data(label)",
+                'width': "data(width)",
+                'height': "data(height)",
+                'font-size': "8px",
+                'text-wrap': "wrap",
+                'text-valign': "center",
+                'text-halign': "center",
+                'opacity': 0.8,
+                'border-opacity': 1.0
+            }
+        },
+
+        {
+            'selector': ".router.P",
+            'style': {
+                'border-color': "#000",
+                'border-width': 1,
+                'shape': "rectangle",
+                'background-color': "#20b2aa",  // lightseagreen
+                'label': "data(label)",
+                'width': "data(width)",
+                'height': "data(height)",
+                'font-size': "8px",
+                'text-wrap': "wrap",
+                'text-valign': "center",
+                'text-halign': "center",
+                'opacity': 0.8,
+                'border-opacity': 1.0
+            }
+        },
+
+        {
+            'selector': ".router.PE",
+            'style': {
+                'border-color': "#000",
+                'border-width': 1,
+                'shape': "rectangle",
+                'background-color': "#40e0d0",  // turquoise
                 'label': "data(label)",
                 'width': "data(width)",
                 'height': "data(height)",
@@ -130,82 +233,8 @@
             }
         },
 
-        {
-            'selector': ".router.P",
-            'style': {
-                'border-color': "#000",
-                'border-width': 1,
-                'shape': "rectangle",
-                'background-color': "#20b2aa",  // lightseagreen
-                'label': "data(label)",
-                'width': "data(width)",
-                'height': "data(height)",
-                'font-size': "8px",
-                'text-wrap': "wrap",
-                'text-valign': "center",
-                'text-halign': "center",
-                'opacity': 0.8,
-                'border-opacity': 1.0
-            }
-        },
-
-        {
-            'selector': ".router.PE",
-            'style': {
-                'border-color': "#000",
-                'border-width': 1,
-                'shape': "rectangle",
-                'background-color': "#40e0d0",  // turquoise
-                'label': "data(label)",
-                'width': "data(width)",
-                'height': "data(height)",
-                'font-size': "8px",
-                'text-wrap': "wrap",
-                'text-valign': "center",
-                'text-halign': "center",
-                'opacity': 0.8,
-                'border-opacity': 1.0
-            }
-        },
-
-        {
-            'selector': ".router.highlighted",
-            'style': {
-                'border-color': "#0000ff",  // blue
-                'border-width': 4
-            }
-        },
-
-        {
-            'selector': '.router:selected',
-            'style': {
-                'background-color': 'yellow'
-            }
-        },
-
-        {
-            selector: '.loop',
-            style: {
-                'control-point-step-size': 90
-            }
-        },
-
-        {
-            'selector': ".img_router",
-            'style': {
-                'background-image': "https://takamitsu-iida.github.io/network-diagram/static/site/img/router.jpg"
-            }
-        },
-
-        {
-            'selector': ".img_firewall",
-            'style': {
-                'background-image': "https://takamitsu-iida.github.io/network-diagram/static/site/img/firewall.jpg"
-            }
-        }
-
     ];
-
+    Array.prototype.push.apply(iida.styles.cy, commons);
 
 
     iida.styles.cy2 = [
@@ -259,86 +288,6 @@
         },
 
         {
-            'selector': ":selected",
-            'style': {
-                'background-color': 'blue',
-                'line-color': 'blue',
-                'target-arrow-color': 'blue',
-                'source-arrow-color': 'blue'
-            }
-        },
-
-        {
-            'selector': "edge.segments_right",  // ]
-            'style': {
-                "curve-style": "segments",
-                'segment-distances': "-125 -125",
-                'segment-weights': "0 1",
-                'edge-distances': "intersection"  // "node-position"
-            }
-        },
-
-        {
-            'selector': "edge.segments_left",  // [
-            'style': {
-                "curve-style": "segments",
-                'segment-distances': "125 125",
-                'segment-weights': "0 1",
-                'edge-distances': "intersection"  // "node-position"
-            }
-        },
-
-        {
-            'selector': "edge.segments_right2",  // ] large
-            'style': {
-                "curve-style": "segments",
-                'segment-distances': "-150 -150",
-                'segment-weights': "0 1",
-                'edge-distances': "intersection"  // "node-position"
-            }
-        },
-
-        {
-            'selector': "edge.segments_left2",  // [ large
-            'style': {
-                "curve-style": "segments",
-                'segment-distances': "150 150",
-                'segment-weights': "0 1",
-                'edge-distances': "intersection"  // "node-position"
-            }
-        },
-
-        {
-            'selector': "edge.segments",
-            'style': {
-                "curve-style": "segments",
-                'segment-distances': "-50 -50",
-                'segment-weights': "0 1",
-                'edge-distances': "node-position",
-                'line-color': "#0000ff",  // blue
-                'target-arrow-color': "#0000ff",  // blue
-                'source-arrow-color': "#0000ff",  // blue
-                'target-arrow-shape': "circle",
-                'source-arrow-shape': "circle",
-                'width': 2,
-                'text-wrap': "wrap",
-                'label': edge => edge.data('weight') ? `\u2060${edge.data('weight')}\n\n\u2060` : '',
-                'font-size': "20px",
-                'overlay-color': "black",
-                'overlay-padding': 10,
-                'overlay-opacity': "0.5"
-            }
-        },
-
-        {
-            'selector': "node.highlight",
-            'style': {
-                "border-color": "#000",
-                "border-width": "4px"
-            }
-        },
-
-        {
             'selector': ".semitransp",
             'style': { "opacity": "0.2" }
         },
@@ -349,6 +298,7 @@
         },
 
     ];
+    Array.prototype.push.apply(iida.styles.cy2, commons);
 
     //
 })();

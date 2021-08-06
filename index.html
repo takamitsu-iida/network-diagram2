@@ -23,10 +23,12 @@
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/cytoscape-panzoom/font-awesome-4.0.3/css/font-awesome.min.css" />
 
     <!-- cytoscape-popper.js -->
+    <!--
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/cytoscape-popper@2.0.0/cytoscape-popper.js"></script>
+    -->
 
-    <!-- automove -->
+    <!-- cytoscape-automove.js -->
     <!--
     <script src="https://unpkg.com/cytoscape-automove/cytoscape-automove.js"></script>
     -->
@@ -58,6 +60,14 @@
 
     <div class="wrapper">
 
+        <div class="left_top_panel">
+            <div id="cy_tip" class="tip-div"></div>
+        </div>
+
+        <div class="left_bottom_panel">
+            <div id="cy2_tip" class="tip-div"></div>
+        </div>
+
         <div class="right_top_panel">
             <div id="cy"></div>
             <div id="on_cy">
@@ -76,7 +86,6 @@
                         <td>-----</td>
                         <td>-----</td>
                     </tr>
-
                 </table>
 
             </div>

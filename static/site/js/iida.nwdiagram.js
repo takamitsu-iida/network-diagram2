@@ -73,10 +73,25 @@
                 });
             });
 
+            cy.on('mouseover', 'node', function (evt) {
+                evt.target.addClass('highlight');
+                // cy.elements().difference(evt.target.outgoers()).not(evt.target).addClass('semitransp');
+                // evt.target.addClass('highlight').outgoers().addClass('highlight');
+
+                var tip_div = document.getElementById('cy_tip');
+                show_tooltip(tip_div, evt.target);
+            });
+
+            cy.on('mouseout', 'node', function (evt) {
+                evt.target.removeClass('highlight');
+                // cy.elements().removeClass('semitransp');
+                // evt.target.removeClass('highlight').outgoers().removeClass('highlight');
+            });
+
             // add elements
             set_elements(cy, iida.appdata.elements);
 
-            // run grid layout
+            // run "grid" layout
             set_layout(cy, "grid");
         }
 
@@ -96,88 +111,52 @@
             });
 
             cy2.on('mouseover', 'node', function (evt) {
-                var sel = evt.target;
-                cy.elements().difference(sel.outgoers()).not(sel).addClass('semitransp');
-                sel.addClass('highlight').outgoers().addClass('highlight');
+                evt.target.addClass('highlight');
+                // cy.elements().difference(evt.target.outgoers()).not(evt.target).addClass('semitransp');
+                // evt.target.addClass('highlight').outgoers().addClass('highlight');
+
+                var tip_div = document.getElementById('cy2_tip');
+                show_tooltip(tip_div, evt.target);
             });
 
             cy2.on('mouseout', 'node', function (evt) {
-                var sel = evt.target;
-                cy.elements().removeClass('semitransp');
-                sel.removeClass('highlight').outgoers().removeClass('highlight');
+                evt.target.removeClass('highlight');
+                // cy.elements().removeClass('semitransp');
+                // evt.target.removeClass('highlight').outgoers().removeClass('highlight');
             });
 
+            // add elements
             set_elements(cy2, iida.appdata.topology_elements);
+
+            // run "grid" layout
             set_layout(cy2, "grid");
-
-            cy2.nodes().forEach(t => {
-                bindPopper(t);
-            });
-
         }
 
 
-        function bindPopper(target) {
-            var tooltipId = 'popper-target-' + target.id();
-            var existingTarget = document.getElementById(tooltipId);
-            if (existingTarget && existingTarget.length !== 0) {
-                existingTarget.remove();
+        function show_tooltip(tip_div, node) {
+            // remove child
+            while (tip_div.lastChild) {
+                tip_div.removeChild(tip_div.lastChild);
             }
 
-            var popper = target.popper({
-                content: () => {
-                    // create div container
-                    var tooltip = document.createElement('div');
+            // create table
+            var table = document.createElement('table');
 
-                    // adding id for easier JavaScript control
-                    tooltip.id = tooltipId;
+            var target_data = node.data();
+            for (var prop in target_data) {
+                if (!target_data.hasOwnProperty(prop)) continue;
+                var target_value = target_data[prop];
+                if (typeof target_value === "object") continue;
+                var tr = table.insertRow();
+                var td_title = tr.insertCell();
+                var td_value = tr.insertCell();
+                td_title.innerText = prop;
+                td_value.innerText = target_value;
+            }
 
-                    // adding class for easier CSS control
-                    tooltip.classList.add('popper-div');
-
-                    // create actual table
-                    let table = document.createElement('table');
-
-                    // append table to div container
-                    tooltip.append(table);
-                    let targetData = target.data();
-
-                    // loop through target data
-                    for (let prop in targetData) {
-                        if (!targetData.hasOwnProperty(prop)) continue;
-                        var targetValue = targetData[prop];
-                        if (typeof targetValue === "object") continue;
-                        var tr = table.insertRow();
-                        var tdTitle = tr.insertCell();
-                        var tdValue = tr.insertCell();
-                        tdTitle.innerText = prop;
-                        tdValue.innerText = targetValue;
-                    }
-                    document.body.appendChild(tooltip);
-                    return tooltip;
-                }
-            });
-
-            target.on('position', () => {
-                popper.update();
-            });
-
-            target.cy().on('pan zoom resize', () => {
-                popper.update();
-            });
-
-            target.on('mouseover', () => {
-                if (document.getElementById(tooltipId)) {
-                    document.getElementById(tooltipId).classList.add('active');
-                }
-            });
-
-            target.on('mouseout', () => {
-                if (document.getElementById(tooltipId)) {
-                    document.getElementById(tooltipId).classList.remove('active');
-                }
-            })
+            tip_div.append(table);
         }
+
 
         // get edge between two nodes
         function get_edge_by_nodes(cy, start_node_id, end_node_id) {

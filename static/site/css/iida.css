@@ -33,6 +33,29 @@ body {
     height: calc(100vh - 50px);
 }
 
+.left_top_panel {
+    grid-row: 1 / 2;
+    grid-column: 1;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    background-color: #b7ffff;
+    overflow-x: hidden;
+    /* Disable horizontal scroll */
+}
+
+.left_bottom_panel {
+    grid-row: 2 / 4;
+    grid-column: 1;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    background-color: #b7ffff;
+    overflow-x: hidden;
+    /* Disable horizontal scroll */
+}
+
+
 /* parent of cy, on_cy*/
 .right_top_panel {
     grid-row: 1;
@@ -117,22 +140,14 @@ body {
     white-space: nowrap;
 }
 
-.popper-div {
-    display: none;
-    max-width: 200px;
+.tip-div {
+    display: block;
     background: #fff;
-    z-index: 9999;
     padding: 1rem;
     pointer-events: none;
     text-align: left;
-    border-radius: 0;
     border: 1px solid #ccc;
 }
-
-.active {
-    display: block;
-}
-
 
 /* https://migi.me/css/video-play-pause-icon/ */
 
