@@ -29,8 +29,8 @@
                     'align': ['R', 'B']
                 },
                 {
-                    'id': "Gi0/0/0/0",
-                    'label': "Gi0/0/0/0\nBundle-E1000",
+                    'id': "G0/0/0/0",
+                    'label': "G0/0/0/0\nBundle-E1000",
                     'align': ['L', 'C']
                 },
                 {
@@ -283,7 +283,7 @@
             'target_port': "Hu0/0/1/4",
             'label': ".253",
             'weight': 1,
-            'classes': ["segments_p50"]
+            'classes': ["segments_left"]
         },
 
         {
@@ -302,7 +302,7 @@
             'target_port': "Hu0/0/1/4",
             'label': ".254",
             'weight': 1,
-            'classes': ["segments_m50"]
+            'classes': ["segments_right"]
         },
 
         {

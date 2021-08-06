@@ -74,16 +74,16 @@
             });
 
             cy.on('mouseover', 'node', function (evt) {
-                evt.target.addClass('highlight');
+                evt.target.addClass('mouseover');
                 // cy.elements().difference(evt.target.outgoers()).not(evt.target).addClass('semitransp');
                 // evt.target.addClass('highlight').outgoers().addClass('highlight');
 
                 var tip_div = document.getElementById('cy_tip');
-                show_tooltip(tip_div, evt.target);
+                show_node_tooltip(tip_div, evt.target);
             });
 
             cy.on('mouseout', 'node', function (evt) {
-                evt.target.removeClass('highlight');
+                evt.target.removeClass('mouseover');
                 // cy.elements().removeClass('semitransp');
                 // evt.target.removeClass('highlight').outgoers().removeClass('highlight');
             });
@@ -111,16 +111,16 @@
             });
 
             cy2.on('mouseover', 'node', function (evt) {
-                evt.target.addClass('highlight');
+                evt.target.addClass('mouseover');
                 // cy.elements().difference(evt.target.outgoers()).not(evt.target).addClass('semitransp');
                 // evt.target.addClass('highlight').outgoers().addClass('highlight');
 
                 var tip_div = document.getElementById('cy2_tip');
-                show_tooltip(tip_div, evt.target);
+                show_node_tooltip(tip_div, evt.target);
             });
 
             cy2.on('mouseout', 'node', function (evt) {
-                evt.target.removeClass('highlight');
+                evt.target.removeClass('mouseover');
                 // cy.elements().removeClass('semitransp');
                 // evt.target.removeClass('highlight').outgoers().removeClass('highlight');
             });
@@ -133,7 +133,7 @@
         }
 
 
-        function show_tooltip(tip_div, node) {
+        function show_node_tooltip(tip_div, node) {
             // remove child
             while (tip_div.lastChild) {
                 tip_div.removeChild(tip_div.lastChild);
@@ -142,17 +142,20 @@
             // create table
             var table = document.createElement('table');
 
-            var target_data = node.data();
-            for (var prop in target_data) {
-                if (!target_data.hasOwnProperty(prop)) continue;
-                var target_value = target_data[prop];
-                if (typeof target_value === "object") continue;
+            var tr = table.insertRow();
+            var td_title = tr.insertCell();
+            var td_value = tr.insertCell();
+            td_title.innerText = 'id';
+            td_value.innerText = node.data('id');
+
+            var ports = node.data('ports') || [];
+            ports.forEach(port => {
                 var tr = table.insertRow();
                 var td_title = tr.insertCell();
                 var td_value = tr.insertCell();
-                td_title.innerText = prop;
-                td_value.innerText = target_value;
-            }
+                td_title.innerText = '';
+                td_value.innerText = port.id || "";
+            });
 
             tip_div.append(table);
         }
@@ -193,8 +196,6 @@
             }));
         }
 
-
-
         // the dropdown list to change layout
         var layout_change = document.getElementById('idLayout');
         if (layout_change) {
@@ -234,7 +235,6 @@
             cy.add(eles);
         }
 
-
         function set_layout(cy, layout_name) {
             if (layout_name === 'preset') {
                 animate_to_initial_position(cy);
@@ -249,8 +249,49 @@
             // cy.layout(option).run();
         }
 
+        var bundleEther1000 = document.getElementById('idBundleEther1000');
+        if (bundleEther1000) {
+            bundleEther1000.addEventListener('change', function (evt) {
+                var id = "bundleEther1000";
+                var ports = [
+                    "C棟ユーザ収容ルータ#1Hu0/0/1/4",
+                    "C棟ユーザ収容ルータ#1G0/0/0/0",
+                    "C棟ユーザ収容ルータ#2Hu0/0/1/4",
+                    "C棟ユーザ収容ルータ#2G0/0/0/0",
+                ];
 
+                if (evt.target.checked) {
+                    var parent = cy.add({
+                        'group': 'nodes',
+                        'data': { 'id': id, 'label': id },
+                        'grabbable': false,
+                        'classes': ["bundle_ether"]
+                    });
 
+                    ports.forEach(p => {
+                        var port = cy.$id(p);
+                        if (port) {
+                            port.move({'parent': id});
+                            port.addClass("bundle_ether_port");
+                        }
+                    });
+
+                } else {
+                    ports.forEach(p => {
+                        var port = cy.$id(p);
+                        if (port) {
+                            port.move({parent: null});
+                            port.removeClass("bundle_ether_port");
+                        }
+                    });
+
+                    var parent = cy.$id(id);
+                    if (parent) {
+                        cy.remove(parent);
+                    }
+                }
+            });
+        }
 
 
     };

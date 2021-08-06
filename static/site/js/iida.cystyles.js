@@ -5,9 +5,23 @@
     var commons = [
 
         {
+            'selector': '.router:selected',
+            'style': {
+                'background-color': 'yellow'
+            }
+        },
+
+        {
             selector: '.loop',
             style: {
                 'control-point-step-size': 90
+            }
+        },
+
+        {
+            'selector': '.router.mouseover',
+            'style': {
+                'border-width': 3
             }
         },
 
@@ -20,14 +34,7 @@
         },
 
         {
-            'selector': '.router:selected',
-            'style': {
-                'background-color': 'yellow'
-            }
-        },
-
-        {
-            // ] shape
+            // ']' shape edge
             'selector': "edge.segments_right",
             'style': {
                 "curve-style": "segments",
@@ -37,13 +44,13 @@
                     // return "-55 -55";
                     var s = -1 * (edge.source().data('width') / 2 + 25);
                     var t = -1 * (edge.target().data('width') / 2 + 25);
-                    return "" + s + " " + t;
+                    return s.toString() + " " + t.toString();
                 },
             }
         },
 
         {
-            // ] shape bigger distance
+            // ']' shape edge with bigger distance
             'selector': "edge.segments_right2",
             'style': {
                 "curve-style": "segments",
@@ -53,13 +60,13 @@
                     // return "-80 -80";
                     var s = -1 * (edge.source().data('width') / 2 + 25 + 25);
                     var t = -1 * (edge.target().data('width') / 2 + 25 + 25);
-                    return "" + s + " " + t;
+                    return s.toString() + " " + t.toString();
                 },
             }
         },
 
         {
-            // [ shape
+            // '[' shape edge
             'selector': "edge.segments_left",
             'style': {
                 "curve-style": "segments",
@@ -69,13 +76,13 @@
                     // return "55 55";
                     var s = edge.source().data('width') / 2 + 25;
                     var t = edge.target().data('width') / 2 + 25;
-                    return "" + s + " " + t;
+                    return s.toString() + " " + t.toString();
                 },
             }
         },
 
         {
-            // [ shape with bigger distance
+            // '[' shape edge with bigger distance
             'selector': "edge.segments_left2",
             'style': {
                 "curve-style": "segments",
@@ -85,7 +92,7 @@
                     // return "80 80";
                     var s = edge.source().data('width') / 2 + 25 + 25;
                     var t = edge.target().data('width') / 2 + 25 + 25;
-                    return "" + s + " " + t;
+                    return s.toString() + " " + t.toString();
                 },
             }
         },
@@ -233,6 +240,13 @@
             }
         },
 
+        {
+            'selector': '.bundle_ether_port',
+            'style': {
+                'border-width': 3
+            }
+        },
+
     ];
     Array.prototype.push.apply(iida.styles.cy, commons);
 
@@ -290,11 +304,6 @@
         {
             'selector': ".semitransp",
             'style': { "opacity": "0.2" }
-        },
-
-        {
-            'selector': "edge.highlight",
-            'style': { "mid-target-arrow-color": "#000" }
         },
 
     ];
