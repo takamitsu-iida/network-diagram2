@@ -66,12 +66,22 @@
                 });
             });
 
+            /*
             cy.on('select', '.router', function (evt) {
                 var ports = evt.target.data('ports') || [];
                 ports.forEach(p => {
                     console.log(p.id);
                 });
             });
+
+            cy.on('unselect', '.router', function (evt) {
+                if (cy.$('.router:selected').length === 0) {
+                    cy.batch(function () {
+                        cy.nodes().show();
+                    });
+                }
+            });
+            */
 
             cy.on('mouseover', 'node', function (evt) {
                 evt.target.addClass('mouseover');
@@ -88,11 +98,13 @@
                 // evt.target.removeClass('highlight').outgoers().removeClass('highlight');
             });
 
-            // add elements
-            set_elements(cy, iida.appdata.elements);
+            cy.batch(function () {
+                // add elements
+                set_elements(cy, iida.appdata.elements);
 
-            // run "grid" layout
-            set_layout(cy, "grid");
+                // run "grid" layout
+                set_layout(cy, "grid");
+            });
         }
 
 
@@ -125,11 +137,13 @@
                 // evt.target.removeClass('highlight').outgoers().removeClass('highlight');
             });
 
-            // add elements
-            set_elements(cy2, iida.appdata.topology_elements);
+            cy.batch(function () {
+                // add elements
+                set_elements(cy2, iida.appdata.topology_elements);
 
-            // run "grid" layout
-            set_layout(cy2, "grid");
+                // run "grid" layout
+                set_layout(cy2, "grid");
+            });
         }
 
 
@@ -261,10 +275,11 @@
                 var label = document.createElement('label');
                 label.htmlFor = be.id;
                 label.appendChild(document.createTextNode(be.id));
-                bundleEtherDiv.appendChild(input);
-                bundleEtherDiv.appendChild(label);
 
-                bundleEtherDiv.appendChild(document.createElement('br'));
+                var div = document.createElement('div');
+                div.appendChild(input);
+                div.appendChild(label);
+                bundleEtherDiv.appendChild(div);
 
                 input.addEventListener('change', function (evt) {
                     var id = evt.target.value;
@@ -276,7 +291,6 @@
                             'grabbable': false,
                             'classes': ["bundle_ether"]
                         });
-
                         be.ports.forEach(p => {
                             var port = cy.$id(p);
                             if (port) {
@@ -293,7 +307,6 @@
                                 port.removeClass("bundle_ether_port");
                             }
                         });
-
                         var parent = cy.$id(id);
                         if (parent) {
                             cy.remove(parent);
@@ -304,6 +317,88 @@
 
             });
         }
+
+        var neighborButton = document.getElementById("idNeighbor");
+        if (neighborButton) {
+            neighborButton.addEventListener('click', function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                var roots = cy2.$('node:selected');
+                show_neighbors(cy2, roots);
+            });
+        }
+
+        function show_neighbors(cy, roots) {
+            if (!roots || roots.length === 0) {
+                cy.nodes().show();
+                return;
+            }
+            cy.batch(function () {
+                cy.nodes().hide();
+                roots.neighborhood().nodes().show();
+                roots.show();
+            });
+        }
+
+        var connectedButton = document.getElementById("idConnected");
+        if (connectedButton) {
+            connectedButton.addEventListener('click', function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                var roots = cy.$('.router:selected');
+                show_connected(cy, roots);
+            });
+        }
+
+        function show_connected(cy, roots) {
+            if (!roots || roots.length === 0) {
+                cy.nodes().show();
+                return;
+            }
+
+            var eles = [];
+            roots.forEach(root => {
+                eles.push(root);
+                var router_id = root.id();
+                var ports = root.data('ports') || [];
+                ports.forEach(p => {
+                    var port = cy.$id(router_id + p.id);
+                    if (port) {
+                        if (!eles.includes(port)) {
+                            eles.push(port);
+                        }
+                        var edges = port.connectedEdges();
+                        if (edges) {
+                            edges.forEach(edge => {
+                                if (eles.includes(edge)) {
+                                    eles.push(edge);
+                                }
+                                var peer_port = (edge.source() === port) ? edge.target() : edge.source();
+                                if (!eles.includes(peer_port)) {
+                                    eles.push(peer_port);
+                                }
+                                var peer_router_id = peer_port.data('router_id');
+                                var peer_router = cy.$id(peer_router_id);
+                                if (peer_router) {
+                                    if (!eles.includes(peer_router)) {
+                                        eles.push(peer_router);
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+
+            var subgraph = cy.collection(eles);
+
+            cy.batch(function () {
+                cy.nodes().hide();
+                subgraph.show();
+            });
+
+        }
+
 
 
     };
