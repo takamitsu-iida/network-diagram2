@@ -73,7 +73,6 @@
                     console.log(p.id);
                 });
             });
-
             cy.on('unselect', '.router', function (evt) {
                 if (cy.$('.router:selected').length === 0) {
                     cy.batch(function () {
@@ -147,6 +146,28 @@
         }
 
 
+        function set_elements(cy, eles) {
+            cy.elements().remove();
+            cy.reset();
+            cy.add(eles);
+        }
+
+
+        function set_layout(cy, layout_name) {
+            if (layout_name === 'preset') {
+                animate_to_initial_position(cy);
+                return;
+            }
+            var option = iida.layouts[layout_name] || {
+                name: layout_name,
+                fit: true,
+                animate: true
+            }
+            cy.$('.router').layout(option).run();
+            // cy.layout(option).run();
+        }
+
+
         function show_node_tooltip(tip_div, node) {
             // remove child
             while (tip_div.lastChild) {
@@ -188,6 +209,7 @@
             return undefined;
         }
 
+
         // the button to revert to initial position
         var initial_position = document.getElementById('idInitialPosition');
         if (initial_position) {
@@ -198,7 +220,9 @@
             });
         }
 
+
         function get_initial_position(node) { return node.data('initial_position'); }
+
 
         function animate_to_initial_position(cy) {
             Promise.all(cy.nodes('.router').map(node => {
@@ -210,6 +234,7 @@
             }));
         }
 
+
         // the dropdown list to change layout
         var layout_change = document.getElementById('idLayout');
         if (layout_change) {
@@ -218,14 +243,6 @@
             });
         }
 
-        // currently not used
-        // change data dynamically
-        var data_change = document.getElementById('idData');
-        if (data_change) {
-            data_change.addEventListener('change', function (evt) {
-                CyData.set_data(cy, evt.target.value);
-            });
-        }
 
         function create_tag(tag, attrs, children) {
             var el = document.createElement(tag);
@@ -239,29 +256,11 @@
             return el;
         }
 
+
         function create_a(link) {
             return create_tag('a', { 'target': '_blank', 'href': link.url, 'class': 'tip-link' }, [document.createTextNode(link.name)]);
         }
 
-        function set_elements(cy, eles) {
-            cy.elements().remove();
-            cy.reset();
-            cy.add(eles);
-        }
-
-        function set_layout(cy, layout_name) {
-            if (layout_name === 'preset') {
-                animate_to_initial_position(cy);
-                return;
-            }
-            var option = iida.layouts[layout_name] || {
-                name: layout_name,
-                fit: true,
-                animate: true
-            }
-            cy.$('.router').layout(option).run();
-            // cy.layout(option).run();
-        }
 
         var bundleEtherDiv = document.getElementById('idBundleEther');
         if (bundleEtherDiv) {
@@ -318,6 +317,7 @@
             });
         }
 
+
         var neighborButton = document.getElementById("idNeighbor");
         if (neighborButton) {
             neighborButton.addEventListener('click', function (e) {
@@ -327,6 +327,7 @@
                 show_neighbors(cy2, roots);
             });
         }
+
 
         function show_neighbors(cy, roots) {
             if (!roots || roots.length === 0) {
@@ -340,6 +341,7 @@
             });
         }
 
+
         var connectedButton = document.getElementById("idConnected");
         if (connectedButton) {
             connectedButton.addEventListener('click', function (e) {
@@ -349,6 +351,7 @@
                 show_connected(cy, roots);
             });
         }
+
 
         function show_connected(cy, roots) {
             if (!roots || roots.length === 0) {
@@ -398,7 +401,6 @@
             });
 
         }
-
 
 
     };
