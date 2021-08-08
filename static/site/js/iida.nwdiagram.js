@@ -27,9 +27,10 @@
                 evt.target.data('grab_x', evt.target.position().x);
                 evt.target.data('grab_y', evt.target.position().y);
 
-                cy.$('.router').forEach(function (n) {
-                    n.data('old_x', n.position().x);
-                    n.data('old_y', n.position().y);
+                cy.$('.router').forEach(router => {
+                    var position = router.position();
+                    router.data('old_x', position.x);
+                    router.data('old_y', position.y);
                 });
             });
 
@@ -39,12 +40,12 @@
                 var delta_y = evt.target.position().y - evt.target.data('grab_y');
 
                 var targets = evt.target.data('drag_with') || [];
-                targets.forEach(function (target) {
-                    var n = cy.$id(target);
-                    if (n && !n.grabbed()) {
-                        var old_x = n.data('old_x');
-                        var old_y = n.data('old_y');
-                        n.position({ x: old_x + delta_x, y: old_y + delta_y });
+                targets.forEach(target => {
+                    var router = cy.$id(target);
+                    if (router && !router.grabbed()) {
+                        var old_x = router.data('old_x');
+                        var old_y = router.data('old_y');
+                        router.position({ x: old_x + delta_x, y: old_y + delta_y });
                     }
                 });
             });
@@ -53,17 +54,27 @@
             cy.on('position', '.router', function (evt) {
                 var router = evt.target;
                 var router_position = router.position();
-
-                var ports = cy.nodes().filter(function (n) {
-                    if (n.data('router_id') === router.id()) {
-                        return n;
+                var ports = router.data('ports') || [];
+                ports.forEach(p => {
+                    var port_id = router.id() + p.id;
+                    var port = cy.$id(port_id);
+                    if (port) {
+                        var offset_x = port.data('offset_x');
+                        var offset_y = port.data('offset_y');
+                        port.position({ x: router_position.x + offset_x, y: router_position.y + offset_y })
                     }
                 });
+                /*
+                var ports = cy.nodes().filter(n => {
+                    return n.data('router_id') === router.id();
+                });
+
                 ports.forEach(port => {
                     var offset_x = port.data('offset_x');
                     var offset_y = port.data('offset_y');
                     port.position({ x: router_position.x + offset_x, y: router_position.y + offset_y })
                 });
+                */
             });
 
             /*
@@ -84,8 +95,6 @@
 
             cy.on('mouseover', 'node', function (evt) {
                 evt.target.addClass('mouseover');
-                // cy.elements().difference(evt.target.outgoers()).not(evt.target).addClass('semitransp');
-                // evt.target.addClass('highlight').outgoers().addClass('highlight');
 
                 var tip_div = document.getElementById('cy_tip');
                 show_node_tooltip(tip_div, evt.target);
@@ -93,17 +102,13 @@
 
             cy.on('mouseout', 'node', function (evt) {
                 evt.target.removeClass('mouseover');
-                // cy.elements().removeClass('semitransp');
-                // evt.target.removeClass('highlight').outgoers().removeClass('highlight');
             });
 
-            cy.batch(function () {
-                // add elements
-                set_elements(cy, iida.appdata.elements);
+            // add elements
+            set_elements(cy, iida.appdata.elements);
 
-                // run "grid" layout
-                set_layout(cy, "grid");
-            });
+            // run "grid" layout
+            set_layout(cy, "grid");
         }
 
 
@@ -136,20 +141,20 @@
                 // evt.target.removeClass('highlight').outgoers().removeClass('highlight');
             });
 
-            cy.batch(function () {
-                // add elements
-                set_elements(cy2, iida.appdata.topology_elements);
+            // add elements
+            set_elements(cy2, iida.appdata.topology_elements);
 
-                // run "grid" layout
-                set_layout(cy2, "grid");
-            });
+            // run "grid" layout
+            set_layout(cy2, "grid");
         }
 
 
         function set_elements(cy, eles) {
-            cy.elements().remove();
-            cy.reset();
-            cy.add(eles);
+            cy.batch(function () {
+                cy.elements().remove();
+                cy.reset();
+                cy.add(eles);
+            })
         }
 
 
@@ -196,39 +201,25 @@
         }
 
 
-        // get edge between two nodes
-        function get_edge_by_nodes(cy, start_node_id, end_node_id) {
-            var edges = cy.edges().filter(edge => {
-                var source_id = edge.source().data('id');
-                var target_id = edge.target().data('id');
-                return (start_node_id === source_id || start_node_id === target_id) && (end_node_id === source_id || end_node_id === target_id);
-            });
-            if (edges && edges.length > 0) {
-                return edges[0];
-            }
-            return undefined;
-        }
-
-
         // the button to revert to initial position
         var initial_position = document.getElementById('idInitialPosition');
         if (initial_position) {
-            initial_position.addEventListener('click', function (e) {
-                e.stopPropagation();
-                e.preventDefault();
+            initial_position.addEventListener('click', function (evt) {
+                evt.stopPropagation();
+                evt.preventDefault();
                 animate_to_initial_position(cy);
             });
         }
 
 
-        function get_initial_position(node) { return node.data('initial_position'); }
+        function get_initial_position(node) { return node.data('initial_position') || { x: 0, y: 0 }; }
 
 
         function animate_to_initial_position(cy) {
             Promise.all(cy.nodes('.router').map(node => {
                 return node.animation({
                     position: get_initial_position(node),
-                    duration: 1000,
+                    duration: 500,
                     easing: "ease"
                 }).play().promise();
             }));
@@ -239,6 +230,8 @@
         var layout_change = document.getElementById('idLayout');
         if (layout_change) {
             layout_change.addEventListener('change', function (evt) {
+                evt.stopPropagation();
+                evt.preventDefault();
                 set_layout(cy2, evt.target.value);
             });
         }
@@ -281,6 +274,9 @@
                 bundleEtherDiv.appendChild(div);
 
                 input.addEventListener('change', function (evt) {
+                    evt.stopPropagation();
+                    evt.preventDefault();
+
                     var id = evt.target.value;
 
                     if (evt.target.checked) {
@@ -320,9 +316,9 @@
 
         var neighborButton = document.getElementById("idNeighbor");
         if (neighborButton) {
-            neighborButton.addEventListener('click', function (e) {
-                e.stopPropagation();
-                e.preventDefault();
+            neighborButton.addEventListener('click', function (evt) {
+                evt.stopPropagation();
+                evt.preventDefault();
                 var roots = cy2.$('node:selected');
                 show_neighbors(cy2, roots);
             });
@@ -344,9 +340,9 @@
 
         var connectedButton = document.getElementById("idConnected");
         if (connectedButton) {
-            connectedButton.addEventListener('click', function (e) {
-                e.stopPropagation();
-                e.preventDefault();
+            connectedButton.addEventListener('click', function (evt) {
+                evt.stopPropagation();
+                evt.preventDefault();
                 var roots = cy.$('.router:selected');
                 show_connected(cy, roots);
             });
@@ -403,23 +399,24 @@
         }
 
 
-        // the checkbox to change show or hide redundant system
+        // the checkbox to show or hide redundant system
         [1, 2].forEach(redundant_number => {
             var checkbox = document.getElementById('idRedundant' + redundant_number);
             if (checkbox) {
                 checkbox.addEventListener('change', function (evt) {
+                    evt.stopPropagation();
+                    evt.preventDefault();
                     show_redundant(cy, redundant_number, evt.target.checked);
                 });
             }
         });
 
-        function show_redundant(cy, redundant_number, show) {
 
+        function show_redundant(cy, redundant_number, show) {
             var routers = cy.nodes('.router').filter(r => {
                 var redundant = r.data('redundant');
                 return redundant_number === redundant;
             });
-
             routers.forEach(router => {
                 var router_id = router.id();
                 var ports = router.data('ports') || [];
@@ -436,8 +433,8 @@
                 });
                 show_hide_element(router, show);
             });
-
         }
+
 
         function show_hide_element(element, show) {
             if (show) {
