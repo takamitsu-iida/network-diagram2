@@ -444,7 +444,103 @@
             }
         }
 
+        var CyShortestPath = (function () {
+            var _dijkstra = function (cy, cy2, start_node_id, end_node_id) {
 
+                // get start node by id
+                var start_node = cy.filter('node[id="' + start_node_id + '"]');
+                if (!start_node) {
+                    return;
+                }
+                // get end node by id
+                var end_node = cy.filter('node[id="' + end_node_id + '"]');
+                if (!end_node) {
+                    return;
+                }
+
+                // eles.dijkstra( options )
+                // options
+                //    root: The root node (selector or collection) where the algorithm starts.
+                //    weight: function(edge) [optional] A function that returns the positive numeric weight for the edge. The weight indicates the cost of going from one node to another node.
+                //    directed: [optional] A boolean indicating whether the algorithm should only go along edges from source to target (default false).
+                var dijkstra = cy.elements().not('.disabled').dijkstra(start_node, function (edge) {
+                    return edge.data('weight');
+                }, false);
+
+                var results = dijkstra.pathTo(end_node);
+                // results.forEach(r => { console.log(r.id()); });
+
+                // set cy2 elements
+                if (cy2) {
+                    cy2.batch(function() {
+                        cy2.elements().remove();
+                        cy2.add(results);
+                        cy2.layout({ 'name': "grid" }).run();
+                    });
+                }
+
+                var step = 0;
+                var highlight_next = function () {
+                    var el = results[step];
+                    if (el/* && el.isEdge()*/) {
+                        // console.log(el.id());
+                        el.addClass('highlighted');
+                    }
+                    if (step < results.length) {
+                        step++;
+                        // setTimeout(highlight_next, 500);
+                        highlight_next();
+                    }
+                };
+
+                highlight_next();
+            }
+
+            var _clear = function (cy, cy2) {
+                cy.elements().removeClass('highlighted');
+                cy2.elements().remove();
+            }
+
+            return {
+                dijkstra: _dijkstra,
+                clear: _clear,
+                is_running: false
+            }
+        })();
+
+        var dijkstra_button = document.getElementById('idDijkstra');
+        if (dijkstra_button) {
+            dijkstra_button.addEventListener('click', function (evt) {
+                evt.stopPropagation();
+                evt.preventDefault();
+                var src = "C棟ユーザ収容ルータ#2";
+                var dst = "C棟サービス収容ルータ#2";
+
+                CyShortestPath.dijkstra(cy, null, src, dst);
+
+            });
+        }
+
+        var disconnect_button = document.getElementById('idDisconnect');
+        if (disconnect_button) {
+            disconnect_button.addEventListener('click', function (evt) {
+                evt.stopPropagation();
+                evt.preventDefault();
+                var src_port_id = "C棟コアルータ#1Hu0/0/0/16";
+                var dst_port_id = "C棟サービス収容ルータ#1Hu0/0/0/20";
+
+                var src_port = cy.$id(src_port_id);
+                var dst_port = cy.$id(dst_port_id);
+                var edges = src_port.edgesWith(dst_port);
+                edges.addClass('disabled');
+                cy.elements().removeClass('highlighted');
+
+                var src = "C棟ユーザ収容ルータ#2";
+                var dst = "C棟サービス収容ルータ#2";
+                CyShortestPath.dijkstra(cy, null, src, dst);
+
+            });
+        }
 
     };
     //

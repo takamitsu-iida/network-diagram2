@@ -356,6 +356,17 @@
                     .offset(router_width, router_height, port_width, port_height);
 
                 eles.nodes.push(n.toObject());
+
+                // create internal hidden edge
+                var edge_id = "internal_" + router_id + port_id;
+                var classes = ['internal'];
+                var e = create_edge()
+                    .id(edge_id)
+                    .source(router_id)
+                    .target(router_id + port_id)
+                    .classes(classes)
+                    .weight(0);
+                eles.edges.push(e.toObject());
             });
 
         });
@@ -452,6 +463,21 @@
     };
 
     var elements = create_elements(iida.appdata.routers, iida.appdata.edges);
+
+
+    var create_detail_topology_elements = function (elements) {
+        var eles = {
+            'nodes': [],
+            'edges': []
+        };
+
+
+
+    }
+
+
+
+
 
     iida.appdata.elements = elements;
     iida.appdata.topology_elements = create_topology_elements(elements);

@@ -5,28 +5,44 @@
     var commons = [
 
         {
-            'selector': '.hidden',
+            'selector': ".hidden",
             'style': {
-                'visibility': "hidden",
+                'visibility': "hidden"
             }
         },
 
         {
-            'selector': '.router:selected',
+            'selector': "edge.internal",
             'style': {
-                'background-color': 'yellow'
+                'visibility': "hidden"
             }
         },
 
         {
-            selector: '.loop',
+            'selector': ".disabled",
+            'style': {
+                'line-color': "#ff0000",  // red
+                'line-style': "dashed"
+            }
+
+        },
+
+        {
+            'selector': ".router:selected",
+            'style': {
+                'background-color': "yellow"
+            }
+        },
+
+        {
+            selector: ".loop",
             style: {
                 'control-point-step-size': 90
             }
         },
 
         {
-            'selector': '.router.mouseover',
+            'selector': ".router.mouseover",
             'style': {
                 'border-width': 3
             }
@@ -37,6 +53,17 @@
             'style': {
                 'border-color': "#0000ff",  // blue
                 'border-width': 4
+            }
+        },
+
+        {
+            'selector': "edge.highlighted",
+            'style': {
+                'width': 4,
+                'line-color': "#0000ff",  // blue
+                // 'background-color': "#a9a9a9",  // darkgray
+                // 'transition-property': "background-color, line-color",
+                // 'transition-duration': "0.5s"
             }
         },
 
@@ -146,22 +173,11 @@
         },
 
         {
-            'selector': "edge.highlighted",
-            'style': {
-                'width': 4,
-                'line-color': '#0000ff',  // blue
-                // 'background-color': "#a9a9a9",  // darkgray
-                // 'transition-property': "background-color, line-color",
-                // 'transition-duration': "0.5s"
-            }
-        },
-
-        {
             'selector': ".router",
             'style': {
                 'border-color': "#000",
                 'border-width': 1,
-                'shape': 'rectangle',
+                'shape': "rectangle",
                 'background-color': "#ffffff",
                 'label': "data(label)",
                 'width': "data(width)",
@@ -248,7 +264,7 @@
         },
 
         {
-            'selector': '.bundle_ether_port',
+            'selector': ".bundle_ether_port",
             'style': {
                 'border-width': 3
             }
