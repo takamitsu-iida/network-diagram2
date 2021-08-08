@@ -5,6 +5,13 @@
     var commons = [
 
         {
+            'selector': '.hidden',
+            'style': {
+                'visibility': "hidden",
+            }
+        },
+
+        {
             'selector': '.router:selected',
             'style': {
                 'background-color': 'yellow'

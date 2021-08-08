@@ -403,6 +403,52 @@
         }
 
 
+        // the checkbox to change show or hide redundant system
+        [1, 2].forEach(redundant_number => {
+            var checkbox = document.getElementById('idRedundant' + redundant_number);
+            if (checkbox) {
+                checkbox.addEventListener('change', function (evt) {
+                    show_redundant(cy, redundant_number, evt.target.checked);
+                });
+            }
+        });
+
+        function show_redundant(cy, redundant_number, show) {
+
+            var routers = cy.nodes('.router').filter(r => {
+                var redundant = r.data('redundant');
+                return redundant_number === redundant;
+            });
+
+            routers.forEach(router => {
+                var router_id = router.id();
+                var ports = router.data('ports') || [];
+                ports.forEach(p => {
+                    var port_id = router_id + p.id;
+                    var port = cy.$id(port_id);
+                    if (port) {
+                        show_hide_element(port, show)
+                        var edges = port.connectedEdges();
+                        edges.forEach(edge => {
+                            show_hide_element(edge, show);
+                        });
+                    }
+                });
+                show_hide_element(router, show);
+            });
+
+        }
+
+        function show_hide_element(element, show) {
+            if (show) {
+                element.removeClass('hidden');
+            } else {
+                element.addClass('hidden');
+            }
+        }
+
+
+
     };
     //
 })();

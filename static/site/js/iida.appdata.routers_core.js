@@ -15,9 +15,9 @@
             'grid': { 'row': row, 'col': col },
             'id': "C棟コアルータ#1",
             'label': "C棟コアルータ#1\nNCS-55A1-36H-B\ntac-his-cr103\nloopback:172.16.11.3\nMgmt 10.100.1.244",
-            'width': 200,
             'drag_with': ["C棟コアルータ#2", "B棟コアルータ#1", "B棟コアルータ#2"],
             'classes': ['P'],
+            'redundant': 1,
             'ports': [
                 {
                     'id': "Hu0/0/0/0",
@@ -59,6 +59,7 @@
             'label': "C棟コアルータ#2\nNCS-55A1-36H-B\ntac-his-cr104\nloopback:172.16.11.4\nMgmt 10.100.1.243",
             'drag_with': ["C棟コアルータ#1", "B棟コアルータ#1", "B棟コアルータ#2"],
             'classes': ['P'],
+            'redundant': 2,
             'ports': [
                 {
                     'id': "Hu0/0/0/0",
@@ -100,6 +101,7 @@
             'label': "B棟コアルータ#1\nNCS-55A1-36H-B\ntab-his-cr201\nloopback:172.16.11.1\nMgmt 10.100.1.246",
             'drag_with': ["C棟コアルータ#1", "C棟コアルータ#2", "B棟コアルータ#2"],
             'classes': ['P'],
+            'redundant': 1,
             'ports': [
                 {
                     'id': "Hu0/0/0/27",
@@ -141,6 +143,7 @@
             'label': "B棟コアルータ#2\nNCS-55A1-36H-B\ntab-his-cr202\nloopback:172.16.11.2\nMgmt 10.100.1.245",
             'drag_with': ["C棟コアルータ#1", "C棟コアルータ#2", "B棟コアルータ#1"],
             'classes': ['P'],
+            'redundant': 2,
             'ports': [
                 {
                     'id': "Hu0/0/0/22",

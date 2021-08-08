@@ -55,7 +55,6 @@ body {
     /* Disable horizontal scroll */
 }
 
-
 /* parent of cy, on_cy*/
 .right_top_panel {
     grid-row: 1;
@@ -136,7 +135,7 @@ body {
     writing-mode: tb-lr;
     writing-mode: vertical-lr;
     -webkit-writing-mode: vertical-lr;
-    letter-spacing: .2em;
+    letter-spacing: 0.2em;
     white-space: nowrap;
 }
 
@@ -147,6 +146,10 @@ body {
     pointer-events: none;
     text-align: left;
     border: 1px solid #ccc;
+}
+
+.hidden {
+    visibility: hidden;
 }
 
 /* https://migi.me/css/video-play-pause-icon/ */

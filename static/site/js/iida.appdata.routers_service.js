@@ -17,6 +17,7 @@
             'label': "C棟サービス収容ルータ#1\nASR 9901\ntac-his-sr103\nloopback:172.16.13.3\nMgmt 10.100.1.240",
             'classes': ['PE'],
             'drag_with': ["C棟サービス収容ルータ#2"],
+            'redundant': 1,
             'ports': [
                 {
                     'id': "Hu0/0/0/20",
@@ -58,6 +59,7 @@
             'label': "C棟サービス収容ルータ#2\nASR 9901\ntac-his-sr104\nloopback:172.16.13.4\nMgmt 10.100.1.239",
             'classes': ['PE'],
             'drag_with': ["C棟サービス収容ルータ#1"],
+            'redundant': 2,
             'ports': [
                 {
                     'id': "Hu0/0/0/21",
@@ -99,6 +101,7 @@
             'label': "B棟サービス収容ルータ#1\nASR 9901\ntab-his-sr201\nloopback:172.16.13.1\nMgmt 10.100.1.242",
             'classes': ['PE'],
             'drag_with': ["B棟サービス収容ルータ#2"],
+            'redundant': 1,
             'ports': [
                 {
                     'id': "Hu0/0/0/21",
@@ -139,6 +142,7 @@
             'label': "B棟サービス収容ルータ#2\nASR 9901\ntab-his-sr202\nloopback:172.16.13.2\nMgmt 10.100.1.241",
             'classes': ['PE'],
             'drag_with': ["B棟サービス収容ルータ#1"],
+            'redundant': 2,
             'ports': [
                 {
                     'id': "Hu0/0/0/21",

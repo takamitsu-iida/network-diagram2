@@ -17,6 +17,7 @@
             'label': "C棟ユーザ収容ルータ#1\nNCS5501\ntac-his-ur527\nloopback:172.16.14.27\nMgmt 10.100.1.86",
             'classes': ['PE'],
             'drag_with': "C棟ユーザ収容ルータ#2",
+            'redundant': 1,
             'ports': [
                 {
                     'id': "Hu0/0/1/0",
@@ -58,6 +59,7 @@
             'label': "C棟ユーザ収容ルータ#2\nNCS5501\ntac-his-ur528\nloopback:172.16.14.28\nMgmt 10.100.1.92",
             'classes': ['PE'],
             'drag_with': "C棟ユーザ収容ルータ#1",
+            'redundant': 2,
             'ports': [
                 {
                     'id': "Hu0/0/1/2",
@@ -98,6 +100,7 @@
             'label': "C棟ユーザ収容ルータ#3\nNCS5501\ntac-his-ur529\nloopback:172.16.14.29\nMgmt 10.100.1.98\n",
             'classes': ['PE'],
             'drag_with': "C棟ユーザ収容ルータ#4",
+            'redundant': 1,
             'ports': [
                 {
                     'id': "Hu0/0/1/0",
@@ -129,6 +132,7 @@
             'label': "C棟ユーザ収容ルータ#4\nNCS5501\ntac-his-ur530\nloobback:172.16.14.30\nMgmt 10.100.1.104",
             'classes': ['PE'],
             'drag_with': "C棟ユーザ収容ルータ#3",
+            'redundant': 2,
             'ports': [
                 {
                     'id': "Hu0/0/1/2",
@@ -160,6 +164,7 @@
             'label': "B棟ユーザ収容ルータ#1\nNCS5501\ntab-his-ur517\nloopback:172.16.14.17\nMgmt 10.100.1.44",
             'classes': ['PE'],
             'drag_with': "B棟ユーザ収容ルータ#2",
+            'redundant': 1,
             'ports': [
                 {
                     'id': "Hu0/0/1/0",
@@ -191,6 +196,7 @@
             'label': "B棟ユーザ収容ルータ#2\nNCS5501\ntab-his-ur518\nloopback:172.16.14.18\nMgmt 10.100.1.45",
             'classes': ['PE'],
             'drag_with': "B棟ユーザ収容ルータ#1",
+            'redundant': 2,
             'ports': [
                 {
                     'id': "Hu0/0/1/2",
@@ -222,6 +228,7 @@
             'label': "B棟ユーザ収容ルータ#3\nNCS5501\ntab-his-ur519\nloopback:172.16.14.19\nMgmt 10.100.1.50",
             'classes': ['PE'],
             'drag_with': "B棟ユーザ収容ルータ#4",
+            'redundant': 1,
             'ports': [
                 {
                     'id': "Hu0/0/1/0",
@@ -253,6 +260,7 @@
             'label': "B棟ユーザ収容ルータ#4\nNCS5501\ntab-his-ur520\nloopback:172.16.14.20\nMgmt 10.100.1.51\n",
             'classes': ['PE'],
             'drag_with': "B棟ユーザ収容ルータ#3",
+            'redundant': 2,
             'ports': [
                 {
                     'id': "Hu0/0/1/2",
