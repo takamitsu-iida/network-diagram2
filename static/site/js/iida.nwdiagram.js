@@ -128,17 +128,12 @@
 
             cy2.on('mouseover', 'node', function (evt) {
                 evt.target.addClass('mouseover');
-                // cy.elements().difference(evt.target.outgoers()).not(evt.target).addClass('semitransp');
-                // evt.target.addClass('highlight').outgoers().addClass('highlight');
-
                 var tip_div = document.getElementById('cy2_tip');
                 show_node_tooltip(tip_div, evt.target);
             });
 
             cy2.on('mouseout', 'node', function (evt) {
                 evt.target.removeClass('mouseover');
-                // cy.elements().removeClass('semitransp');
-                // evt.target.removeClass('highlight').outgoers().removeClass('highlight');
             });
 
             // add elements
@@ -399,14 +394,27 @@
         }
 
 
-        // the checkbox to show or hide redundant system
-        [1, 2].forEach(redundant_number => {
-            var checkbox = document.getElementById('idRedundant' + redundant_number);
-            if (checkbox) {
-                checkbox.addEventListener('change', function (evt) {
+        // filter by redundant system number #1 or #2 or #1-#2
+        [12, 1, 2].forEach(redundant_number => {
+            var a = document.getElementById('idRedundant' + redundant_number);
+            if (a) {
+                a.addEventListener('click', function (evt) {
                     evt.stopPropagation();
                     evt.preventDefault();
-                    show_redundant(cy, redundant_number, evt.target.checked);
+                    document.getElementsByName("redundant_filter").forEach(element => {
+                        element.classList.remove("active");
+                    });
+                    evt.target.classList.add("active");
+                    if (redundant_number === 1) {
+                        show_redundant(cy, 1, true);
+                        show_redundant(cy, 2, false);
+                    } else if (redundant_number === 2) {
+                        show_redundant(cy, 2, true);
+                        show_redundant(cy, 1, false);
+                    } else {
+                        show_redundant(cy, 1, true);
+                        show_redundant(cy, 2, true);
+                    }
                 });
             }
         });
@@ -513,9 +521,9 @@
             dijkstra_button.addEventListener('click', function (evt) {
                 evt.stopPropagation();
                 evt.preventDefault();
-                var src = "C棟ユーザ収容ルータ#2";
-                var dst = "C棟サービス収容ルータ#2";
 
+                var src = "_C棟ユーザ収容ルータ#2";
+                var dst = "_C棟サービス収容ルータ#2";
                 CyShortestPath.dijkstra(cy, null, src, dst);
 
             });
@@ -535,8 +543,8 @@
                 edges.addClass('disabled');
                 cy.elements().removeClass('highlighted');
 
-                var src = "C棟ユーザ収容ルータ#2";
-                var dst = "C棟サービス収容ルータ#2";
+                var src = "_C棟ユーザ収容ルータ#2";
+                var dst = "_C棟サービス収容ルータ#2";
                 CyShortestPath.dijkstra(cy, null, src, dst);
 
             });

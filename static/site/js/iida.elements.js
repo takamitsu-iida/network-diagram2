@@ -14,7 +14,7 @@
         var _label = "";
         var _grid = { 'row': 1, 'col': 1 };
         var _classes = [];
-        var _node_type = "router";  // "router" or "port"
+        var _node_type = "router";  // "router" or "port" or "root_port"
         var _width = DEFAULT_NODE_WIDTH;
         var _height = DEFAULT_NODE_HEIGHT;
         var _drag_with = [];
@@ -24,9 +24,9 @@
 
         // for port node
         var _router_id = undefined;
-        var _align = ['L', 'T'];  // Left, Top
-        var _offset_x = 0;
-        var _offset_y = 0;
+        var _align = ['C', 'C'];  // Center, Center
+        var _offset_x = 0;  // Center of the router
+        var _offset_y = 0;  // Center of the router
 
         function exports() {
             return this;
@@ -198,6 +198,7 @@
 
     var create_edge = function () {
         var _id;
+        var _edge_type = "port_port";  // "port_port" or "router_port"
         var _label = "";
         var _source;
         var _source_router;
@@ -206,7 +207,7 @@
         var _target_router;
         var _target_port;
         var _weight = 1;
-        var _classes = [];  // ['autorotate'];
+        var _classes = [];
 
         function exports() {
             return this;
@@ -215,6 +216,7 @@
         exports.toObject = function () {
             var data = {
                 'id': _id,
+                'edge_type': _edge_type,
                 'source': _source,
                 'source_router': _source_router,
                 'source_port': _source_port,
@@ -233,6 +235,15 @@
         exports.id = function (_) {
             if (!arguments.length) { return _id; }
             if (_) { _id = _; }
+            return this;
+        };
+
+        exports.edge_type = function (_) {
+            if (!arguments.length) { return _edge_type; }
+            if (_) {
+                _edge_type = _;
+                _classes = [_edge_type];
+            }
             return this;
         };
 
@@ -335,17 +346,28 @@
 
             eles.nodes.push(n.toObject());
 
+            // create hidden root_port node
+            var root_port_id = "_" + router_id;  // IMPORTANT: root_port_id is defined as "_" + router_id
+            var n = create_node()
+                .id(root_port_id)
+                .node_type('root_port')  // root_port type is hidden port
+                .router_id(router_id)
+                .width(10)
+                .height(10);
+            eles.nodes.push(n.toObject());
+
             // create port node
             ports.forEach(port => {
-                var port_id = port.id;
-                var label = port.label || port_id;
-                var align = port.align || 'TL';
+                var pid = port.id;
+                var port_id = router_id + pid;
+                var label = port.label || pid;
+                var align = port.align || ['C', 'C'];
                 var port_width = port.width || DEFAULT_PORT_WIDTH;
                 var port_height = port.height || DEFAULT_PORT_HEIGHT;
                 var classes = port.classes || [];
 
                 var n = create_node()
-                    .id(router_id + port_id)
+                    .id(port_id)
                     .node_type('port')
                     .router_id(router_id)
                     .align(align)
@@ -357,14 +379,13 @@
 
                 eles.nodes.push(n.toObject());
 
-                // create internal hidden edge
-                var edge_id = "internal_" + router_id + port_id;
-                var classes = ['internal'];
+                // create internal hidden root_edge from root_port to this port
+                var edge_id = root_port_id + port_id;  // is equal to _router_id router_id pid
                 var e = create_edge()
                     .id(edge_id)
-                    .source(router_id)
-                    .target(router_id + port_id)
-                    .classes(classes)
+                    .edge_type("router_port")  // router_port type is hidden edge
+                    .source(root_port_id)
+                    .target(port_id)
                     .weight(0);
                 eles.edges.push(e.toObject());
             });
@@ -412,6 +433,7 @@
 
             var e = create_edge()
                 .id(edge_id)
+                .edge_type("port_port")  // port_port is the default edge type
                 .source(source)
                 .source_router(source_router)
                 .source_port(source_port)

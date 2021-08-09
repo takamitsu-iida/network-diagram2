@@ -148,9 +148,31 @@ body {
     border: 1px solid #ccc;
 }
 
-.hidden {
-    visibility: hidden;
+.control-div {
+    display: block;
+    padding: 5px;
+    margin: 5px;
 }
+
+.control-div a {
+    color: #000;
+    font-size: 10px;
+    padding: 5px;
+    background: #e2e2e2;
+    cursor: pointer;
+    margin-left: 3px;
+    text-decoration: none;
+}
+
+.control-div a:hover {
+    text-decoration: underline;
+}
+
+.control-div a.active {
+    color: #fff;
+    background: #808080;
+}
+
 
 /* https://migi.me/css/video-play-pause-icon/ */
 

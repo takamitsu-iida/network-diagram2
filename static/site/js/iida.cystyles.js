@@ -12,7 +12,14 @@
         },
 
         {
-            'selector': "edge.internal",
+            'selector': "node.root_port",
+            'style': {
+                'visibility': "hidden"
+            }
+        },
+
+        {
+            'selector': "edge.router_port",
             'style': {
                 'visibility': "hidden"
             }
@@ -21,10 +28,13 @@
         {
             'selector': ".disabled",
             'style': {
+                // edge
                 'line-color': "#ff0000",  // red
-                'line-style': "dashed"
+                'line-style': "dashed",
+                // node
+                'border-color': "#ff0000",  // red
+                'border-style': "dashed",
             }
-
         },
 
         {
@@ -322,11 +332,6 @@
                 'label': edge => edge.data('weight') ? `\u2060${edge.data('weight')}\n\n\u2060` : '',
                 'font-size': "20px"
             }
-        },
-
-        {
-            'selector': ".semitransp",
-            'style': { "opacity": "0.2" }
         },
 
     ];
