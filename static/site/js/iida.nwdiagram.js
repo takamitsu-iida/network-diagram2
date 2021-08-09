@@ -9,11 +9,11 @@
             var cy = window.cy = cytoscape({
                 container: cy_container,
                 minZoom: 0.1,
-                maxZoom: 3,
+                maxZoom: 5,
                 boxSelectionEnabled: true,
                 autounselectify: false,  // true if all nodes are unselectable
                 selectionType: "single",  // "single" or "additive",
-                style: iida.styles.cy,
+                style: iida.styles.physical,
                 layout: { 'name': "preset" },
                 elements: []
             });
@@ -64,92 +64,51 @@
                         port.position({ x: router_position.x + offset_x, y: router_position.y + offset_y })
                     }
                 });
-                /*
-                var ports = cy.nodes().filter(n => {
-                    return n.data('router_id') === router.id();
-                });
-
-                ports.forEach(port => {
-                    var offset_x = port.data('offset_x');
-                    var offset_y = port.data('offset_y');
-                    port.position({ x: router_position.x + offset_x, y: router_position.y + offset_y })
-                });
-                */
             });
 
-            /*
             cy.on('select', '.router', function (evt) {
-                var ports = evt.target.data('ports') || [];
-                ports.forEach(p => {
-                    console.log(p.id);
-                });
+                var tip_div = document.getElementById('cy_tip');
+                show_node_tooltip(tip_div, evt.target);
             });
+
             cy.on('unselect', '.router', function (evt) {
+                var tip_div = document.getElementById('cy_tip');
+                clear_node_tooltip(tip_div);
+                /*
                 if (cy.$('.router:selected').length === 0) {
                     cy.batch(function () {
                         cy.nodes().show();
                     });
                 }
+                */
             });
-            */
 
             cy.on('mouseover', 'node', function (evt) {
                 evt.target.addClass('mouseover');
-
-                var tip_div = document.getElementById('cy_tip');
-                show_node_tooltip(tip_div, evt.target);
             });
 
             cy.on('mouseout', 'node', function (evt) {
                 evt.target.removeClass('mouseover');
             });
 
-            // add elements
-            set_elements(cy, iida.appdata.elements);
-
-            // run "grid" layout
-            set_layout(cy, "grid");
-        }
-
-
-        var cy2_container = document.getElementById('cy2');
-        if (cy2_container) {
-            var cy2 = window.cy2 = cytoscape({
-                container: cy2_container,
-                minZoom: 0.1,
-                maxZoom: 3,
-                boxSelectionEnabled: true,
-                autounselectify: false,
-                selectionType: "single",  // "single" or "additive",
-                style: iida.styles.cy2,
-                layout: { 'name': "preset" },
-                elements: []
-            });
-
-            cy2.on('mouseover', 'node', function (evt) {
-                evt.target.addClass('mouseover');
-                var tip_div = document.getElementById('cy2_tip');
-                show_node_tooltip(tip_div, evt.target);
-            });
-
-            cy2.on('mouseout', 'node', function (evt) {
-                evt.target.removeClass('mouseover');
-            });
-
-            // add elements
-            set_elements(cy2, iida.appdata.topology_elements);
-
-            // run "grid" layout
-            set_layout(cy2, "grid");
-        }
-
-
-        function set_elements(cy, eles) {
+            // set elements and run "grid" layout
             cy.batch(function () {
-                cy.elements().remove();
-                cy.reset();
-                cy.add(eles);
-            })
+                set_elements(cy, "physical", iida.appdata.elements);
+                set_layout(cy, "grid");
+            });
+        }
+
+
+        function set_style(cy, stylesheet) {
+            cy.style(stylesheet);
+        }
+
+
+        function set_elements(cy, name, eles) {
+            cy.data_name = name;
+            cy.elements().remove();
+            cy.reset();
+            cy.add(eles);
         }
 
 
@@ -168,11 +127,45 @@
         }
 
 
-        function show_node_tooltip(tip_div, node) {
-            // remove child
+        // on click data_change link
+        ["idPhysical", "idTopology", "idPath"].forEach(id => {
+            var a = document.getElementById(id);
+            if (a) {
+                a.addEventListener('click', function (evt) {
+                    evt.stopPropagation();
+                    evt.preventDefault();
+                    document.getElementsByName("data_change").forEach(element => { element.classList.remove("active"); });
+                    evt.target.classList.add("active");
+                    if (id === "idTopology") {
+                        set_style(cy, iida.styles.topology);
+                        cy.batch(function () {
+                            set_elements(cy, "topology", iida.appdata.topology_elements);
+                            set_layout(cy, "grid");
+                        });
+                    } else if (id === "idPath") {
+                        console.log(id);
+                    } else {
+                        set_style(cy, iida.styles.physical);
+                        cy.batch(function () {
+                            set_elements(cy, "physical", iida.appdata.elements);
+                            set_layout(cy, "grid");
+                        });
+                    }
+                });
+            }
+        });
+
+
+        function clear_node_tooltip(tip_div) {
+            // remove children
             while (tip_div.lastChild) {
                 tip_div.removeChild(tip_div.lastChild);
             }
+        }
+
+
+        function show_node_tooltip(tip_div, node) {
+            clear_node_tooltip(tip_div);
 
             // create table
             var table = document.createElement('table');
@@ -218,17 +211,6 @@
                     easing: "ease"
                 }).play().promise();
             }));
-        }
-
-
-        // the dropdown list to change layout
-        var layout_change = document.getElementById('idLayout');
-        if (layout_change) {
-            layout_change.addEventListener('change', function (evt) {
-                evt.stopPropagation();
-                evt.preventDefault();
-                set_layout(cy2, evt.target.value);
-            });
         }
 
 
@@ -309,30 +291,6 @@
         }
 
 
-        var neighborButton = document.getElementById("idNeighbor");
-        if (neighborButton) {
-            neighborButton.addEventListener('click', function (evt) {
-                evt.stopPropagation();
-                evt.preventDefault();
-                var roots = cy2.$('node:selected');
-                show_neighbors(cy2, roots);
-            });
-        }
-
-
-        function show_neighbors(cy, roots) {
-            if (!roots || roots.length === 0) {
-                cy.nodes().show();
-                return;
-            }
-            cy.batch(function () {
-                cy.nodes().hide();
-                roots.neighborhood().nodes().show();
-                roots.show();
-            });
-        }
-
-
         var connectedButton = document.getElementById("idConnected");
         if (connectedButton) {
             connectedButton.addEventListener('click', function (evt) {
@@ -347,6 +305,15 @@
         function show_connected(cy, roots) {
             if (!roots || roots.length === 0) {
                 cy.nodes().show();
+                return;
+            }
+
+            if (cy.data_name === "topology") {
+                cy.batch(function () {
+                    cy.nodes().hide();
+                    roots.neighborhood().nodes().show();
+                    roots.show();
+                });
                 return;
             }
 
@@ -390,7 +357,6 @@
                 cy.nodes().hide();
                 subgraph.show();
             });
-
         }
 
 
@@ -432,13 +398,11 @@
                     var port_id = router_id + p.id;
                     var port = cy.$id(port_id);
                     if (port) {
-                        show_hide_element(port, show)
-                        var edges = port.connectedEdges();
-                        edges.forEach(edge => {
-                            show_hide_element(edge, show);
-                        });
+                        show_hide_element(port, show);
+                        port.connectedEdges().forEach(edge => { show_hide_element(edge, show); });
                     }
                 });
+                router.connectedEdges().forEach(edge => { show_hide_element(edge, show); })
                 show_hide_element(router, show);
             });
         }
@@ -453,7 +417,7 @@
         }
 
         var CyShortestPath = (function () {
-            var _dijkstra = function (cy, cy2, start_node_id, end_node_id) {
+            var _dijkstra = function (cy, start_node_id, end_node_id) {
 
                 // get start node by id
                 var start_node = cy.filter('node[id="' + start_node_id + '"]');
@@ -479,13 +443,15 @@
                 // results.forEach(r => { console.log(r.id()); });
 
                 // set cy2 elements
+                /*
                 if (cy2) {
-                    cy2.batch(function() {
+                    cy2.batch(function () {
                         cy2.elements().remove();
                         cy2.add(results);
                         cy2.layout({ 'name': "grid" }).run();
                     });
                 }
+                */
 
                 var step = 0;
                 var highlight_next = function () {
@@ -504,17 +470,16 @@
                 highlight_next();
             }
 
-            var _clear = function (cy, cy2) {
+            var _clear = function (cy) {
                 cy.elements().removeClass('highlighted');
-                cy2.elements().remove();
             }
 
             return {
                 dijkstra: _dijkstra,
-                clear: _clear,
-                is_running: false
+                clear: _clear
             }
         })();
+
 
         var dijkstra_button = document.getElementById('idDijkstra');
         if (dijkstra_button) {
@@ -522,10 +487,14 @@
                 evt.stopPropagation();
                 evt.preventDefault();
 
-                var src = "_C棟ユーザ収容ルータ#2";
-                var dst = "_C棟サービス収容ルータ#2";
-                CyShortestPath.dijkstra(cy, null, src, dst);
+                var src = "C棟ユーザ収容ルータ#2";
+                var dst = "C棟サービス収容ルータ#2";
+                if (cy.data_name === "physical") {
+                    src = "_" + src;
+                    dst = "_" + dst;
+                }
 
+                CyShortestPath.dijkstra(cy, src, dst);
             });
         }
 
@@ -543,10 +512,13 @@
                 edges.addClass('disabled');
                 cy.elements().removeClass('highlighted');
 
-                var src = "_C棟ユーザ収容ルータ#2";
-                var dst = "_C棟サービス収容ルータ#2";
-                CyShortestPath.dijkstra(cy, null, src, dst);
-
+                var src = "C棟ユーザ収容ルータ#2";
+                var dst = "C棟サービス収容ルータ#2";
+                if (cy.data_name === "physical") {
+                    src = "_" + src;
+                    dst = "_" + dst;
+                }
+                CyShortestPath.dijkstra(cy, src, dst);
             });
         }
 

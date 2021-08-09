@@ -16,6 +16,11 @@
 
     // see iida.appda.routers_xxx.js
     iida.appdata = iida.appdata || {
+        'DEFAULT_ROUTER_WIDTH': 200,
+        'DEFAULT_ROUTER_HEIGHT': 120,
+        'DEFAULT_PORT_WIDTH': 60,
+        'DEFAULT_PORT_HEIGHT': 20,
+
         'routers': [],  // data of routers and ports
         'edges': [],  // data of edges
         'bundle_ethers': [],  // data of bundleEther

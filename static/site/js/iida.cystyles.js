@@ -5,6 +5,7 @@
     var commons = [
 
         {
+            // class to control show or hide
             'selector': ".hidden",
             'style': {
                 'visibility': "hidden"
@@ -12,6 +13,7 @@
         },
 
         {
+            // internal designated router port
             'selector': "node.root_port",
             'style': {
                 'visibility': "hidden"
@@ -19,6 +21,7 @@
         },
 
         {
+            // internal edge from router to port
             'selector': "edge.router_port",
             'style': {
                 'visibility': "hidden"
@@ -26,6 +29,7 @@
         },
 
         {
+            // control to disabled or not, disabled node is excluded from dijkstra search
             'selector': ".disabled",
             'style': {
                 // edge
@@ -38,6 +42,7 @@
         },
 
         {
+            // selected node
             'selector': ".router:selected",
             'style': {
                 'background-color': "yellow"
@@ -45,6 +50,7 @@
         },
 
         {
+            // size of loop
             selector: ".loop",
             style: {
                 'control-point-step-size': 90
@@ -52,6 +58,7 @@
         },
 
         {
+            // on mouseover
             'selector': ".router.mouseover",
             'style': {
                 'border-width': 3
@@ -59,6 +66,7 @@
         },
 
         {
+            // highlight dijkstra path
             'selector': ".router.highlighted",
             'style': {
                 'border-color': "#0000ff",  // blue
@@ -67,6 +75,7 @@
         },
 
         {
+            // highlight dijkstra path
             'selector': "edge.highlighted",
             'style': {
                 'width': 4,
@@ -142,6 +151,7 @@
         },
 
         {
+            // thick overlay line
             'selector': "edge.overlay_10",
             'style': {
                 'overlay-color': "black",
@@ -167,18 +177,22 @@
     ];
 
 
-    iida.styles.cy = [
+    iida.styles.physical = [
+
         {
             'selector': "edge",
             'style': {
                 'width': 2,
                 'curve-style': "bezier",  // "taxi" "bezier" "segments",
+                'target-arrow-shape': "circle",
+                'source-arrow-shape': "circle",
                 'line-color': "#a9a9a9",  // darkgray
+                'target-arrow-color': "#a9a9a9",  // darkgray
+                'source-arrow-color': "#a9a9a9",  // darkgray
                 'text-wrap': "wrap",  // wrap is needed to work \n
-                // 'label': "data(label)",
-                'label': edge => edge.data('label') ? `\u2060${edge.data('label')}\n\n\u2060` : '',
-                'font-size': "8px",
-                'edge-text-rotation': "autorotate"
+                'edge-text-rotation': "autorotate",
+                'label': function(edge) { return edge.data('label') ? `\u2060${edge.data('label')}\n\n\u2060` : ''; },
+                'font-size': "12px"
             }
         },
 
@@ -189,10 +203,10 @@
                 'border-width': 1,
                 'shape': "rectangle",
                 'background-color': "#ffffff",
-                'label': "data(label)",
-                'width': "data(width)",
-                'height': "data(height)",
-                'font-size': "8px",
+                'label': function(node) { return node.data('label') ? node.data('label') : ''; },
+                'width': function(node) { return node.data('width') ? node.data('width') : iida.appdata.DEFAULT_ROUTER_WIDTH; },
+                'height': function(node) { return node.data('height') ? node.data('height') : iida.appdata.DEFAULT_ROUTER_HEIGHT; },
+                'font-size': "9px",
                 'text-wrap': "wrap",
                 'text-valign': "center",
                 'text-halign': "center",
@@ -204,38 +218,14 @@
         {
             'selector': ".router.P",
             'style': {
-                'border-color': "#000",
-                'border-width': 1,
-                'shape': "rectangle",
                 'background-color': "#20b2aa",  // lightseagreen
-                'label': "data(label)",
-                'width': "data(width)",
-                'height': "data(height)",
-                'font-size': "8px",
-                'text-wrap': "wrap",
-                'text-valign': "center",
-                'text-halign': "center",
-                'opacity': 0.8,
-                'border-opacity': 1.0
             }
         },
 
         {
             'selector': ".router.PE",
             'style': {
-                'border-color': "#000",
-                'border-width': 1,
-                'shape': "rectangle",
                 'background-color': "#40e0d0",  // turquoise
-                'label': "data(label)",
-                'width': "data(width)",
-                'height': "data(height)",
-                'font-size': "8px",
-                'text-wrap': "wrap",
-                'text-valign': "center",
-                'text-halign': "center",
-                'opacity': 0.8,
-                'border-opacity': 1.0
             }
         },
 
@@ -246,10 +236,10 @@
                 'border-width': 1,
                 'shape': "rectangle",
                 'background-color': "#87ceeb",  // skyblue
-                'label': "data(label)",
-                'width': "data(width)",
-                'height': "data(height)",
-                'font-size': "8px",
+                'label': function(node) { return node.data('label') ? node.data('label') : ''; },
+                'width': function(node) { return node.data('width') ? node.data('width') : iida.appdata.DEFAULT_PORT_WIDTH; },
+                'height': function(node) { return node.data('height') ? node.data('height') : iida.appdata.DEFAULT_PORT_HEIGHT; },
+                'font-size': "9px",
                 'text-wrap': "wrap",
                 'text-valign': "center",
                 'text-halign': "center",
@@ -262,11 +252,11 @@
             'selector': ".bundle_ether",
             'style': {
                 'shape': "rectangle",
-                'label': "data(label)",
+                'label': function(node) { return node.data('label') ? node.data('label') : ''},
                 'text-wrap': "wrap",
                 'text-valign': "center",
                 'text-halign': "center",
-                'font-size': "8px",
+                'font-size': "9px",
                 'background-color': "#f0e68c",  // khaki
                 'border-width': 0,
                 'opacity': 1
@@ -281,61 +271,61 @@
         },
 
     ];
-    Array.prototype.push.apply(iida.styles.cy, commons);
+    Array.prototype.push.apply(iida.styles.physical, commons);
 
 
-    iida.styles.cy2 = [
+    iida.styles.topology = [
 
         {
-            'selector': ".router.P",
+            'selector': "edge",
+            'style': {
+                'width': 2,
+                "curve-style": "straight",
+                'target-arrow-shape': "circle",
+                'source-arrow-shape': "circle",
+                'line-color': "#a9a9a9",  // darkgray
+                'target-arrow-color': "#a9a9a9",  // darkgray
+                'source-arrow-color': "#a9a9a9",  // darkgray
+                'text-wrap': "wrap",
+                'edge-text-rotation': "autorotate",
+                'label': function(edge) { return edge.data('weight') ? `\u2060${edge.data('weight')}\n\n\u2060` : ''; },
+                'font-size': "20px"
+            }
+        },
+
+        {
+            'selector': ".router",
             'style': {
                 'border-color': "#000",
                 'border-width': 1,
                 'shape': "round-rectangle",
-                'background-color': "#20b2aa",  // lightseagreen
-                'label': "data(id)",
-                'width': "data(width)",
-                'height': "data(height)",
-                'font-size': "10px",
+                // 'label': function(node) { return node.data('id'); },
+                'label': function(node) { return node.data('label') ? node.data('label') : ''; },
+                'width': function(node) { return node.data('width') ? node.data('width') : iida.appdata.DEFAULT_ROUTER_WIDTH; },
+                'height': function(node) { return node.data('height') ? node.data('height') : iida.appdata.DEFAULT_ROUTER_HEIGHT; },
+                'font-size': "9px",
+                'text-wrap': "wrap",
                 'text-valign': "center",
                 'text-halign': "center"
+            }
+        },
+
+        {
+            'selector': ".router.P",
+            'style': {
+                'background-color': "#20b2aa",  // lightseagreen
             }
         },
 
         {
             'selector': ".router.PE",
             'style': {
-                'border-color': "#000",
-                'border-width': 1,
-                'shape': "round-rectangle",
                 'background-color': "#40e0d0",  // turquoise
-                'label': "data(id)",
-                'width': "data(width)",
-                'height': "data(height)",
-                'font-size': "10px",
-                'text-valign': "center",
-                'text-halign': "center"
-            }
-        },
-
-        {
-            'selector': "edge",
-            'style': {
-                "curve-style": "straight",
-                'line-color': "#0000ff",  // blue
-                'target-arrow-color': "#0000ff",  // blue
-                'source-arrow-color': "#0000ff",  // blue
-                'target-arrow-shape': "circle",
-                'source-arrow-shape': "circle",
-                'width': 2,
-                'text-wrap': "wrap",
-                'label': edge => edge.data('weight') ? `\u2060${edge.data('weight')}\n\n\u2060` : '',
-                'font-size': "20px"
             }
         },
 
     ];
-    Array.prototype.push.apply(iida.styles.cy2, commons);
+    Array.prototype.push.apply(iida.styles.topology, commons);
 
     //
 })();

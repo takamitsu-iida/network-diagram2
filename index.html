@@ -9,24 +9,29 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
+    <!-- iida.css -->
     <link rel="stylesheet" type="text/css" href="./static/site/css/iida.css" />
 
     <!-- jQuery -->
     <script src="https://unpkg.com/jquery/dist/jquery.min.js"></script>
 
     <!-- cytoscape.js -->
+    <!-- https://js.cytoscape.org/ -->
     <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
 
     <!-- cytoscape-panzoom.js -->
+    <!-- https://github.com/cytoscape/cytoscape.js-panzoom -->
     <script src="https://unpkg.com/cytoscape-panzoom/cytoscape-panzoom.js"></script>
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/cytoscape-panzoom/cytoscape.js-panzoom.css" />
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/cytoscape-panzoom/font-awesome-4.0.3/css/font-awesome.min.css" />
 
     <!-- cytoscape-popper.js -->
+    <!-- https://github.com/cytoscape/cytoscape.js-popper -->
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/cytoscape-popper@2.0.0/cytoscape-popper.js"></script>
 
     <!-- cytoscape-automove.js -->
+    <!-- https://github.com/cytoscape/cytoscape.js-automove -->
     <!--
     <script src="https://unpkg.com/cytoscape-automove/cytoscape-automove.js"></script>
     -->
@@ -59,21 +64,35 @@
 
     <div class="wrapper">
 
-        <div class="left_top_panel">
+        <div class="header_panel">
+            <div class="control-div">
+                <a id="idPhysical" name="data_change" class="active">physical diagram</a>
+                <a id="idTopology" name="data_change">topology diagram</a>
+                <a id="idPath" name="data_change">shortest path</a>
+            </div>
+        </div>
+
+        <div class="left_panel">
             <div id="cy_tip" class="tip-div"></div>
         </div>
 
-        <div class="left_bottom_panel">
-            <div id="cy2_tip" class="tip-div"></div>
-        </div>
-
-        <div class="right_top_panel">
+        <div class="right_panel">
             <div id="cy"></div>
             <div id="on_cy">
                 <table style="width: 100%;">
                     <tr>
                         <th width="45%"></th>
                         <th width="55%"></th>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2">
+                            <div class="control-div">
+                                <a id="idRedundant12" name="redundant_filter" class="active">#1-#2</a>
+                                <a id="idRedundant1" name="redundant_filter">#1</a>
+                                <a id="idRedundant2" name="redundant_filter">#2</a>
+                            </div>
+                        </td>
                     </tr>
 
                     <tr>
@@ -112,50 +131,8 @@
 
                 </table>
 
-                <div class="control-div">
-                    <a id="idRedundant12" name="redundant_filter" class="active">#1-#2</a>
-                    <a id="idRedundant1" name="redundant_filter">#1</a>
-                    <a id="idRedundant2" name="redundant_filter">#2</a>
-                </div>
 
                 <div id="idBundleEther"></div>
-
-            </div>
-        </div>
-
-        <div class="right_bottom_panel">
-            <div id="cy2"></div>
-            <div id="on_cy2">
-
-                <table style="width: 100%;">
-                    <tr>
-                        <th width="45%"></th>
-                        <th width="55%"></th>
-                    </tr>
-                    <tr>
-                        <td><span title="Change layout algorithm"> Layout </span></td>
-                        <td>
-                            <select id="idLayout" name="nameLayout">
-                                <option value="grid" selected>grid</option>
-                                <option value="preset">preset</option>
-                                <option value="fcose">fcose</option>
-                                <option value="circle">circle</option>
-                                <option value="concentric">concentric</option>
-                                <option value="breadthfirst">breadthfirst</option>
-                            </select>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>-----</td>
-                        <td>-----</td>
-                    </tr>
-
-                    <tr>
-                        <td><span title="show neighbor nodes"> Neighbor nodes </span></td>
-                        <td><input id="idNeighbor" type="button" value="Neighbors">
-                    </tr>
-                </table>
 
             </div>
         </div>

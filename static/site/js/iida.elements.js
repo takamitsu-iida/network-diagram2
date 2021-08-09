@@ -2,10 +2,10 @@
 
 (function () {
 
-    var DEFAULT_NODE_WIDTH = 200;
-    var DEFAULT_NODE_HEIGHT = 120;
-    var DEFAULT_PORT_WIDTH = 60;
-    var DEFAULT_PORT_HEIGHT = 20;
+    DEFAULT_ROUTER_WIDTH = iida.appdata.DEFAULT_ROUTER_WIDTH;  // 200
+    DEFAULT_ROUTER_HEIGHT = iida.appdata.DEFAULT_ROUTER_HEIGHT;  // 120
+    DEFAULT_PORT_WIDTH = iida.appdata.DEFAULT_PORT_WIDTH;  // 60
+    DEFAULT_PORT_HEIGHT = iida.appdata.DEFAULT_PORT_HEIGHT;  // 20
 
     var create_node = function () {
 
@@ -15,8 +15,8 @@
         var _grid = { 'row': 1, 'col': 1 };
         var _classes = [];
         var _node_type = "router";  // "router" or "port" or "root_port"
-        var _width = DEFAULT_NODE_WIDTH;
-        var _height = DEFAULT_NODE_HEIGHT;
+        var _width = DEFAULT_ROUTER_WIDTH;
+        var _height = DEFAULT_ROUTER_HEIGHT;
         var _drag_with = [];
         var _redundant = 1;
         var _grabbable = true;  // only router is grabbable
@@ -325,8 +325,8 @@
             var grid = router.grid || {};
             var router_id = router.id;
             var label = router.label || '';
-            var router_width = router.width || DEFAULT_NODE_WIDTH;
-            var router_height = router.height || DEFAULT_NODE_HEIGHT;
+            var router_width = router.width || DEFAULT_ROUTER_WIDTH;
+            var router_height = router.height || DEFAULT_ROUTER_HEIGHT;
             var classes = router.classes || [];
             var drag_with = router.drag_with || [];
             var redundant = router.redundant || 1;

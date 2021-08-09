@@ -10,32 +10,38 @@ body {
 
 .wrapper {
     display: grid;
-    padding: 10px;
     column-gap: 10px;
     row-gap: 10px;
     grid-template-columns: 300px 1fr;
 }
 
-.left_panel {
-    grid-row: 1 / 3;
-    grid-column: 1;
-    z-index: 10;
-    top: 0;
-    left: 0;
-    background-color: #b7ffff;
-    overflow-x: hidden;
-    /* Disable horizontal scroll */
-}
-
-.right_panel {
-    grid-row: 1 / 3;
-    grid-column: 2;
-    height: calc(100vh - 50px);
-}
-
-.left_top_panel {
+/*
+1-2-3
+ ■ ■
+2----
+ □ □
+3----
+ □ □
+4----
+ */
+.header_panel {
     grid-row: 1 / 2;
-    grid-column: 1;
+    grid-column: 1 / 3;
+    height: 40px;
+}
+
+/*
+1-2-3
+ □ □
+2----
+ ■ □
+3----
+ ■ □
+4----
+ */
+.left_panel {
+    grid-row: 2 / 4;
+    grid-column: 1 / 2;
     z-index: 10;
     top: 0;
     left: 0;
@@ -44,29 +50,93 @@ body {
     /* Disable horizontal scroll */
 }
 
-.left_bottom_panel {
-    grid-row: 2 / 3;
-    grid-column: 1;
-    z-index: 10;
-    top: 0;
-    left: 0;
-    background-color: #b7ffff;
-    overflow-x: hidden;
-    /* Disable horizontal scroll */
-}
-
-/* parent of cy, on_cy*/
-.right_top_panel {
-    grid-row: 1;
-    grid-column: 2;
-    height: calc(100vh - 300px - 50px);
+/*
+1-2-3
+ □ □
+2----
+ □ ■
+3----
+ □ ■
+4----
+ */
+.right_panel {
+    grid-row: 2 / 4;
+    grid-column: 2 / 3;
+    height: calc(100vh - 20px - 50px);
     position: relative;
 }
 
+/*
+1-2-3
+ □ □
+2----
+ ■ □
+3----
+ □ □
+4----
+ */
+.left_top_panel {
+    grid-row: 2 / 3;
+    grid-column: 1 / 2;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    background-color: #b7ffff;
+    overflow-x: hidden;
+    /* Disable horizontal scroll */
+}
+
+/*
+1-2-3
+ □ □
+2----
+ □ □
+3----
+ ■ □
+4----
+ */
+.left_bottom_panel {
+    grid-row: 3 / 4;
+    grid-column: 1 / 2;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    background-color: #b7ffff;
+    overflow-x: hidden;
+    /* Disable horizontal scroll */
+}
+
+/*
+1-2-3
+ □ □
+2----
+ □ ■
+3----
+ □ □
+4----
+ */
+/* parent of cy, on_cy*/
+.right_top_panel {
+    grid-row: 2 / 3;
+    grid-column: 2 / 3;
+    /* 100vh - row-gap*4 - header_panel - right_bottom_panel */
+    height: calc(100vh - 40px - 50px - 300px);
+    position: relative;
+}
+
+/*
+1-2-3
+ □ □
+2---
+ □ □
+3---
+ □ ■
+4---
+ */
 /* parent of cy2, on_cy */
 .right_bottom_panel {
-    grid-row: 2;
-    grid-column: 2;
+    grid-row: 3 / 4;
+    grid-column: 2 / 3;
     height: 300px;
     position: relative;
 }
@@ -156,7 +226,7 @@ body {
 
 .control-div a {
     color: #000;
-    font-size: 10px;
+    font-size: 12px;
     padding: 5px;
     background: #e2e2e2;
     cursor: pointer;
@@ -172,7 +242,6 @@ body {
     color: #fff;
     background: #808080;
 }
-
 
 /* https://migi.me/css/video-play-pause-icon/ */
 
