@@ -86,17 +86,17 @@
             });
 
             cy.on('mouseover', 'node', function (evt) {
-                evt.target.addClass('mouseover');
+                evt.target.addClass("mouseover");
             });
 
             cy.on('mouseout', 'node', function (evt) {
-                evt.target.removeClass('mouseover');
+                evt.target.removeClass("mouseover");
             });
 
             cy.on('pan zoom resize', function (evt) {
                 cy.elements().forEach(element => {
-                    if (element.popper_update) {
-                        element.popper_update();
+                    if (element.update_popper) {
+                        element.update_popper();
                     }
                 });
             });
@@ -118,7 +118,7 @@
             // save element name
             cy.iida_data_name = name;
 
-            // remove popper
+            // first remove popper
             remove_popper(cy);
 
             // and then remove elements
@@ -157,14 +157,13 @@
 
 
         function create_popper(cy, node) {
-
             var popper_div = document.createElement('div');
             popper_div.classList.add('popper-div');
 
             // document.body.appendChild(popper_div);
-            // document.getElementById("idRightPanel").appendChild(popper_div);
             cy.container().appendChild(popper_div);
 
+            // create popper object
             var popper = node.popper({
                 content: () => {
                     popper_div.innerHTML = node.data('popper');
@@ -174,20 +173,18 @@
                     placement: "top",
                     modifiers: [
                         {
-                            name: 'offset',
-                            options: {
-                                offset: [0, 5],
+                            'name': "offset",
+                            'options': {
+                                'offset': [0, 5],
                             },
                         },
-                    ],
-                },
+                    ]
+                }
             });
 
-            function popper_update() {
+            function update_popper() {
                 popper_div.style.display = "none";
                 do_later(function () {
-                    console.log("update")
-
                     var zoom = cy.zoom();
                     var fontSize = Math.round(12 * zoom);
                     fontSize = Math.max(3, fontSize);
@@ -226,10 +223,11 @@
 
             // save these objects in node for later accessibility (ex. remove popper)
             node.popper_div = popper_div;
-            node.popper_update = popper_update;
+            node.update_popper = update_popper;
             node.popper_obj = popper;
 
-            node.on('position', popper_update);
+            // register event handler
+            node.on('position', update_popper);
         }
 
 
@@ -238,8 +236,9 @@
                 if (element.popper_div) {
                     element.popper_div.remove();
                 }
-                if (element.popper_update) {
-                    cy.removeListener('pan zoom resize', element.popper_update);
+                if (element.update_popper) {
+                    cy.removeListener('pan zoom resize', element.update_popper);
+                    element.removeListener('position', element.update_popper);
                 }
                 if (element.popper_obj) {
                     element.popper_obj.destroy();
@@ -425,6 +424,11 @@
         function show_connected(cy, roots) {
             if (!roots || roots.length === 0) {
                 cy.nodes().show();
+                cy.elements().forEach(element => {
+                    if (element.popper_div && element.popper_div.style.visibility !== "") {
+                        element.popper_div.style.visibility = "";
+                    }
+                });
                 return;
             }
 
@@ -475,7 +479,17 @@
 
             cy.batch(function () {
                 cy.nodes().hide();
+                cy.elements().forEach(element => {
+                    if (element.popper_div && element.popper_div.style.visibility !== "hidden") {
+                        element.popper_div.style.visibility = "hidden";
+                    }
+                });
                 subgraph.show();
+                cy.elements(subgraph).forEach(element => {
+                    if (element.popper_div && element.popper_div.style.visibility !== "") {
+                        element.popper_div.style.visibility = "";
+                    }
+                });
             });
         }
 
@@ -483,7 +497,9 @@
         // filter by redundant system number #1 or #2 or #1-#2
         [12, 1, 2].forEach(redundant_number => {
             var a = document.getElementById('idRedundant' + redundant_number);
-            if (!a) { return; }
+            if (!a) {
+                return;
+            }
             a.addEventListener('click', function (evt) {
                 evt.stopPropagation();
                 evt.preventDefault();
@@ -529,9 +545,15 @@
 
         function show_hide_element(element, show) {
             if (show) {
-                element.removeClass('hidden');
+                element.removeClass("hidden");
+                if (element.popper_div) {
+                    element.popper_div.classList.remove("hidden");
+                }
             } else {
-                element.addClass('hidden');
+                element.addClass("hidden");
+                if (element.popper_div) {
+                    element.popper_div.classList.add("hidden");
+                }
             }
         }
 
@@ -577,7 +599,7 @@
                     var el = results[step];
                     if (el/* && el.isEdge()*/) {
                         // console.log(el.id());
-                        el.addClass('highlighted');
+                        el.addClass("highlighted");
                     }
                     if (step < results.length) {
                         step++;
@@ -590,7 +612,7 @@
             }
 
             var _clear = function (cy) {
-                cy.elements().removeClass('highlighted');
+                cy.elements().removeClass("highlighted");
             }
 
             return {
@@ -627,8 +649,8 @@
                 var src_port = cy.$id(src_port_id);
                 var dst_port = cy.$id(dst_port_id);
                 var edges = src_port.edgesWith(dst_port);
-                edges.addClass('disabled');
-                cy.elements().removeClass('highlighted');
+                edges.addClass("disabled");
+                cy.elements().removeClass("highlighted");
 
                 var src = "C棟ユーザ収容ルータ#2";
                 var dst = "C棟サービス収容ルータ#2";
