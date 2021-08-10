@@ -183,7 +183,7 @@
             'selector': "edge",
             'style': {
                 'width': 2,
-                'curve-style': "bezier",  // "taxi" "bezier" "segments",
+                'curve-style': "straight",  // "bezier", "taxi" "bezier" "segments",
                 'target-arrow-shape': "circle",
                 'source-arrow-shape': "circle",
                 'line-color': "#a9a9a9",  // darkgray
@@ -192,7 +192,8 @@
                 'text-wrap': "wrap",  // wrap is needed to work \n
                 'edge-text-rotation': "autorotate",
                 'label': function(edge) { return edge.data('label') ? `\u2060${edge.data('label')}\n\n\u2060` : ''; },
-                'font-size': "12px"
+                'font-size': 12,
+                'min-zoomed-font-size': 6
             }
         },
 
@@ -203,10 +204,10 @@
                 'border-width': 1,
                 'shape': "rectangle",
                 'background-color': "#ffffff",
-                'label': function(node) { return node.data('label') ? node.data('label') : ''; },
-                'width': function(node) { return node.data('width') ? node.data('width') : iida.appdata.DEFAULT_ROUTER_WIDTH; },
-                'height': function(node) { return node.data('height') ? node.data('height') : iida.appdata.DEFAULT_ROUTER_HEIGHT; },
-                'font-size': "9px",
+                'label': "data(label)",  // function(node) { return node.data('label') ? node.data('label') : ''; },
+                'width': "data(width)", // "function(node) { return node.data('width') ? node.data('width') : iida.appdata.DEFAULT_ROUTER_WIDTH; },
+                'height': "data(height)",  // function(node) { return node.data('height') ? node.data('height') : iida.appdata.DEFAULT_ROUTER_HEIGHT; },
+                'font-size': 10,
                 'text-wrap': "wrap",
                 'text-valign': "center",
                 'text-halign': "center",
@@ -236,10 +237,10 @@
                 'border-width': 1,
                 'shape': "rectangle",
                 'background-color': "#87ceeb",  // skyblue
-                'label': function(node) { return node.data('label') ? node.data('label') : ''; },
-                'width': function(node) { return node.data('width') ? node.data('width') : iida.appdata.DEFAULT_PORT_WIDTH; },
-                'height': function(node) { return node.data('height') ? node.data('height') : iida.appdata.DEFAULT_PORT_HEIGHT; },
-                'font-size': "9px",
+                'label': "data(label)",  // function(node) { return node.data('label') ? node.data('label') : ''; },
+                'width': "data(width)",  // function(node) { return node.data('width') ? node.data('width') : iida.appdata.DEFAULT_PORT_WIDTH; },
+                'height': "data(height)",  // function(node) { return node.data('height') ? node.data('height') : iida.appdata.DEFAULT_PORT_HEIGHT; },
+                'font-size': 9,
                 'text-wrap': "wrap",
                 'text-valign': "center",
                 'text-halign': "center",
@@ -252,11 +253,11 @@
             'selector': ".bundle_ether",
             'style': {
                 'shape': "rectangle",
-                'label': function(node) { return node.data('label') ? node.data('label') : ''},
+                'label': "data(label)",  // function(node) { return node.data('label') ? node.data('label') : ''},
                 'text-wrap': "wrap",
                 'text-valign': "center",
                 'text-halign': "center",
-                'font-size': "9px",
+                'font-size': 9,
                 'background-color': "#f0e68c",  // khaki
                 'border-width': 0,
                 'opacity': 1
@@ -280,7 +281,7 @@
             'selector': "edge",
             'style': {
                 'width': 2,
-                "curve-style": "straight",
+                'curve-style': "bezier",  // in case of multiple edges between same nodes
                 'target-arrow-shape': "circle",
                 'source-arrow-shape': "circle",
                 'line-color': "#a9a9a9",  // darkgray
@@ -289,7 +290,7 @@
                 'text-wrap': "wrap",
                 'edge-text-rotation': "autorotate",
                 'label': function(edge) { return edge.data('weight') ? `\u2060${edge.data('weight')}\n\n\u2060` : ''; },
-                'font-size': "20px"
+                'font-size': 20
             }
         },
 
@@ -300,10 +301,10 @@
                 'border-width': 1,
                 'shape': "round-rectangle",
                 // 'label': function(node) { return node.data('id'); },
-                'label': function(node) { return node.data('label') ? node.data('label') : ''; },
-                'width': function(node) { return node.data('width') ? node.data('width') : iida.appdata.DEFAULT_ROUTER_WIDTH; },
-                'height': function(node) { return node.data('height') ? node.data('height') : iida.appdata.DEFAULT_ROUTER_HEIGHT; },
-                'font-size': "9px",
+                'label': "data(label)",  // function(node) { return node.data('label') ? node.data('label') : ''; },
+                'width': "data(width)",  // function(node) { return node.data('width') ? node.data('width') : iida.appdata.DEFAULT_ROUTER_WIDTH; },
+                'height': "data(height)",  // function(node) { return node.data('height') ? node.data('height') : iida.appdata.DEFAULT_ROUTER_HEIGHT; },
+                'font-size': 14,
                 'text-wrap': "wrap",
                 'text-valign': "center",
                 'text-halign': "center"
@@ -327,5 +328,4 @@
     ];
     Array.prototype.push.apply(iida.styles.topology, commons);
 
-    //
 })();

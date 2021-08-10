@@ -12,6 +12,7 @@
         // for router node
         var _id;
         var _label = "";
+        var _popper = "";
         var _grid = { 'row': 1, 'col': 1 };
         var _classes = [];
         var _node_type = "router";  // "router" or "port" or "root_port"
@@ -39,6 +40,7 @@
             data['id'] = _id;
             data['node_type'] = _node_type;
             data['label'] = _label;
+            data['popper'] = _popper;
             data['width'] = _width;
             data['height'] = _height;
             data['drag_with'] = _drag_with;
@@ -80,6 +82,12 @@
         exports.label = function (_) {
             if (!arguments.length) { return _label; }
             if (_) { _label = _; }
+            return this;
+        };
+
+        exports.popper = function (_) {
+            if (!arguments.length) { return _popper; }
+            if (_) { _popper = _; }
             return this;
         };
 
@@ -200,6 +208,7 @@
         var _id;
         var _edge_type = "port_port";  // "port_port" or "router_port"
         var _label = "";
+        var _popper = "";
         var _source;
         var _source_router;
         var _source_port;
@@ -223,8 +232,9 @@
                 'target': _target,
                 'target_router': _target_router,
                 'target_port': _target_port,
-                'weight': _weight,
-                'label': _label
+                'label': _label,
+                'popper': _popper,
+                'weight': _weight
             };
             return {
                 'data': data,
@@ -289,6 +299,12 @@
             return this;
         };
 
+        exports.popper = function (_) {
+            if (!arguments.length) { return _popper; }
+            if (_) { _popper = _; }
+            return this;
+        };
+
         exports.weight = function (_) {
             if (!arguments.length) { return _weight; }
             if (_) { _weight = _; }
@@ -324,7 +340,8 @@
 
             var grid = router.grid || {};
             var router_id = router.id;
-            var label = router.label || '';
+            var label = router.label || "";
+            var popper = router.popper || "";
             var router_width = router.width || DEFAULT_ROUTER_WIDTH;
             var router_height = router.height || DEFAULT_ROUTER_HEIGHT;
             var classes = router.classes || [];
@@ -337,6 +354,7 @@
                 .node_type('router')
                 .grid(grid)
                 .label(label)
+                .popper(popper)
                 .ports(ports)
                 .width(router_width)
                 .height(router_height)
@@ -428,6 +446,7 @@
 
             var edge_id = source + target;
             var label = edge.label || "";
+            var popper = edge.popper || "";
             var weight = edge.weight || 1;
             var classes = edge.classes || [];
 

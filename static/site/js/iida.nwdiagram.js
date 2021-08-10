@@ -10,6 +10,8 @@
                 container: cy_container,
                 minZoom: 0.1,
                 maxZoom: 5,
+                hideEdgesOnViewport: false,
+                textureOnViewport: false,
                 boxSelectionEnabled: true,
                 autounselectify: false,  // true if all nodes are unselectable
                 selectionType: "single",  // "single" or "additive",
@@ -91,6 +93,14 @@
                 evt.target.removeClass('mouseover');
             });
 
+            cy.on('pan zoom resize', function (evt) {
+                cy.elements().forEach(element => {
+                    if (element.popper_update) {
+                        element.popper_update();
+                    }
+                });
+            });
+
             // set elements and run "grid" layout
             cy.batch(function () {
                 set_elements(cy, "physical", iida.appdata.elements);
@@ -105,10 +115,29 @@
 
 
         function set_elements(cy, name, eles) {
-            cy.data_name = name;
+            // save element name
+            cy.iida_data_name = name;
+
+            // remove popper
+            remove_popper(cy);
+
+            // and then remove elements
             cy.elements().remove();
+
+            // reset zoom etc
             cy.reset();
+
+            // add elements
             cy.add(eles);
+
+            // create new popper if physical diagram
+            if (name === "physical") {
+                cy.elements().forEach(element => {
+                    if (element.data('popper') && element.data('popper') !== "") {
+                        create_popper(cy, element);
+                    }
+                });
+            }
         }
 
 
@@ -127,32 +156,123 @@
         }
 
 
+        function create_popper(cy, node) {
+
+            var popper_div = document.createElement('div');
+            popper_div.classList.add('popper-div');
+
+            // document.body.appendChild(popper_div);
+            // document.getElementById("idRightPanel").appendChild(popper_div);
+            cy.container().appendChild(popper_div);
+
+            var popper = node.popper({
+                content: () => {
+                    popper_div.innerHTML = node.data('popper');
+                    return popper_div;
+                },
+                popper: {
+                    placement: "top",
+                    modifiers: [
+                        {
+                            name: 'offset',
+                            options: {
+                                offset: [0, 5],
+                            },
+                        },
+                    ],
+                },
+            });
+
+            function popper_update() {
+                popper_div.style.display = "none";
+                do_later(function () {
+                    console.log("update")
+
+                    var zoom = cy.zoom();
+                    var fontSize = Math.round(12 * zoom);
+                    fontSize = Math.max(3, fontSize);
+                    fontSize = Math.min(20, fontSize);
+                    popper_div.style.fontSize = fontSize + "pt";
+
+                    // fontSize 3 is too small to read
+                    if (fontSize === 3) {
+                        if (popper_div.style.display === '') {
+                            popper_div.style.display = 'none';
+                        }
+                    } else {
+                        if (popper_div.style.display !== '') {
+                            popper_div.style.display = '';
+                        }
+                    }
+                    popper.update();
+                }, 200);
+            };
+
+            function do_later(job, tmo) {
+                if (job in do_later.TID) {
+                    window.clearTimeout(do_later.TID[job]);
+                }
+                do_later.TID[job] = window.setTimeout(
+                    function () {
+                        delete do_later.TID[job];
+                        try {
+                            job.call();
+                        } catch (e) {
+                            alert("EXCEPTION CAUGHT : " + job);
+                        }
+                    }, tmo);
+            }
+            do_later.TID = {};
+
+            // save these objects in node for later accessibility (ex. remove popper)
+            node.popper_div = popper_div;
+            node.popper_update = popper_update;
+            node.popper_obj = popper;
+
+            node.on('position', popper_update);
+        }
+
+
+        function remove_popper(cy) {
+            cy.elements().forEach(element => {
+                if (element.popper_div) {
+                    element.popper_div.remove();
+                }
+                if (element.popper_update) {
+                    cy.removeListener('pan zoom resize', element.popper_update);
+                }
+                if (element.popper_obj) {
+                    element.popper_obj.destroy();
+                }
+            });
+        }
+
+
         // on click data_change link
         ["idPhysical", "idTopology", "idPath"].forEach(id => {
             var a = document.getElementById(id);
-            if (a) {
-                a.addEventListener('click', function (evt) {
-                    evt.stopPropagation();
-                    evt.preventDefault();
-                    document.getElementsByName("data_change").forEach(element => { element.classList.remove("active"); });
-                    evt.target.classList.add("active");
-                    if (id === "idTopology") {
-                        set_style(cy, iida.styles.topology);
-                        cy.batch(function () {
-                            set_elements(cy, "topology", iida.appdata.topology_elements);
-                            set_layout(cy, "grid");
-                        });
-                    } else if (id === "idPath") {
-                        console.log(id);
-                    } else {
-                        set_style(cy, iida.styles.physical);
-                        cy.batch(function () {
-                            set_elements(cy, "physical", iida.appdata.elements);
-                            set_layout(cy, "grid");
-                        });
-                    }
-                });
-            }
+            if (!a) { return; }
+            a.addEventListener('click', function (evt) {
+                evt.stopPropagation();
+                evt.preventDefault();
+                document.getElementsByName("data_change").forEach(element => { element.classList.remove("active"); });
+                evt.target.classList.add("active");
+                if (id === "idTopology") {
+                    set_style(cy, iida.styles.topology);
+                    cy.batch(function () {
+                        set_elements(cy, "topology", iida.appdata.topology_elements);
+                        set_layout(cy, "grid");
+                    });
+                } else if (id === "idPath") {
+                    console.log(id);
+                } else {
+                    set_style(cy, iida.styles.physical);
+                    cy.batch(function () {
+                        set_elements(cy, "physical", iida.appdata.elements);
+                        set_layout(cy, "grid");
+                    });
+                }
+            });
         });
 
 
@@ -308,7 +428,7 @@
                 return;
             }
 
-            if (cy.data_name === "topology") {
+            if (cy.iida_data_name === "topology") {
                 cy.batch(function () {
                     cy.nodes().hide();
                     roots.neighborhood().nodes().show();
@@ -363,26 +483,25 @@
         // filter by redundant system number #1 or #2 or #1-#2
         [12, 1, 2].forEach(redundant_number => {
             var a = document.getElementById('idRedundant' + redundant_number);
-            if (a) {
-                a.addEventListener('click', function (evt) {
-                    evt.stopPropagation();
-                    evt.preventDefault();
-                    document.getElementsByName("redundant_filter").forEach(element => {
-                        element.classList.remove("active");
-                    });
-                    evt.target.classList.add("active");
-                    if (redundant_number === 1) {
-                        show_redundant(cy, 1, true);
-                        show_redundant(cy, 2, false);
-                    } else if (redundant_number === 2) {
-                        show_redundant(cy, 2, true);
-                        show_redundant(cy, 1, false);
-                    } else {
-                        show_redundant(cy, 1, true);
-                        show_redundant(cy, 2, true);
-                    }
+            if (!a) { return; }
+            a.addEventListener('click', function (evt) {
+                evt.stopPropagation();
+                evt.preventDefault();
+                document.getElementsByName("redundant_filter").forEach(element => {
+                    element.classList.remove("active");
                 });
-            }
+                evt.target.classList.add("active");
+                if (redundant_number === 1) {
+                    show_redundant(cy, 1, true);
+                    show_redundant(cy, 2, false);
+                } else if (redundant_number === 2) {
+                    show_redundant(cy, 2, true);
+                    show_redundant(cy, 1, false);
+                } else {
+                    show_redundant(cy, 1, true);
+                    show_redundant(cy, 2, true);
+                }
+            });
         });
 
 
@@ -486,10 +605,9 @@
             dijkstra_button.addEventListener('click', function (evt) {
                 evt.stopPropagation();
                 evt.preventDefault();
-
                 var src = "C棟ユーザ収容ルータ#2";
                 var dst = "C棟サービス収容ルータ#2";
-                if (cy.data_name === "physical") {
+                if (cy.iida_data_name === "physical") {
                     src = "_" + src;
                     dst = "_" + dst;
                 }
@@ -514,7 +632,7 @@
 
                 var src = "C棟ユーザ収容ルータ#2";
                 var dst = "C棟サービス収容ルータ#2";
-                if (cy.data_name === "physical") {
+                if (cy.iida_data_name === "physical") {
                     src = "_" + src;
                     dst = "_" + dst;
                 }
