@@ -504,23 +504,10 @@
     };
 
     var elements = create_elements(iida.appdata.routers, iida.appdata.edges);
-
-
-    var create_detail_topology_elements = function (elements) {
-        var eles = {
-            'nodes': [],
-            'edges': []
-        };
-
-
-
-    }
-
-
-
-
-
     iida.appdata.elements = elements;
     iida.appdata.topology_elements = create_topology_elements(elements);
 
+    var router_ids = [];
+    iida.appdata.topology_elements.nodes.forEach(node => { router_ids.push(node.data.id); });
+    iida.appdata.router_ids = router_ids;
 })();

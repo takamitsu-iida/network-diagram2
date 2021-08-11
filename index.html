@@ -65,15 +65,103 @@
     <div class="wrapper">
 
         <div class="header_panel">
-            <div class="control-div">
+            <div class="control_div">
                 <a id="idPhysical" name="data_change" class="active">physical diagram</a>
                 <a id="idTopology" name="data_change">topology diagram</a>
-                <a id="idPath" name="data_change">shortest path</a>
             </div>
         </div>
 
         <div id="idLeftPanel" class="left_panel">
-            <div id="cy_tip" class="tip-div"></div>
+            <div id="idMenuP">
+                <h3>SID popper</h3>
+                <label><input id="idPopper" type="checkbox">show or hide</label>
+
+                <h3>BundleEther</h3>
+                <div id="idBundleEther"></div>
+            </div>
+
+            <div id="idMenuL" style="display: none;">
+                <h3>Dijkstra</h3>
+
+                <table style="width: 100%; table-layout: fixed;">
+                    <tr>
+                        <th width="45%"></th>
+                        <th width="55%"></th>
+                    </tr>
+
+                    <tr>
+                        <td>-----</td>
+                        <td>-----</td>
+                    </tr>
+
+                    <tr>
+                        <td valign="top"><span> cost #1-#1 </span></td>
+                        <td><input type="range" min="1" max="10" step="1" value=1 id="cost_1_1"><span id="cost_1_1_value">1</span></td>
+                    </tr>
+
+                    <tr>
+                        <td valign="top"><span> cost #1-#2 </span></td>
+                        <td><input type="range" min="1" max="10" step="1" value=1 id="cost_1_2"><span id="cost_1_2_value">1</span></td>
+                    </tr>
+
+                    <tr>
+                        <td valign="top"><span> cost #2-#2 </span></td>
+                        <td><input type="range" min="1" max="10" step="1" value=5 id="cost_2_2"><span id="cost_2_2_value">5</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>-----</td>
+                        <td>-----</td>
+                    </tr>
+
+                    <tr>
+                        <td valign="top"><span> Source </span></td>
+                        <td>
+                            <select id="idDijkstraSource"></select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td valign="top"><span> Target </span></td>
+                        <td>
+                            <select id="idDijkstraTarget"></select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>-----</td>
+                        <td>-----</td>
+                    </tr>
+
+                    <tr>
+                        <td><span title="clear shortest path"> Clear shortest path </span></td>
+                        <td><input id="idDijkstraClear" , type="button" value="Clear"></td>
+                    </tr>
+
+                    <tr>
+                        <td>-----</td>
+                        <td>-----</td>
+                    </tr>
+
+                    <tr>
+                        <td><span title="Start or stop to calculate all paths"> All paths </span></td>
+                        <td>
+                            <label class="video_play_pause" style="font-size: 30px;">
+                                <input type="checkbox" id="idDijkstraStartStop">
+                                <span title="Start or stop to calculate all paths"></span>
+                            </label>
+                        </td>
+                    </tr>
+                </table>
+
+
+            </div>
+
+            <div>
+                <h3>Element info</h3>
+                <div id="idTipDiv" class="tip_div"></div>
+            </div>
+
         </div>
 
         <div id="idRightPanel" class="right_panel">
@@ -86,18 +174,24 @@
                     </tr>
 
                     <tr>
-                        <td colspan="2">
-                            <div class="control-div">
-                                <a id="idRedundant12" name="redundant_filter" class="active">#1-#2</a>
-                                <a id="idRedundant1" name="redundant_filter">#1</a>
-                                <a id="idRedundant2" name="redundant_filter">#2</a>
+                        <td><span title="Show redundant system"> Redundant </span></td>
+                        <td>
+                            <div class="control_div">
+                                <p><a id="idRedundant12" name="redundant_filter" class="active">#1-#2</a></p>
+                                <p><a id="idRedundant1" name="redundant_filter">#1</a></p>
+                                <p><a id="idRedundant2" name="redundant_filter">#2</a></p>
                             </div>
                         </td>
                     </tr>
 
                     <tr>
+                        <td>-----</td>
+                        <td>-----</td>
+                    </tr>
+
+                    <tr>
                         <td><span title="Revert to initial position"> Initial Position </span></td>
-                        <td><input id="idInitialPosition" type="button" value="Revert"></td>
+                        <td><input id="idInitialPosition" type="button" value="Revert" style="width: 100%;"></td>
                     </tr>
 
                     <tr>
@@ -107,7 +201,7 @@
 
                     <tr>
                         <td><span title="show connected nodes"> Connected nodes </span></td>
-                        <td><input id="idConnected" type="button" value="Connected">
+                        <td><input id="idConnected" type="button" value="Connected" style="width: 100%;"></td>
                     </tr>
 
                     <tr>
@@ -117,11 +211,11 @@
 
                     <tr>
                         <td><span title="test"> test </span></td>
-                        <td><input id="idDijkstra" type="button" value="Dijkstra">
+                        <td><input id="idDijkstra" type="button" value="Dijkstra" style="width: 100%;"></td>
                     </tr>
                     <tr>
                         <td><span title="test"> test </span></td>
-                        <td><input id="idDisconnect" type="button" value="Disconnect">
+                        <td><input id="idDisconnect" type="button" value="Disconnect" style="width: 100%;"></td>
                     </tr>
 
                     <tr>
@@ -130,9 +224,6 @@
                     </tr>
 
                 </table>
-
-
-                <div id="idBundleEther"></div>
 
             </div>
         </div>

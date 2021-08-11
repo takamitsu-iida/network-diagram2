@@ -4,7 +4,12 @@
 
     iida.nwdiagram = function () {
 
-        var cy_container = document.getElementById('cy');
+        var nwdiagram_state = {
+            'data_name': "physical",
+            'show_popper': false,
+        }
+
+        var cy_container = document.getElementById("cy");
         if (cy_container) {
             var cy = window.cy = cytoscape({
                 container: cy_container,
@@ -25,11 +30,11 @@
             cy.panzoom({});
 
             // on grab, all router node save own position
-            cy.on('grab', '.router', function (evt) {
+            cy.on("grab", ".router", function (evt) {
                 evt.target.data('grab_x', evt.target.position().x);
                 evt.target.data('grab_y', evt.target.position().y);
 
-                cy.$('.router').forEach(router => {
+                cy.$(".router").forEach(router => {
                     var position = router.position();
                     router.data('old_x', position.x);
                     router.data('old_y', position.y);
@@ -37,7 +42,7 @@
             });
 
             // on drag, find drag_with nodes and set new position
-            cy.on('drag', '.router', function (evt) {
+            cy.on("drag", ".router", function (evt) {
                 var delta_x = evt.target.position().x - evt.target.data('grab_x');
                 var delta_y = evt.target.position().y - evt.target.data('grab_y');
 
@@ -53,7 +58,7 @@
             });
 
             // on position, fix port position
-            cy.on('position', '.router', function (evt) {
+            cy.on("position", ".router", function (evt) {
                 var router = evt.target;
                 var router_position = router.position();
                 var ports = router.data('ports') || [];
@@ -68,32 +73,32 @@
                 });
             });
 
-            cy.on('select', '.router', function (evt) {
-                var tip_div = document.getElementById('cy_tip');
+            cy.on("select", ".router", function (evt) {
+                var tip_div = document.getElementById("idTipDiv");
                 show_node_tooltip(tip_div, evt.target);
             });
 
-            cy.on('unselect', '.router', function (evt) {
-                var tip_div = document.getElementById('cy_tip');
+            cy.on("unselect", ".router", function (evt) {
+                var tip_div = document.getElementById("idTipDiv");
                 clear_node_tooltip(tip_div);
+
                 /*
-                if (cy.$('.router:selected').length === 0) {
-                    cy.batch(function () {
-                        cy.nodes().show();
-                    });
+                別のノードをクリックして連続的に選択してもunselectイベントは発生してしまう
+                if (cy.$(".router:selected").length === 0) {
+                    show_connected(cy, null);
                 }
                 */
             });
 
-            cy.on('mouseover', 'node', function (evt) {
+            cy.on("mouseover", "node", function (evt) {
                 evt.target.addClass("mouseover");
             });
 
-            cy.on('mouseout', 'node', function (evt) {
+            cy.on("mouseout", "node", function (evt) {
                 evt.target.removeClass("mouseover");
             });
 
-            cy.on('pan zoom resize', function (evt) {
+            cy.on("pan zoom resize", function (evt) {
                 cy.elements().forEach(element => {
                     if (element.update_popper) {
                         element.update_popper();
@@ -116,7 +121,7 @@
 
         function set_elements(cy, name, eles) {
             // save element name
-            cy.iida_data_name = name;
+            nwdiagram_state.data_name = name;
 
             // first remove popper
             remove_popper(cy);
@@ -151,17 +156,22 @@
                 fit: true,
                 animate: true
             }
-            cy.$('.router').layout(option).run();
+            cy.$(".router").layout(option).run();
             // cy.layout(option).run();
         }
 
 
         function create_popper(cy, node) {
-            var popper_div = document.createElement('div');
-            popper_div.classList.add('popper-div');
+            var popper_div = document.createElement("div");
+            popper_div.classList.add("popper_div");
 
             // document.body.appendChild(popper_div);
             cy.container().appendChild(popper_div);
+
+            // create but hide
+            if (!nwdiagram_state.show_popper) {
+                popper_div.classList.add("hidden");
+            }
 
             // create popper object
             var popper = node.popper({
@@ -227,7 +237,7 @@
             node.popper_obj = popper;
 
             // register event handler
-            node.on('position', update_popper);
+            node.on("position", update_popper);
         }
 
 
@@ -237,8 +247,8 @@
                     element.popper_div.remove();
                 }
                 if (element.update_popper) {
-                    cy.removeListener('pan zoom resize', element.update_popper);
-                    element.removeListener('position', element.update_popper);
+                    cy.removeListener("pan zoom resize", element.update_popper);
+                    element.removeListener("position", element.update_popper);
                 }
                 if (element.popper_obj) {
                     element.popper_obj.destroy();
@@ -247,29 +257,48 @@
         }
 
 
+        var idPopper = document.getElementById("idPopper");
+        if (idPopper) {
+            idPopper.addEventListener("change", function (evt) {
+                evt.stopPropagation();
+                evt.preventDefault();
+                nwdiagram_state.show_popper = evt.target.checked;
+                cy.elements().forEach(element => {
+                    show_hide_popper(element, nwdiagram_state.show_popper);
+                });
+            });
+        }
+
+
         // on click data_change link
-        ["idPhysical", "idTopology", "idPath"].forEach(id => {
+        ["idPhysical", "idTopology"].forEach(id => {
             var a = document.getElementById(id);
             if (!a) { return; }
-            a.addEventListener('click', function (evt) {
+            a.addEventListener("click", function (evt) {
                 evt.stopPropagation();
                 evt.preventDefault();
                 document.getElementsByName("data_change").forEach(element => { element.classList.remove("active"); });
                 evt.target.classList.add("active");
+
+                var menu_p = document.getElementById("idMenuP");
+                var menu_l = document.getElementById("idMenuL");
+
                 if (id === "idTopology") {
                     set_style(cy, iida.styles.topology);
                     cy.batch(function () {
                         set_elements(cy, "topology", iida.appdata.topology_elements);
                         set_layout(cy, "grid");
                     });
-                } else if (id === "idPath") {
-                    console.log(id);
-                } else {
+                    menu_p.style.display = "none";
+                    menu_l.style.display = "block";
+                } else if (id === "idPhysical") {
                     set_style(cy, iida.styles.physical);
                     cy.batch(function () {
                         set_elements(cy, "physical", iida.appdata.elements);
                         set_layout(cy, "grid");
                     });
+                    menu_l.style.display = "none";
+                    menu_p.style.display = "block";
                 }
             });
         });
@@ -287,7 +316,7 @@
             clear_node_tooltip(tip_div);
 
             // create table
-            var table = document.createElement('table');
+            var table = document.createElement("table");
 
             var tr = table.insertRow();
             var td_title = tr.insertCell();
@@ -309,9 +338,9 @@
 
 
         // the button to revert to initial position
-        var initial_position = document.getElementById('idInitialPosition');
+        var initial_position = document.getElementById("idInitialPosition");
         if (initial_position) {
-            initial_position.addEventListener('click', function (evt) {
+            initial_position.addEventListener("click", function (evt) {
                 evt.stopPropagation();
                 evt.preventDefault();
                 animate_to_initial_position(cy);
@@ -323,7 +352,7 @@
 
 
         function animate_to_initial_position(cy) {
-            Promise.all(cy.nodes('.router').map(node => {
+            Promise.all(cy.nodes(".router").map(node => {
                 return node.animation({
                     position: get_initial_position(node),
                     duration: 500,
@@ -347,29 +376,29 @@
 
 
         function create_a(link) {
-            return create_tag('a', { 'target': '_blank', 'href': link.url, 'class': 'tip-link' }, [document.createTextNode(link.name)]);
+            return create_tag("a", { 'target': "_blank", 'href': link.url, 'class': "tip-link" }, [document.createTextNode(link.name)]);
         }
 
 
-        var bundleEtherDiv = document.getElementById('idBundleEther');
+        var bundleEtherDiv = document.getElementById("idBundleEther");
         if (bundleEtherDiv) {
             iida.appdata.bundle_ethers.forEach(be => {
-                var input = document.createElement('input');
-                input.setAttribute('type', 'checkbox');
+                var input = document.createElement("input");
+                input.setAttribute('type', "checkbox");
                 input.setAttribute('id', be.id);
                 input.setAttribute('value', be.id);
                 input.setAttribute('name', be.id);
 
-                var label = document.createElement('label');
+                var label = document.createElement("label");
                 label.htmlFor = be.id;
                 label.appendChild(document.createTextNode(be.id));
 
-                var div = document.createElement('div');
+                var div = document.createElement("div");
                 div.appendChild(input);
                 div.appendChild(label);
                 bundleEtherDiv.appendChild(div);
 
-                input.addEventListener('change', function (evt) {
+                input.addEventListener("change", function (evt) {
                     evt.stopPropagation();
                     evt.preventDefault();
 
@@ -378,7 +407,7 @@
                     if (evt.target.checked) {
                         var parent = cy.add({
                             'group': 'nodes',
-                            'data': { 'id': id, 'label': id },
+                            'data': { 'id': id, 'label': be.label || id },
                             'grabbable': false,
                             'classes': ["bundle_ether"]
                         });
@@ -389,7 +418,6 @@
                                 port.addClass("bundle_ether_port");
                             }
                         });
-
                     } else {
                         be.ports.forEach(p => {
                             var port = cy.$id(p);
@@ -403,7 +431,6 @@
                             cy.remove(parent);
                         }
                     }
-
                 });
 
             });
@@ -412,10 +439,10 @@
 
         var connectedButton = document.getElementById("idConnected");
         if (connectedButton) {
-            connectedButton.addEventListener('click', function (evt) {
+            connectedButton.addEventListener("click", function (evt) {
                 evt.stopPropagation();
                 evt.preventDefault();
-                var roots = cy.$('.router:selected');
+                var roots = cy.$(".router:selected");
                 show_connected(cy, roots);
             });
         }
@@ -424,15 +451,18 @@
         function show_connected(cy, roots) {
             if (!roots || roots.length === 0) {
                 cy.nodes().show();
+
+                // show() hide() does not effect class, change dom style visibility directly
                 cy.elements().forEach(element => {
                     if (element.popper_div && element.popper_div.style.visibility !== "") {
                         element.popper_div.style.visibility = "";
                     }
                 });
+
                 return;
             }
 
-            if (cy.iida_data_name === "topology") {
+            if (nwdiagram_state.data_name === "topology") {
                 cy.batch(function () {
                     cy.nodes().hide();
                     roots.neighborhood().nodes().show();
@@ -496,11 +526,11 @@
 
         // filter by redundant system number #1 or #2 or #1-#2
         [12, 1, 2].forEach(redundant_number => {
-            var a = document.getElementById('idRedundant' + redundant_number);
+            var a = document.getElementById("idRedundant" + redundant_number);
             if (!a) {
                 return;
             }
-            a.addEventListener('click', function (evt) {
+            a.addEventListener("click", function (evt) {
                 evt.stopPropagation();
                 evt.preventDefault();
                 document.getElementsByName("redundant_filter").forEach(element => {
@@ -522,7 +552,7 @@
 
 
         function show_redundant(cy, redundant_number, show) {
-            var routers = cy.nodes('.router').filter(r => {
+            var routers = cy.nodes(".router").filter(r => {
                 var redundant = r.data('redundant');
                 return redundant_number === redundant;
             });
@@ -546,16 +576,27 @@
         function show_hide_element(element, show) {
             if (show) {
                 element.removeClass("hidden");
-                if (element.popper_div) {
-                    element.popper_div.classList.remove("hidden");
-                }
             } else {
                 element.addClass("hidden");
-                if (element.popper_div) {
-                    element.popper_div.classList.add("hidden");
+            }
+            show_hide_popper(element, show);
+        }
+
+
+        function show_hide_popper(element, show) {
+            var popper_div = element.popper_div;
+            if (!popper_div) {
+                return;
+            }
+            if (show) {
+                if (nwdiagram_state.show_popper && !element.hasClass("hidden")) {
+                    popper_div.classList.remove("hidden");
                 }
+            } else {
+                popper_div.classList.add("hidden");
             }
         }
+
 
         var CyShortestPath = (function () {
             var _dijkstra = function (cy, start_node_id, end_node_id) {
@@ -576,7 +617,7 @@
                 //    root: The root node (selector or collection) where the algorithm starts.
                 //    weight: function(edge) [optional] A function that returns the positive numeric weight for the edge. The weight indicates the cost of going from one node to another node.
                 //    directed: [optional] A boolean indicating whether the algorithm should only go along edges from source to target (default false).
-                var dijkstra = cy.elements().not('.disabled').dijkstra(start_node, function (edge) {
+                var dijkstra = cy.elements().not(".disabled").dijkstra(start_node, function (edge) {
                     return edge.data('weight');
                 }, false);
 
@@ -617,30 +658,36 @@
 
             return {
                 dijkstra: _dijkstra,
-                clear: _clear
+                clear: _clear,
+                is_running: false
             }
         })();
 
 
-        var dijkstra_button = document.getElementById('idDijkstra');
-        if (dijkstra_button) {
-            dijkstra_button.addEventListener('click', function (evt) {
+        // もうすぐ消す
+        ["idDijkstra"].forEach(id => {
+            var dijkstra_button = document.getElementById(id);
+            if (!dijkstra_button) {
+                return;
+            }
+            dijkstra_button.addEventListener("click", function (evt) {
                 evt.stopPropagation();
                 evt.preventDefault();
                 var src = "C棟ユーザ収容ルータ#2";
                 var dst = "C棟サービス収容ルータ#2";
-                if (cy.iida_data_name === "physical") {
+                if (nwdiagram_state.data_name === "physical") {
                     src = "_" + src;
                     dst = "_" + dst;
                 }
 
                 CyShortestPath.dijkstra(cy, src, dst);
             });
-        }
+        });
 
-        var disconnect_button = document.getElementById('idDisconnect');
+
+        var disconnect_button = document.getElementById("idDisconnect");
         if (disconnect_button) {
-            disconnect_button.addEventListener('click', function (evt) {
+            disconnect_button.addEventListener("click", function (evt) {
                 evt.stopPropagation();
                 evt.preventDefault();
                 var src_port_id = "C棟コアルータ#1Hu0/0/0/16";
@@ -654,13 +701,110 @@
 
                 var src = "C棟ユーザ収容ルータ#2";
                 var dst = "C棟サービス収容ルータ#2";
-                if (cy.iida_data_name === "physical") {
+                if (nwdiagram_state.data_name === "physical") {
                     src = "_" + src;
                     dst = "_" + dst;
                 }
                 CyShortestPath.dijkstra(cy, src, dst);
             });
         }
+
+        var select_dijkstra_source = document.getElementById("idDijkstraSource");
+        if (select_dijkstra_source) {
+            iida.appdata.router_ids.forEach(router_id => {
+                var option = document.createElement("option");
+                option.text = router_id;
+                option.value = router_id;
+                select_dijkstra_source.appendChild(option);
+            });
+            select_dijkstra_source.addEventListener("change", function (evt) {
+                onDijkstraSourceChanged(evt.target.value);
+            });
+        }
+
+        var select_dijkstra_target = document.getElementById("idDijkstraTarget");
+        if (select_dijkstra_target) {
+            iida.appdata.router_ids.forEach(router_id => {
+                var option = document.createElement("option");
+                option.text = router_id;
+                option.value = router_id;
+                select_dijkstra_target.appendChild(option);
+            });
+            select_dijkstra_target.addEventListener("change", function (evt) {
+                onDijkstraTargetChanged(evt.target.value);
+            });
+        }
+
+
+        function onDijkstraSourceChanged(source_id) {
+            console.log("source: " + source_id);
+        }
+
+        function onDijkstraTargetChanged(target_id) {
+            console.log("target: " + target_id);
+        }
+
+        var dijkstra_start_stop = document.getElementById("idDijkstraStartStop");
+        if (dijkstra_start_stop) {
+            dijkstra_start_stop.addEventListener('change', function () {
+                CyShortestPath.is_running = select_dijkstra_source.disabled = select_dijkstra_target.disabled = dijkstra_start_stop.checked;
+                dijkstra_start_stop_func();
+            });
+        }
+
+        function dijkstra_start_stop_func() {
+            var router_ids = iida.appdata.router_ids;
+            var select_source = document.getElementById("idDijkstraSource");
+            var select_target = document.getElementById("idDijkstraTarget");
+            var source_index = 0;
+            var target_index = 0;
+
+            iida.appdata.router_ids.forEach(function (router_id, index) {
+                if (select_source.value === router_id) {
+                    source_index = index;
+                }
+                if (select_target.value === router_id) {
+                    target_index = index;
+                }
+            });
+
+            select_source.dispatchEvent(new Event('change'));
+            select_target.dispatchEvent(new Event('change'));
+
+            function move_next() {
+                if (!CyShortestPath.is_running) {
+                    return;
+                }
+
+                target_index++;
+                if (target_index < router_ids.length) {
+                    select_target.options[target_index].selected = true;
+                    if (source_index === target_index) {
+                        // source and target are same, just skip and move to next
+                        move_next();
+                    } else {
+                        select_target.dispatchEvent(new Event('change'));
+                        setTimeout(move_next, 100);
+                    }
+                } else {
+                    source_index++;
+                    target_index = source_index;
+                    if (source_index < router_ids.length) {
+                        select_source.options[source_index].selected = true;
+                        select_source.dispatchEvent(new Event('change'));
+                        move_next();
+                    } else {
+                        // reach to end
+                        console.log("done");
+                        dijkstra_start_stop.checked = false;
+                        CyShortestPath.is_running = select_dijkstra_source.disabled = select_dijkstra_target.disabled = dijkstra_start_stop.checked;
+                    }
+                }
+            }
+            move_next();
+
+        }
+
 
     };
     //

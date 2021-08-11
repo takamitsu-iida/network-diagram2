@@ -8,6 +8,11 @@ body {
     font-size: 1.4em;
 }
 
+label,
+input[type="checkbox"] {
+    cursor: pointer;
+}
+
 .wrapper {
     display: grid;
     column-gap: 10px;
@@ -160,8 +165,13 @@ body {
     height: auto;
     padding: 10px;
     z-index: 20;
-    overflow-x: hidden;
     /* Disable horizontal scroll */
+    overflow-x: hidden;
+    /* disable select text */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 #cy2 {
@@ -210,7 +220,7 @@ body {
     white-space: nowrap;
 }
 
-.tip-div {
+.tip_div {
     display: block;
     background: #fff;
     padding: 1rem;
@@ -219,13 +229,13 @@ body {
     border: 1px solid #ccc;
 }
 
-.control-div {
+.control_div {
     display: block;
     padding: 5px;
     margin: 5px;
 }
 
-.control-div a {
+.control_div a {
     color: #000;
     font-size: 12px;
     padding: 5px;
@@ -235,16 +245,16 @@ body {
     text-decoration: none;
 }
 
-.control-div a:hover {
+.control_div a:hover {
     text-decoration: underline;
 }
 
-.control-div a.active {
+.control_div a.active {
     color: #fff;
     background: #808080;
 }
 
-.popper-div {
+.popper_div {
     /* just an example */
     background-color: #333;
     color: white;

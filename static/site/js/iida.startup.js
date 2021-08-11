@@ -16,17 +16,19 @@
 
     // see iida.appda.routers_xxx.js
     iida.appdata = iida.appdata || {
-        'DEFAULT_ROUTER_WIDTH': 200,
-        'DEFAULT_ROUTER_HEIGHT': 120,
-        'DEFAULT_PORT_WIDTH': 60,
-        'DEFAULT_PORT_HEIGHT': 20,
+        'DEFAULT_ROUTER_HEIGHT': 130,
+        'DEFAULT_ROUTER_WIDTH': 210,  // 130*1.61 golden ratio
+        'DEFAULT_PORT_HEIGHT': 25,
+        'DEFAULT_PORT_WIDTH': 60,  // 25*2.41 silver ratio
 
-        'routers': [],  // data of routers and ports
-        'edges': [],  // data of edges
-        'bundle_ethers': [],  // data of bundleEther
+        'routers': [], // data of routers and ports
+        'edges': [], // data of edges
+        'bundle_ethers': [], // data of bundleEther
 
-        'elements': {},  // cytoscape.js eles
-        'topology_elements': {},  // cytoscape.js eles
+        'elements': {}, // cytoscape.js eles
+        'topology_elements': {}, // cytoscape.js eles
+
+        'router_ids': [], // list of router id
     };
 
     // see iida.styles.js

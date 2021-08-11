@@ -6,7 +6,7 @@
         name: "grid",
 
         fit: true, // whether to fit the viewport to the graph
-        padding: 30, // padding used on fit
+        padding: 105, // padding used on fit, DEFAULT_ROUTER_WIDTH / 2
         boundingBox: undefined, // constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
         avoidOverlap: true, // prevents node overlap, may overflow boundingBox if not enough space
         avoidOverlapPadding: 50, // extra spacing around nodes when avoidOverlap: true

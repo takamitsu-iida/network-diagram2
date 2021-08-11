@@ -78,8 +78,10 @@
             // highlight dijkstra path
             'selector': "edge.highlighted",
             'style': {
-                'width': 4,
+                'width': 5,
                 'line-color': "#0000ff",  // blue
+                'target-arrow-color': "#0000ff",  // blue
+                'source-arrow-color': "#0000ff",  // blue
                 // 'background-color': "#a9a9a9",  // darkgray
                 // 'transition-property': "background-color, line-color",
                 // 'transition-duration': "0.5s"
@@ -207,7 +209,7 @@
                 'label': "data(label)",  // function(node) { return node.data('label') ? node.data('label') : ''; },
                 'width': "data(width)", // "function(node) { return node.data('width') ? node.data('width') : iida.appdata.DEFAULT_ROUTER_WIDTH; },
                 'height': "data(height)",  // function(node) { return node.data('height') ? node.data('height') : iida.appdata.DEFAULT_ROUTER_HEIGHT; },
-                'font-size': 10,
+                'font-size': 12,
                 'text-wrap': "wrap",
                 'text-valign': "center",
                 'text-halign': "center",
@@ -240,7 +242,7 @@
                 'label': "data(label)",  // function(node) { return node.data('label') ? node.data('label') : ''; },
                 'width': "data(width)",  // function(node) { return node.data('width') ? node.data('width') : iida.appdata.DEFAULT_PORT_WIDTH; },
                 'height': "data(height)",  // function(node) { return node.data('height') ? node.data('height') : iida.appdata.DEFAULT_PORT_HEIGHT; },
-                'font-size': 9,
+                'font-size': 10,
                 'text-wrap': "wrap",
                 'text-valign': "center",
                 'text-halign': "center",
@@ -304,7 +306,7 @@
                 'label': "data(label)",  // function(node) { return node.data('label') ? node.data('label') : ''; },
                 'width': "data(width)",  // function(node) { return node.data('width') ? node.data('width') : iida.appdata.DEFAULT_ROUTER_WIDTH; },
                 'height': "data(height)",  // function(node) { return node.data('height') ? node.data('height') : iida.appdata.DEFAULT_ROUTER_HEIGHT; },
-                'font-size': 14,
+                'font-size': 16,
                 'text-wrap': "wrap",
                 'text-valign': "center",
                 'text-halign': "center"
