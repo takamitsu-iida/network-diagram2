@@ -368,10 +368,12 @@
             var root_port_id = "_" + router_id;  // IMPORTANT: root_port_id is defined as "_" + router_id
             var n = create_node()
                 .id(root_port_id)
-                .node_type('root_port')  // root_port type is hidden port
+                .node_type('root_port')  // root_port is hidden port which designate the node
                 .router_id(router_id)
+                .align(['C', 'C'])
                 .width(10)
-                .height(10);
+                .height(10)
+                .offset(router_width, router_height, 10, 10);
             eles.nodes.push(n.toObject());
 
             // create port node
@@ -460,6 +462,7 @@
                 .target_router(target_router)
                 .target_port(target_port)
                 .label(label)
+                .popper(popper)
                 .classes(classes)
                 .weight(weight);
 

@@ -95,7 +95,7 @@
 
 
     col = 8;
-    row = 7;
+    row = 6;
     routers = [
         {
             'grid': { 'row': row, 'col': col },
@@ -137,7 +137,7 @@
 
 
     col = 8;
-    row = 8;
+    row = 7;
     routers = [
         {
             'grid': { 'row': row, 'col': col },

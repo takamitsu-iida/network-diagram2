@@ -45,7 +45,17 @@
             // selected node
             'selector': ".router:selected",
             'style': {
-                'background-color': "yellow"
+                'background-color': "#ffd700",  // gold
+            }
+        },
+
+        {
+            // selected edge
+            'selector': "edge:selected",
+            'style': {
+                'overlay-color': "black",
+                'overlay-padding': 8,
+                'overlay-opacity': "0.1"
             }
         },
 
@@ -67,18 +77,18 @@
 
         {
             // highlight dijkstra path
-            'selector': ".router.highlighted",
+            'selector': ".router.dijkstra_path",
             'style': {
                 'border-color': "#0000ff",  // blue
-                'border-width': 4
+                'border-width': 3,
             }
         },
 
         {
             // highlight dijkstra path
-            'selector': "edge.highlighted",
+            'selector': "edge.dijkstra_path",
             'style': {
-                'width': 5,
+                'width': 3,
                 'line-color': "#0000ff",  // blue
                 'target-arrow-color': "#0000ff",  // blue
                 'source-arrow-color': "#0000ff",  // blue
@@ -86,6 +96,30 @@
                 // 'transition-property': "background-color, line-color",
                 // 'transition-duration': "0.5s"
             }
+        },
+
+        {
+            // highlight dijkstra source node
+            'selector': ".router.dijkstra_source",
+            'style': {
+                'border-color': "#191970",  // midnightblue
+                'border-width': 8,
+            }
+        },
+
+        {
+            // highlight dijkstra target node
+            'selector': ".router.dijkstra_target",
+            'style': {
+                'border-color': "#191970",  // midnightblue
+                'border-width': 8,
+            }
+        },
+
+        {
+            // un-highlight not dijkstra path
+            selector: '.dijkstra_semitransp',
+            style:{ 'opacity': '0.5' }
         },
 
         {
@@ -206,9 +240,9 @@
                 'border-width': 1,
                 'shape': "rectangle",
                 'background-color': "#ffffff",
-                'label': "data(label)",  // function(node) { return node.data('label') ? node.data('label') : ''; },
-                'width': "data(width)", // "function(node) { return node.data('width') ? node.data('width') : iida.appdata.DEFAULT_ROUTER_WIDTH; },
-                'height': "data(height)",  // function(node) { return node.data('height') ? node.data('height') : iida.appdata.DEFAULT_ROUTER_HEIGHT; },
+                'label': "data(label)",
+                'width': "data(width)",
+                'height': "data(height)",
                 'font-size': 12,
                 'text-wrap': "wrap",
                 'text-valign': "center",
@@ -239,9 +273,9 @@
                 'border-width': 1,
                 'shape': "rectangle",
                 'background-color': "#87ceeb",  // skyblue
-                'label': "data(label)",  // function(node) { return node.data('label') ? node.data('label') : ''; },
-                'width': "data(width)",  // function(node) { return node.data('width') ? node.data('width') : iida.appdata.DEFAULT_PORT_WIDTH; },
-                'height': "data(height)",  // function(node) { return node.data('height') ? node.data('height') : iida.appdata.DEFAULT_PORT_HEIGHT; },
+                'label': "data(label)",
+                'width': "data(width)",
+                'height': "data(height)",
                 'font-size': 10,
                 'text-wrap': "wrap",
                 'text-valign': "center",
@@ -302,10 +336,10 @@
                 'border-color': "#000",
                 'border-width': 1,
                 'shape': "round-rectangle",
-                // 'label': function(node) { return node.data('id'); },
-                'label': "data(label)",  // function(node) { return node.data('label') ? node.data('label') : ''; },
-                'width': "data(width)",  // function(node) { return node.data('width') ? node.data('width') : iida.appdata.DEFAULT_ROUTER_WIDTH; },
-                'height': "data(height)",  // function(node) { return node.data('height') ? node.data('height') : iida.appdata.DEFAULT_ROUTER_HEIGHT; },
+                'label': "data(id)",
+                // 'label': "data(label)",  // function(node) { return node.data('label') ? node.data('label') : ''; },
+                'width': "data(width)",
+                'height': "data(height)",
                 'font-size': 16,
                 'text-wrap': "wrap",
                 'text-valign': "center",

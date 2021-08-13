@@ -50,7 +50,8 @@ input[type="checkbox"] {
     z-index: 10;
     top: 0;
     left: 0;
-    background-color: #b7ffff;
+    background-color: #f8f8ff;
+    /* ghostwhite */
     overflow-x: hidden;
     /* Disable horizontal scroll */
 }
@@ -159,7 +160,7 @@ input[type="checkbox"] {
 #on_cy {
     /* parent of this must be position:relative */
     position: absolute;
-    width: 200px;
+    width: 300px;
     top: 0;
     right: 0;
     height: auto;
@@ -224,7 +225,6 @@ input[type="checkbox"] {
     display: block;
     background: #fff;
     padding: 1rem;
-    pointer-events: none;
     text-align: left;
     border: 1px solid #ccc;
 }
