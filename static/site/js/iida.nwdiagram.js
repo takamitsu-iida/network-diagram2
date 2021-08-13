@@ -14,8 +14,9 @@
         if (cy_container) {
             var cy = window.cy = cytoscape({
                 container: cy_container,
-                minZoom: 0.1,
+                minZoom: 0.3,
                 maxZoom: 5,
+                wheelSensitivity: 0.4,
                 hideEdgesOnViewport: false,
                 textureOnViewport: false,
                 boxSelectionEnabled: true,
@@ -274,7 +275,7 @@
         }
 
 
-        // on click data_change link
+        // on click link to change eles
         ["idPhysical", "idTopology"].forEach(id => {
             var a = document.getElementById(id);
             if (!a) { return; }
@@ -349,12 +350,33 @@
                 div.appendChild(input);
                 div.appendChild(label);
                 tip_div.append(div);
+
+                // create button "Set as source"
+                input = create_tag("input", {'type': "button", 'value': "Set as source", 'style': "width: 50%;"}, []);
+                input.addEventListener("click", function(evt) {
+                    evt.stopPropagation();
+                    evt.preventDefault();
+                    select_dijkstra_source.value = node.id();
+                    CyShortestPath.restart(cy);
+                });
+                var p = create_tag("p", {}, [input]);
+                tip_div.append(p);
+
+                // create button "Set as target"
+                input = create_tag("input", {'type': "button", 'value': "Set as target", 'style': "width: 50%;"}, []);
+                input.addEventListener("click", function(evt) {
+                    evt.stopPropagation();
+                    evt.preventDefault();
+                    select_dijkstra_target.value = node.id();
+                    CyShortestPath.restart(cy);
+                });
+                p = create_tag("p", {}, [input]);
+                tip_div.append(p);
             }
 
             // create table
             var table = document.createElement("table");
-
-            var tr, tr_title, td_value;
+            var tr, td_title, td_value;
 
             tr = table.insertRow();
             td_title = tr.insertCell();
@@ -473,19 +495,22 @@
         var bundleEtherDiv = document.getElementById("idBundleEther");
         if (bundleEtherDiv) {
             iida.appdata.bundle_ethers.forEach(bundle_ether => {
-                var input = document.createElement("input");
-                input.setAttribute('type', "checkbox");
-                input.setAttribute('id', bundle_ether.id);
-                input.setAttribute('value', bundle_ether.id);
-                input.setAttribute('name', bundle_ether.id);
+                var input = create_tag("input",
+                    {
+                        'type': "checkbox",
+                        'id': bundle_ether.id,
+                        'value': bundle_ether.id,
+                        'name': bundle_ether.id
+                    },
+                    []
+                );
 
                 var label = document.createElement("label");
                 label.htmlFor = bundle_ether.id;
                 label.appendChild(document.createTextNode(bundle_ether.id));
 
-                var div = document.createElement("div");
-                div.appendChild(input);
-                div.appendChild(label);
+                var div = create_tag("div", {}, [input, label]);
+
                 bundleEtherDiv.appendChild(div);
 
                 input.addEventListener("change", function (evt) {
@@ -542,9 +567,9 @@
             if (!roots || roots.length === 0) {
                 cy.nodes().show();
 
-                // show() hide() does not effect class, change dom style visibility directly
+                // cy.nodes().show() does not affect classes, change dom style visibility directly
                 cy.elements().forEach(element => {
-                    if (element.popper_div && element.popper_div.style.visibility !== "") {
+                    if (element.popper_div) {
                         element.popper_div.style.visibility = "";
                     }
                 });
@@ -552,6 +577,7 @@
                 return;
             }
 
+            // in case of topology data, just show neighborhood()
             if (nwdiagram_state.data_name === "topology") {
                 cy.batch(function () {
                     cy.nodes().hide();
@@ -561,6 +587,7 @@
                 return;
             }
 
+            // in case of physical data, create subgraph and show it
             var eles = [];
             roots.forEach(root => {
                 eles.push(root);
@@ -594,19 +621,25 @@
                     }
                 });
             });
-
             var subgraph = cy.collection(eles);
 
             cy.batch(function () {
+                // hide all nodes
                 cy.nodes().hide();
+
+                // hide all poppers
                 cy.elements().forEach(element => {
-                    if (element.popper_div && element.popper_div.style.visibility !== "hidden") {
+                    if (element.popper_div) {
                         element.popper_div.style.visibility = "hidden";
                     }
                 });
+
+                // show subgraph
                 subgraph.show();
+
+                // show poppers
                 cy.elements(subgraph).forEach(element => {
-                    if (element.popper_div && element.popper_div.style.visibility !== "") {
+                    if (element.popper_div) {
                         element.popper_div.style.visibility = "";
                     }
                 });

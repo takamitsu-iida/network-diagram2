@@ -65,10 +65,14 @@
     <div class="wrapper">
 
         <div class="header_panel">
-            <div class="control_div">
+            <span> [Data] </span>
+            <span class="control_span">
                 <a id="idPhysical" name="data_change" class="active">physical diagram</a>
                 <a id="idTopology" name="data_change">topology diagram</a>
-            </div>
+            </span>
+            <span style="float: right;">
+                <a href="https://github.com/takamitsu-iida/network-diagram2" target="_blank" rel="noopener noreferrer">github</a>
+            </span>
         </div>
 
         <div id="idLeftPanel" class="left_panel">
@@ -79,8 +83,10 @@
                 <h3>BundleEther</h3>
                 <div id="idBundleEther"></div>
 
+                <!--
                 <h3>debug</h3>
                 <input id="idDebugButton" type="button" value="Debug" style="width: 100%;"></td>
+                -->
 
             </div>
 
@@ -119,12 +125,12 @@
                     </tr>
 
                     <tr>
-                        <td style="background-color: #191970; color: white;"><span> Source </span></td>
+                        <td style="background-color: #800080; color: white;"><span> Source </span></td>
                         <td><span title="Select source node"><select id="idDijkstraSource"></select></span></td>
                     </tr>
 
                     <tr>
-                        <td style="background-color: #191970; color: white;"><span> Target </span></td>
+                        <td style="background-color: #800080; color: white;"><span> Target </span></td>
                         <td><span title="Select target node"><select id="idDijkstraTarget"></select></span></td>
                     </tr>
 
@@ -182,22 +188,22 @@
                     <tr>
                         <td><span title="Show redundant system"> Redundant </span></td>
                         <td>
-                            <div class="control_div">
+                            <span class="control_span">
                                 <a id="idRedundant12" name="redundant_filter" class="active">#1-#2</a>
                                 <a id="idRedundant1" name="redundant_filter">#1</a>
                                 <a id="idRedundant2" name="redundant_filter">#2</a>
-                            </div>
+                            </span>
                         </td>
                     </tr>
 
                     <tr>
                         <td><span title="Revert to initial position"> Initial Position </span></td>
-                        <td><input id="idInitialPosition" type="button" value="Revert" style="width: 100%;"></td>
+                        <td><input id="idInitialPosition" type="button" value="Revert" style="width: 90%;"></td>
                     </tr>
 
                     <tr>
                         <td><span title="show connected nodes"> Connected nodes </span></td>
-                        <td><input id="idConnected" type="button" value="Connected" style="width: 100%;"></td>
+                        <td><input id="idConnected" type="button" value="Connected" style="width: 90%;"></td>
                     </tr>
                 </table>
             </div>

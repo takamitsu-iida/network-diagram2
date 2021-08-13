@@ -102,7 +102,7 @@
             // highlight dijkstra source node
             'selector': ".router.dijkstra_source",
             'style': {
-                'border-color': "#191970",  // midnightblue
+                'border-color': "#800080",  // purple
                 'border-width': 8,
             }
         },
@@ -111,7 +111,7 @@
             // highlight dijkstra target node
             'selector': ".router.dijkstra_target",
             'style': {
-                'border-color': "#191970",  // midnightblue
+                'border-color': "#800080",  // purple
                 'border-width': 8,
             }
         },
