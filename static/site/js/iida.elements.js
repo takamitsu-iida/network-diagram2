@@ -538,7 +538,7 @@
       var classes = edge.classes || [];
 
       var e = createEdge()
-        .edgeType('PortToPort') // PortToPort type is default edge type
+        .edgeType('PortToPort') // PortToPort is the default edge type
         .id(edge_id)
         .source(source)
         .sourceRouter(sourceRouter)
