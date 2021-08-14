@@ -16,7 +16,7 @@
             'id': "C棟コアルータ#1",
             'label': "C棟コアルータ#1\nNCS-55A1-36H-B\ntac-his-cr103\nloopback:172.16.11.3\nMgmt 10.100.1.244",
             'popper': "SID:20103",
-            'drag_with': ["C棟コアルータ#2", "B棟コアルータ#1", "B棟コアルータ#2"],
+            'dragWith': ["C棟コアルータ#2", "B棟コアルータ#1", "B棟コアルータ#2"],
             'classes': ['P'],
             'redundant': 1,
             'ports': [
@@ -59,7 +59,7 @@
             'id': "C棟コアルータ#2",
             'label': "C棟コアルータ#2\nNCS-55A1-36H-B\ntac-his-cr104\nloopback:172.16.11.4\nMgmt 10.100.1.243",
             'popper': "SID:20104",
-            'drag_with': ["C棟コアルータ#1", "B棟コアルータ#1", "B棟コアルータ#2"],
+            'dragWith': ["C棟コアルータ#1", "B棟コアルータ#1", "B棟コアルータ#2"],
             'classes': ['P'],
             'redundant': 2,
             'ports': [
@@ -102,7 +102,7 @@
             'id': "B棟コアルータ#1",
             'label': "B棟コアルータ#1\nNCS-55A1-36H-B\ntab-his-cr201\nloopback:172.16.11.1\nMgmt 10.100.1.246",
             'popper': "SID:20101",
-            'drag_with': ["C棟コアルータ#1", "C棟コアルータ#2", "B棟コアルータ#2"],
+            'dragWith': ["C棟コアルータ#1", "C棟コアルータ#2", "B棟コアルータ#2"],
             'classes': ['P'],
             'redundant': 1,
             'ports': [
@@ -145,7 +145,7 @@
             'id': "B棟コアルータ#2",
             'label': "B棟コアルータ#2\nNCS-55A1-36H-B\ntab-his-cr202\nloopback:172.16.11.2\nMgmt 10.100.1.245",
             'popper': "SID:20102",
-            'drag_with': ["C棟コアルータ#1", "C棟コアルータ#2", "B棟コアルータ#1"],
+            'dragWith': ["C棟コアルータ#1", "C棟コアルータ#2", "B棟コアルータ#1"],
             'classes': ['P'],
             'redundant': 2,
             'ports': [
@@ -182,41 +182,41 @@
 
     edges = [
         {
-            'source_router': "C棟コアルータ#1",
-            'source_port': "Hu0/0/0/22",
-            'target_router': "C棟コアルータ#2",
-            'target_port': "Hu0/0/0/22",
+            'sourceRouter': "C棟コアルータ#1",
+            'sourcePort': "Hu0/0/0/22",
+            'targetRouter': "C棟コアルータ#2",
+            'targetPort': "Hu0/0/0/22",
             'label': "192.168.19.36/30",
             'weight': 1
         },
 
         {
-            'source_router': "B棟コアルータ#1",
-            'source_port': "Hu0/0/0/22",
-            'target_router': "B棟コアルータ#2",
-            'target_port': "Hu0/0/0/22",
+            'sourceRouter': "B棟コアルータ#1",
+            'sourcePort': "Hu0/0/0/22",
+            'targetRouter': "B棟コアルータ#2",
+            'targetPort': "Hu0/0/0/22",
             'label': "192.168.19.32/30",
             'weight': 1
         },
 
         {
-            'source_router': "C棟コアルータ#1",
-            'source_port': "Hu0/0/0/27",
-            'target_router': "B棟コアルータ#1",
-            'target_port': "Hu0/0/0/27",
+            'sourceRouter': "C棟コアルータ#1",
+            'sourcePort': "Hu0/0/0/27",
+            'targetRouter': "B棟コアルータ#1",
+            'targetPort': "Hu0/0/0/27",
             'label': "192.168.19.40/30",
             'weight': 1,
-            'classes': ["segments_right"]
+            'classes': ["segmentsRight"]
         },
 
         {
-            'source_router': "C棟コアルータ#2",
-            'source_port': "Hu0/0/0/27",
-            'target_router': "B棟コアルータ#2",
-            'target_port': "Hu0/0/0/27",
+            'sourceRouter': "C棟コアルータ#2",
+            'sourcePort': "Hu0/0/0/27",
+            'targetRouter': "B棟コアルータ#2",
+            'targetPort': "Hu0/0/0/27",
             'label': "192.168.19.44/30",
             'weight': 5,
-            'classes': ["segments_right2"]
+            'classes': ["segmentsRight2"]
         }
     ];
     Array.prototype.push.apply(iida.appdata.edges, edges);

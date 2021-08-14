@@ -65,10 +65,15 @@
     <div class="wrapper">
 
         <div class="header_panel">
-            <span> [Data] </span>
             <span class="control_span">
-                <a id="idPhysical" name="data_change" class="active">physical diagram</a>
-                <a id="idTopology" name="data_change">topology diagram</a>
+                [DATA]
+                <a id="idPhysical" name="dataChange" class="active">physical diagram</a>
+                <a id="idTopology" name="dataChange">topology diagram</a>
+                &nbsp;&nbsp;
+                [Redundant]
+                <a id="idRedundant12" name="redundantFilter" class="active">#1-#2</a>
+                <a id="idRedundant1" name="redundantFilter">#1</a>
+                <a id="idRedundant2" name="redundantFilter">#2</a>
             </span>
             <span style="float: right;">
                 <a href="https://github.com/takamitsu-iida/network-diagram2" target="_blank" rel="noopener noreferrer">github</a>
@@ -106,17 +111,17 @@
 
                     <tr>
                         <td><span> cost #1-#1 </span></td>
-                        <td><span title="edge cost between #1 and #1"><input type="range" min="1" max="10" step="1" value="1" id="cost_1_1"></span><span id="cost_1_1_value">1</span></td>
+                        <td><span title="edge cost between #1 and #1"><input type="range" min="1" max="10" step="1" value="1" id="cost1_1"></span><span id="cost1_1Value">1</span></td>
                     </tr>
 
                     <tr>
                         <td><span> cost #1-#2 </span></td>
-                        <td><span title="edge cost between #1 and #2"><input type="range" min="1" max="10" step="1" value="1" id="cost_1_2"></span><span id="cost_1_2_value">1</span></td>
+                        <td><span title="edge cost between #1 and #2"><input type="range" min="1" max="10" step="1" value="1" id="cost1_2"></span><span id="cost1_2Value">1</span></td>
                     </tr>
 
                     <tr>
                         <td><span> cost #2-#2 </span></td>
-                        <td><span title="edge cost between #2 and #2"><input type="range" min="1" max="10" step="1" value="5" id="cost_2_2"></span><span id="cost_2_2_value">5</span></td>
+                        <td><span title="edge cost between #2 and #2"><input type="range" min="1" max="10" step="1" value="5" id="cost2_2"></span><span id="cost2_2Value">5</span></td>
                     </tr>
 
                     <tr>
@@ -185,17 +190,6 @@
             <div id="cy"></div>
             <div id="on_cy">
                 <table style="width: 100%;">
-                    <tr>
-                        <td><span title="Show redundant system"> Redundant </span></td>
-                        <td>
-                            <span class="control_span">
-                                <a id="idRedundant12" name="redundant_filter" class="active">#1-#2</a>
-                                <a id="idRedundant1" name="redundant_filter">#1</a>
-                                <a id="idRedundant2" name="redundant_filter">#2</a>
-                            </span>
-                        </td>
-                    </tr>
-
                     <tr>
                         <td><span title="Revert to initial position"> Initial Position </span></td>
                         <td><input id="idInitialPosition" type="button" value="Revert" style="width: 90%;"></td>

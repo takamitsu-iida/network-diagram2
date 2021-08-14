@@ -26,8 +26,8 @@
         animateFilter: function (node, i) { return true; }, // a function that determines whether the node should be animated.  All nodes animated by default on animate enabled.  Non-animated nodes are positioned immediately when the layout starts
         stop: function (evt) {
             // save initial position
-            evt.cy.nodes('.router').forEach(node => {
-                node.data('initial_position', Object.assign({}, node.position()) );
+            evt.cy.nodes(".router").forEach(node => {
+                node.data("initialPosition", Object.assign({}, node.position()));
             });
         }
     }

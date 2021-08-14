@@ -17,7 +17,7 @@
             'label': "C棟ユーザ収容ルータ#1\nNCS5501\ntac-his-ur527\nloopback:172.16.14.27\nMgmt 10.100.1.86",
             'popper': "SID:20427",
             'classes': ['PE'],
-            'drag_with': "C棟ユーザ収容ルータ#2",
+            'dragWith': "C棟ユーザ収容ルータ#2",
             'redundant': 1,
             'ports': [
                 {
@@ -60,7 +60,7 @@
             'label': "C棟ユーザ収容ルータ#2\nNCS5501\ntac-his-ur528\nloopback:172.16.14.28\nMgmt 10.100.1.92",
             'popper': "SID:20428",
             'classes': ['PE'],
-            'drag_with': "C棟ユーザ収容ルータ#1",
+            'dragWith': "C棟ユーザ収容ルータ#1",
             'redundant': 2,
             'ports': [
                 {
@@ -102,7 +102,7 @@
             'label': "C棟ユーザ収容ルータ#3\nNCS5501\ntac-his-ur529\nloopback:172.16.14.29\nMgmt 10.100.1.98\n",
             'popper': "SID:20429",
             'classes': ['PE'],
-            'drag_with': "C棟ユーザ収容ルータ#4",
+            'dragWith': "C棟ユーザ収容ルータ#4",
             'redundant': 1,
             'ports': [
                 {
@@ -135,7 +135,7 @@
             'label': "C棟ユーザ収容ルータ#4\nNCS5501\ntac-his-ur530\nloobback:172.16.14.30\nMgmt 10.100.1.104",
             'popper': "SID:20430",
             'classes': ['PE'],
-            'drag_with': "C棟ユーザ収容ルータ#3",
+            'dragWith': "C棟ユーザ収容ルータ#3",
             'redundant': 2,
             'ports': [
                 {
@@ -168,7 +168,7 @@
             'label': "B棟ユーザ収容ルータ#1\nNCS5501\ntab-his-ur517\nloopback:172.16.14.17\nMgmt 10.100.1.44",
             'popper': "SID:20417",
             'classes': ['PE'],
-            'drag_with': "B棟ユーザ収容ルータ#2",
+            'dragWith': "B棟ユーザ収容ルータ#2",
             'redundant': 1,
             'ports': [
                 {
@@ -201,7 +201,7 @@
             'label': "B棟ユーザ収容ルータ#2\nNCS5501\ntab-his-ur518\nloopback:172.16.14.18\nMgmt 10.100.1.45",
             'popper': "SID:20418",
             'classes': ['PE'],
-            'drag_with': "B棟ユーザ収容ルータ#1",
+            'dragWith': "B棟ユーザ収容ルータ#1",
             'redundant': 2,
             'ports': [
                 {
@@ -234,7 +234,7 @@
             'label': "B棟ユーザ収容ルータ#3\nNCS5501\ntab-his-ur519\nloopback:172.16.14.19\nMgmt 10.100.1.50",
             'popper': "SID:20419",
             'classes': ['PE'],
-            'drag_with': "B棟ユーザ収容ルータ#4",
+            'dragWith': "B棟ユーザ収容ルータ#4",
             'redundant': 1,
             'ports': [
                 {
@@ -267,7 +267,7 @@
             'label': "B棟ユーザ収容ルータ#4\nNCS5501\ntab-his-ur520\nloopback:172.16.14.20\nMgmt 10.100.1.51\n",
             'popper': "SID:20420",
             'classes': ['PE'],
-            'drag_with': "B棟ユーザ収容ルータ#3",
+            'dragWith': "B棟ユーザ収容ルータ#3",
             'redundant': 2,
             'ports': [
                 {
@@ -293,129 +293,129 @@
 
     edges = [
         {
-            'source_router': "C棟ユーザ収容ルータ#1",
-            'source_port': "Hu0/0/1/5",
-            'target_router': "C棟ユーザ収容ルータ#1",
-            'target_port': "Hu0/0/1/4",
+            'sourceRouter': "C棟ユーザ収容ルータ#1",
+            'sourcePort': "Hu0/0/1/5",
+            'targetRouter': "C棟ユーザ収容ルータ#1",
+            'targetPort': "Hu0/0/1/4",
             'label': ".253",
             'weight': 1,
-            'classes': ["segments_left"]
+            'classes': ["segmentsLeft"]
         },
 
         {
-            'source_router': "C棟コアルータ#1",
-            'source_port': "Hu0/0/0/0",
-            'target_router': "C棟ユーザ収容ルータ#1",
-            'target_port': "Hu0/0/1/0",
+            'sourceRouter': "C棟コアルータ#1",
+            'sourcePort': "Hu0/0/0/0",
+            'targetRouter': "C棟ユーザ収容ルータ#1",
+            'targetPort': "Hu0/0/1/0",
             'label': "192.168.10.88/30",
             'weight': 1
         },
 
         {
-            'source_router': "C棟ユーザ収容ルータ#2",
-            'source_port': "Hu0/0/1/5",
-            'target_router': "C棟ユーザ収容ルータ#2",
-            'target_port': "Hu0/0/1/4",
+            'sourceRouter': "C棟ユーザ収容ルータ#2",
+            'sourcePort': "Hu0/0/1/5",
+            'targetRouter': "C棟ユーザ収容ルータ#2",
+            'targetPort': "Hu0/0/1/4",
             'label': ".254",
             'weight': 1,
-            'classes': ["segments_right"]
+            'classes': ["segmentsRight"]
         },
 
         {
-            'source_router': "C棟ユーザ収容ルータ#1",
-            'source_port': "Hu0/0/1/2",
-            'target_router': "C棟ユーザ収容ルータ#2",
-            'target_port': "Hu0/0/1/2",
+            'sourceRouter': "C棟ユーザ収容ルータ#1",
+            'sourcePort': "Hu0/0/1/2",
+            'targetRouter': "C棟ユーザ収容ルータ#2",
+            'targetPort': "Hu0/0/1/2",
             'label': "192.168.14.44/30",
             'weight': 1
         },
 
         {
-            'source_router': "C棟コアルータ#2",
-            'source_port': "Hu0/0/0/0",
-            'target_router': "C棟ユーザ収容ルータ#2",
-            'target_port': "Hu0/0/1/0",
+            'sourceRouter': "C棟コアルータ#2",
+            'sourcePort': "Hu0/0/0/0",
+            'targetRouter': "C棟ユーザ収容ルータ#2",
+            'targetPort': "Hu0/0/1/0",
             'label': "192.168.10.92/30",
             'weight': 5
         },
 
         {
-            'source_router': "C棟ユーザ収容ルータ#3",
-            'source_port': "Hu0/0/1/0",
-            'target_router': "C棟コアルータ#1",
-            'target_port': "Hu0/0/0/1",
+            'sourceRouter': "C棟ユーザ収容ルータ#3",
+            'sourcePort': "Hu0/0/1/0",
+            'targetRouter': "C棟コアルータ#1",
+            'targetPort': "Hu0/0/0/1",
             'label': "192.168.10.96/30",
             'weight': 1
         },
 
         {
-            'source_router': "C棟ユーザ収容ルータ#3",
-            'source_port': "Hu0/0/1/2",
-            'target_router': "C棟ユーザ収容ルータ#4",
-            'target_port': "Hu0/0/1/2",
+            'sourceRouter': "C棟ユーザ収容ルータ#3",
+            'sourcePort': "Hu0/0/1/2",
+            'targetRouter': "C棟ユーザ収容ルータ#4",
+            'targetPort': "Hu0/0/1/2",
             'label': "192.168.14.48/30",
             'weight': 1
         },
 
         {
-            'source_router': "C棟ユーザ収容ルータ#4",
-            'source_port': "Hu0/0/1/0",
-            'target_router': "C棟コアルータ#2",
-            'target_port': "Hu0/0/0/1",
+            'sourceRouter': "C棟ユーザ収容ルータ#4",
+            'sourcePort': "Hu0/0/1/0",
+            'targetRouter': "C棟コアルータ#2",
+            'targetPort': "Hu0/0/0/1",
             'label': "192.168.10.100/30",
             'weight': 1
         },
 
         {
-            'source_router': "B棟ユーザ収容ルータ#1",
-            'source_port': "Hu0/0/1/0",
-            'target_router': "B棟コアルータ#1",
-            'target_port': "Hu0/0/0/0",
+            'sourceRouter': "B棟ユーザ収容ルータ#1",
+            'sourcePort': "Hu0/0/1/0",
+            'targetRouter': "B棟コアルータ#1",
+            'targetPort': "Hu0/0/0/0",
             'label': "192.168.10.0/30",
             'weight': 1
         },
 
         {
-            'source_router': "B棟ユーザ収容ルータ#1",
-            'source_port': "Hu0/0/1/2",
-            'target_router': "B棟ユーザ収容ルータ#2",
-            'target_port': "Hu0/0/1/2",
+            'sourceRouter': "B棟ユーザ収容ルータ#1",
+            'sourcePort': "Hu0/0/1/2",
+            'targetRouter': "B棟ユーザ収容ルータ#2",
+            'targetPort': "Hu0/0/1/2",
             'label': "192.168.14.0/30",
             'weight': 1
         },
 
         {
-            'source_router': "B棟ユーザ収容ルータ#2",
-            'source_port': "Hu0/0/1/0",
-            'target_router': "B棟コアルータ#2",
-            'target_port': "Hu0/0/0/0",
+            'sourceRouter': "B棟ユーザ収容ルータ#2",
+            'sourcePort': "Hu0/0/1/0",
+            'targetRouter': "B棟コアルータ#2",
+            'targetPort': "Hu0/0/0/0",
             'label': "192.168.10.4/30",
             'weight': 5
         },
 
         {
-            'source_router': "B棟ユーザ収容ルータ#3",
-            'source_port': "Hu0/0/1/0",
-            'target_router': "B棟コアルータ#1",
-            'target_port': "Hu0/0/0/1",
+            'sourceRouter': "B棟ユーザ収容ルータ#3",
+            'sourcePort': "Hu0/0/1/0",
+            'targetRouter': "B棟コアルータ#1",
+            'targetPort': "Hu0/0/0/1",
             'label': "192.168.10.8/30",
             'weight': 1
         },
 
         {
-            'source_router': "B棟ユーザ収容ルータ#3",
-            'source_port': "Hu0/0/1/2",
-            'target_router': "B棟ユーザ収容ルータ#4",
-            'target_port': "Hu0/0/1/2",
+            'sourceRouter': "B棟ユーザ収容ルータ#3",
+            'sourcePort': "Hu0/0/1/2",
+            'targetRouter': "B棟ユーザ収容ルータ#4",
+            'targetPort': "Hu0/0/1/2",
             'label': "192.168.14.4/30",
             'weight': 1
         },
 
         {
-            'source_router': "B棟ユーザ収容ルータ#4",
-            'source_port': "Hu0/0/1/0",
-            'target_router': "B棟コアルータ#2",
-            'target_port': "Hu0/0/0/1",
+            'sourceRouter': "B棟ユーザ収容ルータ#4",
+            'sourcePort': "Hu0/0/1/0",
+            'targetRouter': "B棟コアルータ#2",
+            'targetPort': "Hu0/0/0/1",
             'label': "192.168.10.12/30",
             'weight': 1
         }

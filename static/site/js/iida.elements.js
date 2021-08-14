@@ -7,7 +7,7 @@
     DEFAULT_PORT_WIDTH = iida.appdata.DEFAULT_PORT_WIDTH;  // 60
     DEFAULT_PORT_HEIGHT = iida.appdata.DEFAULT_PORT_HEIGHT;  // 20
 
-    var create_node = function () {
+    var createNode = function () {
 
         // for router node
         var _id;
@@ -15,19 +15,19 @@
         var _popper = "";
         var _grid = { 'row': 1, 'col': 1 };
         var _classes = [];
-        var _node_type = "router";  // "router" or "port" or "root_port"
+        var _nodeType = "router";  // "router" or "port" or "rootPort"
         var _width = DEFAULT_ROUTER_WIDTH;
         var _height = DEFAULT_ROUTER_HEIGHT;
-        var _drag_with = [];
+        var _dragWith = [];
         var _redundant = 1;
         var _grabbable = true;  // only router is grabbable
         var _ports = [];
 
         // for port node
-        var _router_id = undefined;
+        var _routerId = undefined;
         var _align = ['C', 'C'];  // Center, Center
-        var _offset_x = 0;  // Center of the router
-        var _offset_y = 0;  // Center of the router
+        var _offsetX = 0;  // Center of the router
+        var _offsetY = 0;  // Center of the router
 
         function exports() {
             return this;
@@ -38,22 +38,22 @@
 
             // for router and port common parameters
             data['id'] = _id;
-            data['node_type'] = _node_type;
+            data['nodeType'] = _nodeType;
             data['label'] = _label;
             data['popper'] = _popper;
             data['width'] = _width;
             data['height'] = _height;
-            data['drag_with'] = _drag_with;
+            data['dragWith'] = _dragWith;
             data['redundant'] = _redundant;
             data['grid'] = _grid;
             data['ports'] = _ports;
 
             // for port only parameters
-            if (_router_id) {
-                data['router_id'] = _router_id;
+            if (_routerId) {
+                data['routerId'] = _routerId;
                 data['align'] = _align;
-                data['offset_x'] = _offset_x;
-                data['offset_y'] = _offset_y;
+                data['offsetX'] = _offsetX;
+                data['offsetY'] = _offsetY;
                 _grabbable = false;
             }
 
@@ -70,11 +70,11 @@
             return this;
         };
 
-        exports.node_type = function (_) {
-            if (!arguments.length) { return _node_type; }
+        exports.nodeType = function (_) {
+            if (!arguments.length) { return _nodeType; }
             if (_) {
-                _node_type = _;
-                _classes = [_node_type];
+                _nodeType = _;
+                _classes = [_nodeType];
             }
             return this;
         };
@@ -127,13 +127,13 @@
             return this;
         };
 
-        exports.drag_with = function (_) {
-            if (!arguments.length) { return _drag_with; }
+        exports.dragWith = function (_) {
+            if (!arguments.length) { return _dragWith; }
             if (_) {
                 if (typeof (_) === "string") {
-                    _drag_with = [_];
+                    _dragWith = [_];
                 } else {
-                    _drag_with = _;
+                    _dragWith = _;
                 }
             }
             return this;
@@ -146,9 +146,9 @@
         };
 
         // for port node
-        exports.router_id = function (_) {
-            if (!arguments.length) { return _router_id; }
-            if (_) { _router_id = _; }
+        exports.routerId = function (_) {
+            if (!arguments.length) { return _routerId; }
+            if (_) { _routerId = _; }
             return this;
         };
 
@@ -167,28 +167,28 @@
 
             switch (_align[0]) {
                 case 'L':  // Left
-                    _offset_x = -1 * (rw - pw);
+                    _offsetX = -1 * (rw - pw);
                     break;
                 case 'C':  // Center
-                    _offset_x = 0;
+                    _offsetX = 0;
                     break;
                 case 'R':  // Right
-                    _offset_x = rw - pw;
+                    _offsetX = rw - pw;
                     break;
             }
 
             switch (_align[1]) {
                 case 'T':  // Top
-                    _offset_y = -1 * (rh - ph);
+                    _offsetY = -1 * (rh - ph);
                     break;
                 case 'T2':  // 2nd Top
-                    _offset_y = -1 * (rh - ph) + port_height;
+                    _offsetY = -1 * (rh - ph) + port_height;
                     break;
                 case 'C':  // Center
-                    _offset_y = 0;
+                    _offsetY = 0;
                     break;
                 case 'B':  // Bottom
-                    _offset_y = rh - ph;
+                    _offsetY = rh - ph;
                     break;
             }
 
@@ -196,7 +196,7 @@
         };
 
         exports.fit = function (router_position) {
-            _position = { x: router_position.x + _offset_x, y: router_position.y + _offset_y }
+            _position = { x: router_position.x + _offsetX, y: router_position.y + _offsetY }
             return this;
         };
 
@@ -204,19 +204,19 @@
     };
 
 
-    var create_edge = function () {
+    var createEdge = function () {
         var _id;
-        var _edge_type = "port_port";  // "port_port" or "router_port"
+        var _edgeType = "PortToPort";  // "PortToPort" or "RouterToPort"
+        var _classes = ["PortToPort"];  // default is same as edgeType
         var _label = "";
         var _popper = "";
         var _source;
-        var _source_router;
-        var _source_port;
+        var _sourceRouter;
+        var _sourcePort;
         var _target;
-        var _target_router;
-        var _target_port;
+        var _targetRouter;
+        var _targetPort;
         var _weight = 1;
-        var _classes = [];
 
         function exports() {
             return this;
@@ -225,13 +225,13 @@
         exports.toObject = function () {
             var data = {
                 'id': _id,
-                'edge_type': _edge_type,
+                'edgeType': _edgeType,
                 'source': _source,
-                'source_router': _source_router,
-                'source_port': _source_port,
+                'sourceRouter': _sourceRouter,
+                'sourcePort': _sourcePort,
                 'target': _target,
-                'target_router': _target_router,
-                'target_port': _target_port,
+                'targetRouter': _targetRouter,
+                'targetPort': _targetPort,
                 'label': _label,
                 'popper': _popper,
                 'weight': _weight
@@ -248,11 +248,11 @@
             return this;
         };
 
-        exports.edge_type = function (_) {
-            if (!arguments.length) { return _edge_type; }
+        exports.edgeType = function (_) {
+            if (!arguments.length) { return _edgeType; }
             if (_) {
-                _edge_type = _;
-                _classes = [_edge_type];
+                _edgeType = _;
+                _classes = [_edgeType];
             }
             return this;
         };
@@ -263,15 +263,15 @@
             return this;
         };
 
-        exports.source_router = function (_) {
-            if (!arguments.length) { return _source_router; }
-            if (_) { _source_router = _; }
+        exports.sourceRouter = function (_) {
+            if (!arguments.length) { return _sourceRouter; }
+            if (_) { _sourceRouter = _; }
             return this;
         };
 
-        exports.source_port = function (_) {
-            if (!arguments.length) { return _source_port; }
-            if (_) { _source_port = _; }
+        exports.sourcePort = function (_) {
+            if (!arguments.length) { return _sourcePort; }
+            if (_) { _sourcePort = _; }
             return this;
         };
 
@@ -281,15 +281,15 @@
             return this;
         };
 
-        exports.target_router = function (_) {
-            if (!arguments.length) { return _target_router; }
-            if (_) { _target_router = _; }
+        exports.targetRouter = function (_) {
+            if (!arguments.length) { return _targetRouter; }
+            if (_) { _targetRouter = _; }
             return this;
         };
 
-        exports.target_port = function (_) {
-            if (!arguments.length) { return _target_port; }
-            if (_) { _target_port = _; }
+        exports.targetPort = function (_) {
+            if (!arguments.length) { return _targetPort; }
+            if (_) { _targetPort = _; }
             return this;
         };
 
@@ -329,7 +329,7 @@
     //
     // create cytoscape.js elements from iida.appdata.routers and iida.appdata.edges
     //
-    var create_elements = function (routers, edges) {
+    var createElements = function (routers, edges) {
         var eles = {
             'nodes': [],
             'edges': []
@@ -339,19 +339,19 @@
         routers.forEach(router => {
 
             var grid = router.grid || {};
-            var router_id = router.id;
+            var routerId = router.id;
             var label = router.label || "";
             var popper = router.popper || "";
             var router_width = router.width || DEFAULT_ROUTER_WIDTH;
             var router_height = router.height || DEFAULT_ROUTER_HEIGHT;
             var classes = router.classes || [];
-            var drag_with = router.drag_with || [];
+            var dragWith = router.dragWith || [];
             var redundant = router.redundant || 1;
             var ports = router.ports || [];
 
-            var n = create_node()
-                .id(router_id)
-                .node_type('router')
+            var n = createNode()
+                .id(routerId)
+                .nodeType('router')
                 .grid(grid)
                 .label(label)
                 .popper(popper)
@@ -359,17 +359,17 @@
                 .width(router_width)
                 .height(router_height)
                 .classes(classes)
-                .drag_with(drag_with)
+                .dragWith(dragWith)
                 .redundant(redundant);
 
             eles.nodes.push(n.toObject());
 
-            // create hidden root_port node
-            var root_port_id = "_" + router_id;  // IMPORTANT: root_port_id is defined as "_" + router_id
-            var n = create_node()
-                .id(root_port_id)
-                .node_type('root_port')  // root_port is hidden port which designate the node
-                .router_id(router_id)
+            // create hidden rootPort node
+            var rootPortId = "_" + routerId;  // IMPORTANT: rootPortId is defined as "_" + routerId
+            var n = createNode()
+                .id(rootPortId)
+                .nodeType("rootPort")  // rootPort is hidden port which designate the node
+                .routerId(routerId)
                 .align(['C', 'C'])
                 .width(10)
                 .height(10)
@@ -379,17 +379,17 @@
             // create port node
             ports.forEach(port => {
                 var pid = port.id;
-                var port_id = router_id + pid;
+                var portId = routerId + pid;
                 var label = port.label || pid;
                 var align = port.align || ['C', 'C'];
                 var port_width = port.width || DEFAULT_PORT_WIDTH;
                 var port_height = port.height || DEFAULT_PORT_HEIGHT;
                 var classes = port.classes || [];
 
-                var n = create_node()
-                    .id(port_id)
-                    .node_type('port')
-                    .router_id(router_id)
+                var n = createNode()
+                    .id(portId)
+                    .nodeType("port")
+                    .routerId(routerId)
                     .align(align)
                     .label(label)
                     .width(port_width)
@@ -399,13 +399,13 @@
 
                 eles.nodes.push(n.toObject());
 
-                // create internal hidden root_edge from root_port to this port
-                var edge_id = root_port_id + port_id;  // is equal to _router_id router_id pid
-                var e = create_edge()
+                // create internal hidden edge from rootPort to this port
+                var edge_id = rootPortId + portId;  // is equal to _routerId routerId pid
+                var e = createEdge()
+                    .edgeType("RouterToPort")  // RouterToPort type is special hidden edge
                     .id(edge_id)
-                    .edge_type("router_port")  // router_port type is hidden edge
-                    .source(root_port_id)
-                    .target(port_id)
+                    .source(rootPortId)
+                    .target(portId)
                     .weight(0);
                 eles.edges.push(e.toObject());
             });
@@ -414,33 +414,33 @@
 
         // create edge
         edges.forEach(edge => {
-            var source_router = edge.source_router;
-            if (!source_router) {
-                console.log("ERROR: source_router is not defined in edge data");
+            var sourceRouter = edge.sourceRouter;
+            if (!sourceRouter) {
+                console.log("ERROR: sourceRouter is not defined in edge data");
                 return;
             }
-            var source_port = edge.source_port;
-            if (!source_port) {
-                console.log("ERROR: source_port is not defined in edge data");
+            var sourcePort = edge.sourcePort;
+            if (!sourcePort) {
+                console.log("ERROR: sourcePort is not defined in edge data");
                 return;
             }
-            var source = source_router + source_port;
+            var source = sourceRouter + sourcePort;
             if (!eles.nodes.filter(({ data }) => data.id === source)) {
                 console.log("ERROR: failed to create edge, source port not found.")
                 return;
             }
 
-            var target_router = edge.target_router;
-            if (!target_router) {
-                console.log("ERROR: target_router is not defined in edge data");
+            var targetRouter = edge.targetRouter;
+            if (!targetRouter) {
+                console.log("ERROR: targetRouter is not defined in edge data");
                 return;
             }
-            var target_port = edge.target_port;
-            if (!target_port) {
-                console.log("ERROR: target_port is not defined in edge data");
+            var targetPort = edge.targetPort;
+            if (!targetPort) {
+                console.log("ERROR: targetPort is not defined in edge data");
                 return;
             }
-            var target = target_router + target_port;
+            var target = targetRouter + targetPort;
             if (!eles.nodes.filter(({ data }) => data.id === target)) {
                 console.log("ERROR: failed to create edge, target port not found.")
                 return;
@@ -452,15 +452,15 @@
             var weight = edge.weight || 1;
             var classes = edge.classes || [];
 
-            var e = create_edge()
+            var e = createEdge()
+                .edgeType("PortToPort")  // PortToPort type is default edge type
                 .id(edge_id)
-                .edge_type("port_port")  // port_port is the default edge type
                 .source(source)
-                .source_router(source_router)
-                .source_port(source_port)
+                .sourceRouter(sourceRouter)
+                .sourcePort(sourcePort)
                 .target(target)
-                .target_router(target_router)
-                .target_port(target_port)
+                .targetRouter(targetRouter)
+                .targetPort(targetPort)
                 .label(label)
                 .popper(popper)
                 .classes(classes)
@@ -475,7 +475,7 @@
     //
     // create topology model from iida.appdata.elements
     //
-    var create_topology_elements = function (elements) {
+    var createTopologyElements = function (elements) {
         var eles = {
             'nodes': [],
             'edges': []
@@ -490,27 +490,27 @@
         });
 
         elements.edges.forEach(edge => {
-            var source_router = edge.data.source_router;
-            var target_router = edge.data.target_router;
-            if (source_router === target_router) {
+            var sourceRouter = edge.data.sourceRouter;
+            var targetRouter = edge.data.targetRouter;
+            if (sourceRouter === targetRouter) {
                 return;
             }
             var new_edge = JSON.parse(JSON.stringify(edge));  // deep copy
 
             // fix the source and target to router node
-            new_edge.data.source = source_router;
-            new_edge.data.target = target_router;
+            new_edge.data.source = sourceRouter;
+            new_edge.data.target = targetRouter;
             eles.edges.push(new_edge);
         });
 
         return eles;
     };
 
-    var elements = create_elements(iida.appdata.routers, iida.appdata.edges);
+    var elements = createElements(iida.appdata.routers, iida.appdata.edges);
     iida.appdata.elements = elements;
-    iida.appdata.topology_elements = create_topology_elements(elements);
+    iida.appdata.topologyElements = createTopologyElements(elements);
 
-    var router_ids = [];
-    iida.appdata.topology_elements.nodes.forEach(node => { router_ids.push(node.data.id); });
-    iida.appdata.router_ids = router_ids;
+    var routerIds = [];
+    iida.appdata.topologyElements.nodes.forEach(node => { routerIds.push(node.data.id); });
+    iida.appdata.routerIds = routerIds;
 })();

@@ -2,7 +2,7 @@
 
 (function () {
 
-    iida.appdata.bundle_ethers = [
+    iida.appdata.bundleEthers = [
         {
             'id': "C棟ユーザPE#1#2_BE1000",
             'label': "Bundle-Ether1000",

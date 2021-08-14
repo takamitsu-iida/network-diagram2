@@ -14,7 +14,7 @@
 
         {
             // internal designated router port
-            'selector': "node.root_port",
+            'selector': "node.rootPort",
             'style': {
                 'visibility': "hidden"
             }
@@ -22,7 +22,7 @@
 
         {
             // internal edge from router to port
-            'selector': "edge.router_port",
+            'selector': "edge.RouterToPort",
             'style': {
                 'visibility': "hidden"
             }
@@ -43,7 +43,7 @@
 
         {
             // selected node
-            'selector': ".router:selected",
+            'selector': "node:selected",
             'style': {
                 'background-color': "#ffd700",  // gold
             }
@@ -77,7 +77,7 @@
 
         {
             // highlight dijkstra path
-            'selector': ".router.dijkstra_path",
+            'selector': ".router.dijkstraPath",
             'style': {
                 'border-color': "#0000ff",  // blue
                 'border-width': 3,
@@ -86,7 +86,7 @@
 
         {
             // highlight dijkstra path
-            'selector': "edge.dijkstra_path",
+            'selector': "edge.dijkstraPath",
             'style': {
                 'width': 3,
                 'line-color': "#0000ff",  // blue
@@ -100,7 +100,7 @@
 
         {
             // highlight dijkstra source node
-            'selector': ".router.dijkstra_source",
+            'selector': ".router.dijkstraSource",
             'style': {
                 'border-color': "#800080",  // purple
                 'border-width': 8,
@@ -109,7 +109,7 @@
 
         {
             // highlight dijkstra target node
-            'selector': ".router.dijkstra_target",
+            'selector': ".router.dijkstraTarget",
             'style': {
                 'border-color': "#800080",  // purple
                 'border-width': 8,
@@ -118,13 +118,13 @@
 
         {
             // un-highlight not dijkstra path
-            selector: '.dijkstra_semitransp',
+            selector: '.dijkstraSemitransp',
             style:{ 'opacity': '0.5' }
         },
 
         {
             // ']' shape edge
-            'selector': "edge.segments_right",
+            'selector': "edge.segmentsRight",
             'style': {
                 "curve-style": "segments",
                 'segment-weights': "0 1",
@@ -140,7 +140,7 @@
 
         {
             // ']' shape edge with bigger distance
-            'selector': "edge.segments_right2",
+            'selector': "edge.segmentsRight2",
             'style': {
                 "curve-style": "segments",
                 'segment-weights': "0 1",
@@ -156,7 +156,7 @@
 
         {
             // '[' shape edge
-            'selector': "edge.segments_left",
+            'selector': "edge.segmentsLeft",
             'style': {
                 "curve-style": "segments",
                 'segment-weights': "0 1",
@@ -172,7 +172,7 @@
 
         {
             // '[' shape edge with bigger distance
-            'selector': "edge.segments_left2",
+            'selector': "edge.segmentsLeft2",
             'style': {
                 "curve-style": "segments",
                 'segment-weights': "0 1",
@@ -188,7 +188,7 @@
 
         {
             // thick overlay line
-            'selector': "edge.overlay_10",
+            'selector': "edge.overlay10",
             'style': {
                 'overlay-color': "black",
                 'overlay-padding': 10,
@@ -197,14 +197,14 @@
         },
 
         {
-            'selector': ".img_router",
+            'selector': ".imgRouter",
             'style': {
                 'background-image': "https://takamitsu-iida.github.io/network-diagram2/static/site/img/router.jpg"
             }
         },
 
         {
-            'selector': ".img_firewall",
+            'selector': ".imgFirewall",
             'style': {
                 'background-image': "https://takamitsu-iida.github.io/network-diagram2/static/site/img/firewall.jpg"
             }
@@ -286,7 +286,7 @@
         },
 
         {
-            'selector': ".bundle_ether",
+            'selector': ".bundleEther",
             'style': {
                 'shape': "rectangle",
                 'label': "data(label)",  // function(node) { return node.data('label') ? node.data('label') : ''},
@@ -301,7 +301,7 @@
         },
 
         {
-            'selector': ".bundle_ether_port",
+            'selector': ".bundleEtherPort",
             'style': {
                 'border-width': 3
             }
