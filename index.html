@@ -1,214 +1,216 @@
 <!DOCTYPE html>
 
 <html lang="ja">
+  <head>
+    <title>network diagram</title>
 
-<head>
-  <title>network diagram</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- iida.css -->
+    <link rel="stylesheet" type="text/css" href="./static/site/css/iida.css" />
 
-  <!-- iida.css -->
-  <link rel="stylesheet" type="text/css" href="./static/site/css/iida.css" />
+    <!-- jQuery -->
+    <script src="https://unpkg.com/jquery/dist/jquery.min.js"></script>
 
-  <!-- jQuery -->
-  <script src="https://unpkg.com/jquery/dist/jquery.min.js"></script>
+    <!-- cytoscape.js -->
+    <!-- https://js.cytoscape.org/ -->
+    <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
 
-  <!-- cytoscape.js -->
-  <!-- https://js.cytoscape.org/ -->
-  <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+    <!-- cytoscape-panzoom.js -->
+    <!-- https://github.com/cytoscape/cytoscape.js-panzoom -->
+    <script src="https://unpkg.com/cytoscape-panzoom/cytoscape-panzoom.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/cytoscape-panzoom/cytoscape.js-panzoom.css" />
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/cytoscape-panzoom/font-awesome-4.0.3/css/font-awesome.min.css" />
 
-  <!-- cytoscape-panzoom.js -->
-  <!-- https://github.com/cytoscape/cytoscape.js-panzoom -->
-  <script src="https://unpkg.com/cytoscape-panzoom/cytoscape-panzoom.js"></script>
-  <link rel="stylesheet" type="text/css" href="https://unpkg.com/cytoscape-panzoom/cytoscape.js-panzoom.css" />
-  <link rel="stylesheet" type="text/css" href="https://unpkg.com/cytoscape-panzoom/font-awesome-4.0.3/css/font-awesome.min.css" />
+    <!-- cytoscape-popper.js -->
+    <!-- https://github.com/cytoscape/cytoscape.js-popper -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/cytoscape-popper@2.0.0/cytoscape-popper.js"></script>
 
-  <!-- cytoscape-popper.js -->
-  <!-- https://github.com/cytoscape/cytoscape.js-popper -->
-  <script src="https://unpkg.com/@popperjs/core@2"></script>
-  <script src="https://unpkg.com/cytoscape-popper@2.0.0/cytoscape-popper.js"></script>
-
-  <!-- cytoscape-automove.js -->
-  <!-- https://github.com/cytoscape/cytoscape.js-automove -->
-  <!--
+    <!-- cytoscape-automove.js -->
+    <!-- https://github.com/cytoscape/cytoscape.js-automove -->
+    <!--
     <script src="https://unpkg.com/cytoscape-automove/cytoscape-automove.js"></script>
     -->
 
-  <!-- cytoscape-fcose -->
-  <script src="https://unpkg.com/layout-base/layout-base.js"></script>
-  <script src="https://unpkg.com/cose-base/cose-base.js"></script>
-  <script src="https://unpkg.com/cytoscape-fcose/cytoscape-fcose.js"></script>
+    <!-- cytoscape-fcose -->
+    <script src="https://unpkg.com/layout-base/layout-base.js"></script>
+    <script src="https://unpkg.com/cose-base/cose-base.js"></script>
+    <script src="https://unpkg.com/cytoscape-fcose/cytoscape-fcose.js"></script>
 
-  <!-- iida.startup.js -->
-  <script type="text/javascript" src="./static/site/js/iida.startup.js"></script>
+    <!-- iida.startup.js -->
+    <script type="text/javascript" src="./static/site/js/iida.startup.js"></script>
 
-  <!-- iida.appdata and iida.elements.js -->
-  <script type="text/javascript" src="./static/site/js/iida.appdata.bundle_ether.js"></script>
-  <script type="text/javascript" src="./static/site/js/iida.appdata.routers_core.js"></script>
-  <script type="text/javascript" src="./static/site/js/iida.appdata.routers_service.js"></script>
-  <script type="text/javascript" src="./static/site/js/iida.appdata.routers_user.js"></script>
-  <script type="text/javascript" src="./static/site/js/iida.elements.js"></script>
+    <!-- iida.appdata and iida.elements.js -->
+    <script type="text/javascript" src="./static/site/js/iida.appdata.bundle_ether.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.appdata.routers_core.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.appdata.routers_service.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.appdata.routers_user.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.elements.js"></script>
 
-  <!-- iida.cystyles.js and iida.cylayouts.js-->
-  <script type="text/javascript" src="./static/site/js/iida.cystyles.js"></script>
-  <script type="text/javascript" src="./static/site/js/iida.cylayouts.js"></script>
+    <!-- iida.cystyles.js and iida.cylayouts.js-->
+    <script type="text/javascript" src="./static/site/js/iida.cystyles.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.cylayouts.js"></script>
 
-  <!-- iida.nwdiagram.js -->
-  <script type="text/javascript" src="./static/site/js/iida.nwdiagram.js"></script>
+    <!-- iida.nwdiagram.js -->
+    <script type="text/javascript" src="./static/site/js/iida.nwdiagram.js"></script>
+  </head>
 
-</head>
+  <body>
+    <div class="wrapper">
+      <div class="header_panel">
+        <span class="control_span">
+          [DATA]
+          <a id="idPhysical" name="dataChange" class="active">physical diagram</a>
+          <a id="idTopology" name="dataChange">topology diagram</a>
+          &nbsp;&nbsp; [Redundant]
+          <a id="idRedundant12" name="redundantFilter" class="active">#1-#2</a>
+          <a id="idRedundant1" name="redundantFilter">#1</a>
+          <a id="idRedundant2" name="redundantFilter">#2</a>
+        </span>
+        <span style="float: right">
+          <a href="https://github.com/takamitsu-iida/network-diagram2" target="_blank" rel="noopener noreferrer">github</a>
+        </span>
+      </div>
 
-<body>
+      <div id="idLeftPanel" class="left_panel">
+        <div id="idMenuP">
+          <h3>SID popper</h3>
+          <label><input id="idPopper" type="checkbox" />show or hide</label>
 
-  <div class="wrapper">
+          <h3>BundleEther</h3>
+          <div id="idBundleEther"></div>
 
-    <div class="header_panel">
-      <span class="control_span">
-        [DATA]
-        <a id="idPhysical" name="dataChange" class="active">physical diagram</a>
-        <a id="idTopology" name="dataChange">topology diagram</a>
-        &nbsp;&nbsp;
-        [Redundant]
-        <a id="idRedundant12" name="redundantFilter" class="active">#1-#2</a>
-        <a id="idRedundant1" name="redundantFilter">#1</a>
-        <a id="idRedundant2" name="redundantFilter">#2</a>
-      </span>
-      <span style="float: right;">
-        <a href="https://github.com/takamitsu-iida/network-diagram2" target="_blank" rel="noopener noreferrer">github</a>
-      </span>
-    </div>
-
-    <div id="idLeftPanel" class="left_panel">
-      <div id="idMenuP">
-        <h3>SID popper</h3>
-        <label><input id="idPopper" type="checkbox">show or hide</label>
-
-        <h3>BundleEther</h3>
-        <div id="idBundleEther"></div>
-
-        <!--
+          <!--
         <h3>debug</h3>
         <input id="idDebugButton" type="button" value="Debug" style="width: 100%;"></td>
-        -->
+        --></div>
 
+        <div id="idMenuL" style="display: none">
+          <h3>Dijkstra path</h3>
+          <table style="width: 100%; table-layout: fixed">
+            <tr>
+              <th width="45%"></th>
+              <th width="55%"></th>
+            </tr>
+
+            <tr>
+              <td>-----</td>
+              <td>-----</td>
+            </tr>
+
+            <tr>
+              <td><span> cost #1-#1 </span></td>
+              <td>
+                <span title="edge cost between #1 and #1"><input type="range" min="1" max="10" step="1" value="1" id="cost1_1" /></span><span id="cost1_1Value">1</span>
+              </td>
+            </tr>
+
+            <tr>
+              <td><span> cost #1-#2 </span></td>
+              <td>
+                <span title="edge cost between #1 and #2"><input type="range" min="1" max="10" step="1" value="1" id="cost1_2" /></span><span id="cost1_2Value">1</span>
+              </td>
+            </tr>
+
+            <tr>
+              <td><span> cost #2-#2 </span></td>
+              <td>
+                <span title="edge cost between #2 and #2"><input type="range" min="1" max="10" step="1" value="5" id="cost2_2" /></span><span id="cost2_2Value">5</span>
+              </td>
+            </tr>
+
+            <tr>
+              <td>-----</td>
+              <td>-----</td>
+            </tr>
+
+            <tr>
+              <td style="background-color: #800080; color: white"><span> Source </span></td>
+              <td>
+                <span title="Select source node"><select id="idDijkstraSource"></select></span>
+              </td>
+            </tr>
+
+            <tr>
+              <td style="background-color: #800080; color: white"><span> Target </span></td>
+              <td>
+                <span title="Select target node"><select id="idDijkstraTarget"></select></span>
+              </td>
+            </tr>
+
+            <tr>
+              <td>-----</td>
+              <td>-----</td>
+            </tr>
+
+            <tr>
+              <td><span title="Start or stop to calculate all paths"> All paths </span></td>
+              <td>
+                <label class="video_play_pause" style="font-size: 30px">
+                  <input type="checkbox" id="idDijkstraStartStop" />
+                  <span title="Start or stop to calculate all paths"></span>
+                </label>
+              </td>
+            </tr>
+
+            <tr>
+              <td>-----</td>
+              <td>-----</td>
+            </tr>
+
+            <tr>
+              <td><span> Shortest path </span></td>
+              <td>
+                <span title="Clear highlighted path"><input id="idDijkstraClear" , type="button" value="Clear" style="width: 90%" /></span>
+              </td>
+            </tr>
+
+            <tr>
+              <td>-----</td>
+              <td>-----</td>
+            </tr>
+
+            <tr>
+              <td><span> Disabled edge </span></td>
+              <td>
+                <span title="Reset disabled edge"><input id="idResetDisabledEdge" , type="button" value="Reset" style="width: 90%" /></span>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div>
+          <h3>Element info</h3>
+          <div id="idTipDiv" class="tip_div"></div>
+        </div>
       </div>
 
-      <div id="idMenuL" style="display: none;">
-        <h3>Dijkstra path</h3>
+      <div id="idRightPanel" class="right_panel">
+        <div id="cy"></div>
+        <div id="on_cy">
+          <table style="width: 100%">
 
-        <table style="width: 100%; table-layout: fixed;">
-          <tr>
-            <th width="45%"></th>
-            <th width="55%"></th>
-          </tr>
+            <tr>
+              <td><span title="Revert to initial position"> Initial Position </span></td>
+              <td><input id="idInitialPosition" type="button" value="Revert" style="width: 90%" /></td>
+            </tr>
 
-          <tr>
-            <td>-----</td>
-            <td>-----</td>
-          </tr>
+            <tr>
+              <td><span title="show connected nodes"> Connected nodes </span></td>
+              <td><input id="idConnected" type="button" value="Connected" style="width: 90%" /></td>
+            </tr>
 
-          <tr>
-            <td><span> cost #1-#1 </span></td>
-            <td><span title="edge cost between #1 and #1"><input type="range" min="1" max="10" step="1" value="1" id="cost1_1"></span><span id="cost1_1Value">1</span></td>
-          </tr>
-
-          <tr>
-            <td><span> cost #1-#2 </span></td>
-            <td><span title="edge cost between #1 and #2"><input type="range" min="1" max="10" step="1" value="1" id="cost1_2"></span><span id="cost1_2Value">1</span></td>
-          </tr>
-
-          <tr>
-            <td><span> cost #2-#2 </span></td>
-            <td><span title="edge cost between #2 and #2"><input type="range" min="1" max="10" step="1" value="5" id="cost2_2"></span><span id="cost2_2Value">5</span></td>
-          </tr>
-
-          <tr>
-            <td>-----</td>
-            <td>-----</td>
-          </tr>
-
-          <tr>
-            <td style="background-color: #800080; color: white;"><span> Source </span></td>
-            <td><span title="Select source node"><select id="idDijkstraSource"></select></span></td>
-          </tr>
-
-          <tr>
-            <td style="background-color: #800080; color: white;"><span> Target </span></td>
-            <td><span title="Select target node"><select id="idDijkstraTarget"></select></span></td>
-          </tr>
-
-          <tr>
-            <td>-----</td>
-            <td>-----</td>
-          </tr>
-
-          <tr>
-            <td><span title="Start or stop to calculate all paths"> All paths </span></td>
-            <td>
-              <label class="video_play_pause" style="font-size: 30px;">
-                <input type="checkbox" id="idDijkstraStartStop">
-                <span title="Start or stop to calculate all paths"></span>
-              </label>
-            </td>
-          </tr>
-
-          <tr>
-            <td>-----</td>
-            <td>-----</td>
-          </tr>
-
-          <tr>
-            <td><span> Shortest path </span></td>
-            <td><span title="Clear highlighted path"><input id="idDijkstraClear" , type="button" value="Clear" style="width: 90%;"></span></td>
-          </tr>
-
-          <tr>
-            <td>-----</td>
-            <td>-----</td>
-          </tr>
-
-          <tr>
-            <td><span> Disabled edge </span></td>
-            <td><span title="Reset disabled edge"><input id="idResetDisabledEdge" , type="button" value="Reset" style="width: 90%;"></span></td>
-          </tr>
-
-        </table>
-
-
+          </table>
+        </div>
       </div>
-
-      <div>
-        <h3>Element info</h3>
-        <div id="idTipDiv" class="tip_div"></div>
-      </div>
-
     </div>
+    <!-- end of wrapper -->
+  </body>
 
-    <div id="idRightPanel" class="right_panel">
-      <div id="cy"></div>
-      <div id="on_cy">
-        <table style="width: 100%;">
-          <tr>
-            <td><span title="Revert to initial position"> Initial Position </span></td>
-            <td><input id="idInitialPosition" type="button" value="Revert" style="width: 90%;"></td>
-          </tr>
-
-          <tr>
-            <td><span title="show connected nodes"> Connected nodes </span></td>
-            <td><input id="idConnected" type="button" value="Connected" style="width: 90%;"></td>
-          </tr>
-        </table>
-      </div>
-    </div>
-
-  </div> <!-- end of wrapper -->
-
-</body>
-
-<script>
-  document.addEventListener("DOMContentLoaded", iida.main)
-</script>
-
+  <script>
+    document.addEventListener('DOMContentLoaded', iida.main);
+  </script>
 </html>
