@@ -354,7 +354,7 @@
       targetRouter: 'C棟コアルータ#2',
       targetPort: 'Hu0/0/0/1',
       label: '192.168.10.100/30',
-      weight: 1,
+      weight: 5,
     },
 
     {
@@ -408,7 +408,7 @@
       targetRouter: 'B棟コアルータ#2',
       targetPort: 'Hu0/0/0/1',
       label: '192.168.10.12/30',
-      weight: 1,
+      weight: 5,
     },
   ];
 

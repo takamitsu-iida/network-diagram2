@@ -315,7 +315,7 @@
     function showTooltipNode(tipDiv, node) {
       hideTooltip(tipDiv);
 
-      var nodeType = node.data('nodeType') || undefined;
+      var nodeType = node.data('nodeType');
       if (!nodeType) {
         return;
       }
@@ -922,26 +922,26 @@
 
     function dijkstraStartStopFunc() {
       var routerIds = iida.appdata.routerIds;
-      var sourceIndex = 0;
-      var targetIndex = 0;
+      var originalSourceIndex = (sourceIndex = 0);
+      var originalTargetIndex = (targetIndex = 0);
 
       // move to current dropdown value
       routerIds.forEach(function (routerId, index) {
         if (selectDijkstraSource.value === routerId) {
-          sourceIndex = index;
+          originalSourceIndex = sourceIndex = index;
         }
         if (selectDijkstraTarget.value === routerId) {
-          targetIndex = index;
+          originalTargetIndex = targetIndex = index;
         }
       });
 
-      // trigger to calculate shortest path
+      // trigger to calculate shortest path at current source
       selectDijkstraSource.dispatchEvent(new Event('change'));
 
-      // trigger to show pathTo target
+      // trigger to show pathTo current target
       selectDijkstraTarget.dispatchEvent(new Event('change'));
 
-      // select next source-target
+      // select next (source, target) pair
       function moveNext() {
         if (!CyShortestPath.isRunning) {
           return;
@@ -950,13 +950,8 @@
         targetIndex++;
         if (targetIndex < routerIds.length) {
           selectDijkstraTarget.options[targetIndex].selected = true;
-          if (sourceIndex === targetIndex) {
-            // source and target are same, just skip and move to next
-            moveNext();
-          } else {
-            selectDijkstraTarget.dispatchEvent(new Event('change'));
-            setTimeout(moveNext, nwdiagramState.shortestPathDuration);
-          }
+          selectDijkstraTarget.dispatchEvent(new Event('change'));
+          setTimeout(moveNext, nwdiagramState.shortestPathDuration);
         } else {
           sourceIndex++;
           targetIndex = sourceIndex;
@@ -972,6 +967,7 @@
           }
         }
       }
+
       moveNext();
     }
 
