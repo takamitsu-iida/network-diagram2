@@ -20,7 +20,7 @@
 
     {
       // internal edge from router to port
-      selector: 'edge.RouterToPort',
+      selector: 'edge.routerToPort',
       style: {
         visibility: 'hidden',
       },

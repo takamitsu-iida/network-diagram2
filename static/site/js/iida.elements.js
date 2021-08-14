@@ -249,8 +249,8 @@
 
   var createEdge = function () {
     var _id;
-    var _edgeType = 'PortToPort'; // "PortToPort" or "RouterToPort"
-    var _classes = ['PortToPort']; // default is same as edgeType
+    var _edgeType = 'portToPort'; // "portToPort" or "routerToPort"
+    var _classes = ['portToPort']; // default is same as edgeType
     var _label = '';
     var _popper = '';
     var _source;
@@ -488,7 +488,7 @@
         // create internal hidden edge from rootPort to this port
         var edge_id = rootPortId + portId; // is equal to _routerId routerId pid
         var e = createEdge()
-          .edgeType('RouterToPort') // RouterToPort type is special hidden edge
+          .edgeType('routerToPort') // routerToPort type is special hidden edge
           .id(edge_id)
           .source(rootPortId)
           .target(portId)
@@ -538,7 +538,7 @@
       var classes = edge.classes || [];
 
       var e = createEdge()
-        .edgeType('PortToPort') // PortToPort is the default edge type
+        .edgeType('portToPort') // portToPort is the default edge type
         .id(edge_id)
         .source(source)
         .sourceRouter(sourceRouter)
