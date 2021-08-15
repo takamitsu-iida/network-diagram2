@@ -1072,24 +1072,69 @@
 
       var calculatedPairs = [];
 
+      function moveNext3() {
+        if (!CyShortestPath.isRunning) {
+          return;
+        }
+
+        targetIndex++;
+        if (targetIndex === routerIds.length) {
+          targetIndex = 0;
+          sourceIndex++;
+          if (sourceIndex === routerIds.length) {
+            sourceIndex = 0;
+          }
+        }
+        selectDijkstraSource.options[sourceIndex].selected = true;
+        selectDijkstraTarget.options[targetIndex].selected = true;
+
+        if (targetIndex === 0) {
+          calculatedPairs.push(sourceIndex.toString() + '-' + targetIndex.toString());
+          selectDijkstraSource.dispatchEvent(new Event('change'));
+        }
+
+        // check if reached to original position
+        if (sourceIndex === originalSourceIndex && targetIndex === originalTargetIndex) {
+          console.log('done');
+          // show final path
+          selectDijkstraTarget.dispatchEvent(new Event('change'));
+          // then finish
+          dijkstraStartStop.checked = false;
+          CyShortestPath.isRunning = selectDijkstraSource.disabled = selectDijkstraTarget.disabled = dijkstraStartStop.checked;
+          return;
+        }
+
+        if (calculatedPairs.includes(targetIndex.toString() + '-' + sourceIndex.toString())) {
+          // console.log("already displayed reverse path, just skip it");
+          moveNext3();
+        } else if (sourceIndex === targetIndex) {
+          moveNext3();
+        } else {
+          calculatedPairs.push(sourceIndex.toString() + '-' + targetIndex.toString());
+          selectDijkstraTarget.dispatchEvent(new Event('change'));
+          setTimeout(moveNext3, nwdiagramState.shortestPathDuration);
+        }
+      }
+      moveNext3();
+
+      /*
       // select next (source, target) pair
       function moveNext2() {
         if (!CyShortestPath.isRunning) {
           return;
         }
 
-        // next index of (source, target) pair
-        targetIndex++;
         if (targetIndex === routerIds.length) {
           // rewind to top of target list
           targetIndex = 0;
           selectDijkstraTarget.options[targetIndex].selected = true;
 
-          // then move next source
+          // then increment source
           sourceIndex++;
           if (sourceIndex === routerIds.length) {
             sourceIndex = 0;
           }
+
           selectDijkstraSource.options[sourceIndex].selected = true;
           selectDijkstraSource.dispatchEvent(new Event('change'));
           calculatedPairs.push(sourceIndex.toString() + '-' + targetIndex.toString());
@@ -1119,8 +1164,8 @@
           setTimeout(moveNext2, nwdiagramState.shortestPathDuration);
         }
       }
-
       moveNext2();
+      */
 
       /*
       // select next (source, target) pair
@@ -1149,7 +1194,6 @@
           }
         }
       }
-
       moveNext();
       */
     }

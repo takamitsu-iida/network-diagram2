@@ -1,24 +1,25 @@
 @charset "UTF-8";
 
 html {
-    font-size: 62.5%;
+  font-size: 62.5%;
 }
 
 body {
-    font-size: 1.4em;
-    margin: 8px;
+  font-size: 1.4em;
+  margin: 8px;
+  padding: 0;
 }
 
 label,
-input[type="checkbox"] {
-    cursor: pointer;
+input[type='checkbox'] {
+  cursor: pointer;
 }
 
 .wrapper {
-    display: grid;
-    column-gap: 8px;
-    row-gap: 8px;
-    grid-template-columns: 300px 1fr;
+  display: grid;
+  column-gap: 8px;
+  row-gap: 8px;
+  grid-template-columns: 300px 1fr;
 }
 
 /*
@@ -29,15 +30,15 @@ input[type="checkbox"] {
 3----
  */
 .header_panel {
-    grid-row: 1 / 2;
-    grid-column: 1 / 3;
-    height: 30px;
+  grid-row: 1 / 2;
+  grid-column: 1 / 3;
+  height: 30px;
 
-    /* disable select text */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+  /* disable select text */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 /*
@@ -48,15 +49,18 @@ input[type="checkbox"] {
 3----
  */
 .left_panel {
-    grid-row: 2 / 3;
-    grid-column: 1 / 2;
-    z-index: 10;
-    top: 0;
-    left: 0;
-    padding: 5px;
-    background-color: #fffafa;
-    /* snow */
-    overflow: hidden;
+  grid-row: 2 / 3;
+  grid-column: 1 / 2;
+  position: relative;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  padding-left: 5px;
+  padding-right: 5px;
+  background-color: #fffafa; /* snow */
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: calc(100vh - 8px - 30px - 8px - 8px - 2px); /* body-top-margin:8px - top-panel-height:30px - row-gap:8px - body-bottom-margin:8px - border:1px+1px */
 }
 
 /*
@@ -67,180 +71,184 @@ input[type="checkbox"] {
 3----
  */
 .right_panel {
-    grid-row: 2 / 3;
-    grid-column: 2 / 3;
-    position: relative;
-    height: calc(100vh - 8px - 30px - 8px - 8px);  /* body-top-margin:8px - top-panel-height:30px - row-gap:8px - body-bottom-margin:8px */
-    overflow: hidden;
+  grid-row: 2 / 3;
+  grid-column: 2 / 3;
+  position: relative;
+  height: calc(100vh - 8px - 30px - 8px - 8px - 2px); /* body-top-margin:8px - top-panel-height:30px - row-gap:8px - body-bottom-margin:8px - border:1px+1px */
+  overflow: hidden;
+  border: 1px solid #aaa;
 }
 
 #cy {
-    /* parent of this must have dimension width and height */
-    position: relative;
-    height: 100%;
-    z-index: 10;
-    background-color: #e9e9e9;
+  /* parent of this must have dimension width and height */
+  position: relative;
+  height: 100%;
+  z-index: 10;
+  background-color: #e9e9e9;
 }
 
 #on_cy {
-    /* parent of this must be position:relative */
-    position: absolute;
-    width: 250px;
-    top: 0;
-    right: 0;
-    height: auto;
-    padding: 10px;
-    z-index: 20;
-    /* Disable horizontal scroll */
-    overflow-x: hidden;
-    /* disable select text */
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+  /* parent of this must be position:relative */
+  position: absolute;
+  width: 250px;
+  top: 0;
+  right: 0;
+  height: auto;
+  padding: 10px;
+  z-index: 20;
+  /* Disable horizontal scroll */
+  overflow-x: hidden;
+  /* disable select text */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 #cy2 {
-    /* parent of cy2 must have dimension width and height */
-    position: relative;
-    height: 100%;
-    z-index: 10;
-    background-color: #ffffff;
-    border: 1px solid #aaa;
+  /* parent of cy2 must have dimension width and height */
+  position: relative;
+  height: 100%;
+  z-index: 10;
+  background-color: #ffffff;
+  border: 1px solid #aaa;
 }
 
 #on_cy2 {
-    /* parent of this must be position:relative */
-    position: absolute;
-    width: 200px;
-    top: 0;
-    right: 0;
-    height: auto;
-    padding: 10px;
-    z-index: 20;
-    overflow-x: hidden;
-    /* Disable horizontal scroll */
+  /* parent of this must be position:relative */
+  position: absolute;
+  width: 200px;
+  top: 0;
+  right: 0;
+  height: auto;
+  padding: 10px;
+  z-index: 20;
+  overflow-x: hidden;
+  /* Disable horizontal scroll */
 }
 
 .top_right_fixed {
-    position: fixed;
-    z-index: 1000;
-    top: 0;
-    right: 0;
-    width: 600;
-    height: 600;
-    margin: 20px;
-    /*
-    background-color: #ffffff;
-    opacity: 0.8;
-    */
-    border: 1px solid #aaa;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  right: 0;
+  width: 600;
+  height: 600;
+  margin: 20px;
+  /*
+  background-color: #ffffff;
+  opacity: 0.8;
+  */
+  border: 1px solid #aaa;
 }
 
 .vertical {
-    display: block;
-    writing-mode: tb-lr;
-    writing-mode: vertical-lr;
-    -webkit-writing-mode: vertical-lr;
-    letter-spacing: 0.2em;
-    white-space: nowrap;
+  display: block;
+  writing-mode: tb-lr;
+  writing-mode: vertical-lr;
+  -webkit-writing-mode: vertical-lr;
+  letter-spacing: 0.2em;
+  white-space: nowrap;
 }
 
 .tip_div {
-    display: block;
-    background: #fff;
-    padding: 5px;
-    border: 1px solid #ccc;
+  display: block;
+  /*
+  background: #fff;
+  */
+  padding: 5px;
+  border: 1px solid #ccc;
+
 }
 
 .control_span {
-    display: inline-block;
-    font-size: 1.1em;
-    padding-top: 4px;
-    padding-left: 8px;
-    padding-right: 8px;
+  display: inline-block;
+  font-size: 1.1em;
+  padding-top: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
 }
 
 .control_span a {
-    color: #000;
-    padding-left: 5px;
-    padding-right: 5px;
-    background: #e2e2e2;
-    cursor: pointer;
-    text-decoration: none;
+  color: #000;
+  padding-left: 5px;
+  padding-right: 5px;
+  background: #e2e2e2;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .control_span a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .control_span a.active {
-    color: #fff;
-    background: #000;
+  color: #fff;
+  background: #000;
 }
 
 .popperDiv {
-    /* just an example */
-    background-color: #333;
-    color: white;
-    z-index: 11;
-    padding: 5px 10px;
-    pointer-events: none;
-    border-radius: 4px;
-    font-size: 8px;
+  /* just an example */
+  background-color: #333;
+  color: white;
+  z-index: 11;
+  padding: 5px 10px;
+  pointer-events: none;
+  border-radius: 4px;
+  font-size: 8px;
 }
 
 .hidden {
-    visibility: hidden;
-    pointer-events: none;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 /* https://migi.me/css/video-play-pause-icon/ */
 
 .video_play_pause {
-    display: inline-block;
-    position: relative;
-    width: 1em;
-    height: 1em;
-    border: 0.05em solid currentColor;
-    border-radius: 50%;
-    color: #000;
-    font-size: 200px;
+  display: inline-block;
+  position: relative;
+  width: 1em;
+  height: 1em;
+  border: 0.05em solid currentColor;
+  border-radius: 50%;
+  color: #000;
+  font-size: 200px;
 }
 
-.video_play_pause>input {
-    display: none;
+.video_play_pause > input {
+  display: none;
 }
 
-.video_play_pause>input:not(:checked)+span::before {
-    position: absolute;
-    top: 50%;
-    left: 30%;
-    transform: translateY(-50%);
-    width: 0px;
-    height: 0px;
-    border: 0.3em solid transparent;
-    border-left: 0.5em solid currentColor;
-    box-sizing: border-box;
-    content: "";
+.video_play_pause > input:not(:checked) + span::before {
+  position: absolute;
+  top: 50%;
+  left: 30%;
+  transform: translateY(-50%);
+  width: 0px;
+  height: 0px;
+  border: 0.3em solid transparent;
+  border-left: 0.5em solid currentColor;
+  box-sizing: border-box;
+  content: '';
 }
 
-.video_play_pause>input:checked+span::before,
-.video_play_pause>input:checked+span::after {
-    position: absolute;
-    top: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    width: 0.1em;
-    height: 0.5em;
-    box-sizing: border-box;
-    background-color: currentColor;
-    content: "";
+.video_play_pause > input:checked + span::before,
+.video_play_pause > input:checked + span::after {
+  position: absolute;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  width: 0.1em;
+  height: 0.5em;
+  box-sizing: border-box;
+  background-color: currentColor;
+  content: '';
 }
 
-.video_play_pause>input:checked+span::before {
-    left: 40%;
+.video_play_pause > input:checked + span::before {
+  left: 40%;
 }
 
-.video_play_pause>input:checked+span::after {
-    left: 60%;
+.video_play_pause > input:checked + span::after {
+  left: 60%;
 }
