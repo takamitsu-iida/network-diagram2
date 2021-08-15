@@ -163,16 +163,18 @@ input[type='checkbox'] {
 
 .control_span {
   display: inline-block;
-  font-size: 1.1em;
-  padding-top: 4px;
+  font-size: 14px;
   padding-left: 8px;
   padding-right: 8px;
+  padding-top: 4px;
 }
 
 .control_span a {
   color: #000;
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 4px;
+  padding-bottom: 4px;
   background: #e2e2e2;
   cursor: pointer;
   text-decoration: none;
