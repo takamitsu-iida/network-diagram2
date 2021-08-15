@@ -149,15 +149,13 @@ input[type="checkbox"] {
 .tip_div {
     display: block;
     background: #fff;
-    padding: 1rem;
-    text-align: left;
+    padding: 5px;
     border: 1px solid #ccc;
 }
 
 .control_span {
     display: inline-block;
     font-size: 1.1em;
-
     padding-top: 4px;
     padding-left: 8px;
     padding-right: 8px;

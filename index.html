@@ -12,7 +12,11 @@
     <link rel="stylesheet" type="text/css" href="./static/site/css/iida.css" />
 
     <!-- jQuery -->
-    <script src="https://unpkg.com/jquery/dist/jquery.min.js"></script>
+    <script src="//unpkg.com/jquery/dist/jquery.min.js"></script>
+
+    <!-- Lightbox2 -->
+    <script src="https://unpkg.com/lightbox2/dist/js/lightbox.min.js"></script>
+    <link href="https://unpkg.com/lightbox2/dist/css/lightbox.min.css" rel="stylesheet">
 
     <!-- cytoscape.js -->
     <!-- https://js.cytoscape.org/ -->
@@ -128,7 +132,7 @@
             </tr>
 
             <tr>
-              <td style="background-color: #800080; color: white"><span> Source </span></td>
+              <td style="background-color: #ff8c00; color: white"><span> Source </span></td>
               <td>
                 <span title="Select source node"><select id="idDijkstraSource"></select></span>
               </td>
@@ -192,7 +196,6 @@
         <div id="cy"></div>
         <div id="on_cy">
           <table style="width: 100%">
-
             <tr>
               <td><span title="Revert to initial position"> Initial Position </span></td>
               <td><input id="idInitialPosition" type="button" value="Revert" style="width: 90%" /></td>
@@ -202,7 +205,6 @@
               <td><span title="show connected nodes"> Connected nodes </span></td>
               <td><input id="idConnected" type="button" value="Connected" style="width: 90%" /></td>
             </tr>
-
           </table>
         </div>
       </div>

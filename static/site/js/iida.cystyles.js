@@ -100,7 +100,7 @@
       // highlight dijkstra source node
       selector: '.router.dijkstraSource',
       style: {
-        'border-color': '#800080', // purple
+        'border-color': '#ff8c00', // darkorange
         'border-width': 8,
       },
     },

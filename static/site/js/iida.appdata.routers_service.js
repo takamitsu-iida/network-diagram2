@@ -18,6 +18,7 @@
       classes: ['PE'],
       dragWith: ['C棟サービス収容ルータ#2'],
       redundant: 1,
+      model: 'ASR9901',
       ports: [
         {
           id: 'Hu0/0/0/20',
@@ -60,6 +61,7 @@
       classes: ['PE'],
       dragWith: ['C棟サービス収容ルータ#1'],
       redundant: 2,
+      model: 'ASR9901',
       ports: [
         {
           id: 'Hu0/0/0/21',
@@ -102,6 +104,7 @@
       classes: ['PE'],
       dragWith: ['B棟サービス収容ルータ#2'],
       redundant: 1,
+      model: 'ASR9901',
       ports: [
         {
           id: 'Hu0/0/0/21',
@@ -142,6 +145,7 @@
       classes: ['PE'],
       dragWith: ['B棟サービス収容ルータ#1'],
       redundant: 2,
+      model: 'ASR9901',
       ports: [
         {
           id: 'Hu0/0/0/21',

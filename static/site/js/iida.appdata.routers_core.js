@@ -1,5 +1,12 @@
 /* global iida */
 
+/*
+currently valid models are
+'NCS-55A1-36H'
+'NCS-5501'
+'ASR9901'
+*/
+
 (function () {
   // see position.pptx
   var col, row;
@@ -18,6 +25,7 @@
       dragWith: ['C棟コアルータ#2', 'B棟コアルータ#1', 'B棟コアルータ#2'],
       classes: ['P'],
       redundant: 1,
+      model: 'NCS-55A1-36H',
       ports: [
         {
           id: 'Hu0/0/0/0',
@@ -60,6 +68,7 @@
       dragWith: ['C棟コアルータ#1', 'B棟コアルータ#1', 'B棟コアルータ#2'],
       classes: ['P'],
       redundant: 2,
+      model: 'NCS-55A1-36H',
       ports: [
         {
           id: 'Hu0/0/0/0',
@@ -102,6 +111,7 @@
       dragWith: ['C棟コアルータ#1', 'C棟コアルータ#2', 'B棟コアルータ#2'],
       classes: ['P'],
       redundant: 1,
+      model: 'NCS-55A1-36H',
       ports: [
         {
           id: 'Hu0/0/0/27',
@@ -144,6 +154,7 @@
       dragWith: ['C棟コアルータ#1', 'C棟コアルータ#2', 'B棟コアルータ#1'],
       classes: ['P'],
       redundant: 2,
+      model: 'NCS-55A1-36H',
       ports: [
         {
           id: 'Hu0/0/0/22',

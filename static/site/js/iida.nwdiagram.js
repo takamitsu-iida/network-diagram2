@@ -317,132 +317,265 @@
 
       var nodeType = node.data('nodeType');
       if (!nodeType) {
+        // maybe unknown data is used
         return;
       }
 
       if (nwdiagramState.dataName === 'topology') {
-        // create enable/disable checkbox
-        var input = document.createElement('input');
-        input.setAttribute('type', 'checkbox');
-        input.setAttribute('id', 'tipDiv_' + node.id());
-        input.setAttribute('value', node.id());
-        input.checked = !node.hasClass('disabled');
-        input.addEventListener('change', function (evt) {
-          evt.stopPropagation();
-          evt.preventDefault();
-          node.connectedEdges().forEach((edge) => {
-            if (evt.target.checked) {
-              edge.removeClass('disabled');
-            } else {
-              edge.addClass('disabled');
-            }
-          });
-          CyShortestPath.restart(cy);
-        });
-
-        var label = document.createElement('label');
-        label.htmlFor = 'tipDiv_' + node.id();
-        label.appendChild(document.createTextNode('enable/disable connected edges'));
-
-        var div = document.createElement('div');
-        div.appendChild(input);
-        div.appendChild(label);
-        tipDiv.append(div);
-
-        // create button "Set as source"
-        input = createTag('input', { type: 'button', value: 'Set as source', style: 'width: 50%;' }, []);
-        input.addEventListener('click', function (evt) {
-          evt.stopPropagation();
-          evt.preventDefault();
-          selectDijkstraSource.value = node.id();
-          CyShortestPath.restart(cy);
-        });
-        var p = createTag('p', {}, [input]);
-        tipDiv.append(p);
-
-        // create button "Set as target"
-        input = createTag('input', { type: 'button', value: 'Set as target', style: 'width: 50%;' }, []);
-        input.addEventListener('click', function (evt) {
-          evt.stopPropagation();
-          evt.preventDefault();
-          selectDijkstraTarget.value = node.id();
-          CyShortestPath.restart(cy);
-        });
-        p = createTag('p', {}, [input]);
-        tipDiv.append(p);
+        tooltipTopologyRouter(tipDiv, node);
+        return;
       }
 
-      // create table
-      var table = document.createElement('table');
-      var tr, tdTitle, tdValue;
+      if (nodeType === 'router') {
+        tooltipPhysicalRouter(tipDiv, node);
+        return;
+      }
 
-      tr = table.insertRow();
-      tdTitle = tr.insertCell();
-      tdValue = tr.insertCell();
-      tdTitle.innerText = 'id';
-      tdValue.innerText = node.data('id');
-
-      var ports = node.data('ports') || [];
-      ports.forEach((port) => {
-        tr = table.insertRow();
-        tdTitle = tr.insertCell();
-        tdValue = tr.insertCell();
-        tdTitle.innerText = '';
-        tdValue.innerText = port.id || '';
-      });
-
-      tipDiv.append(table);
+      if (nodeType === 'port') {
+        tooltipPhysicalPort(tipDiv, node);
+      }
     }
 
-    function showTooltipEdge(tipDiv, edge) {
-      hideTooltip(tipDiv);
+    function tooltipPhysicalRouter(tipDiv, node) {
+      // add <h4>router_id</h4>
+      tipDiv.appendChild(createTag('h4', {}, [document.createTextNode(node.id())]));
 
-      if (nwdiagramState.dataName === 'topology') {
-        // create enable/disable checkbox
-        var input = document.createElement('input');
-        input.setAttribute('type', 'checkbox');
-        input.setAttribute('id', 'tipDiv_' + edge.id());
-        input.setAttribute('value', edge.id());
-        input.checked = !edge.hasClass('disabled');
-        input.addEventListener('change', function (evt) {
+      // add <h4>Ports</h4>
+      tipDiv.appendChild(createTag('h4', {}, [document.createTextNode('Ports')]));
+
+      // add link to own ports
+      const ulPorts = createTag('ul', {}, []);
+      tipDiv.appendChild(ulPorts);
+
+      const ports = node.data('ports') || [];
+      ports.forEach((p) => {
+        const port_id = node.id() + p.id;
+        const port = cy.$id(port_id);
+        if (port) {
+          const li = createTag('li', {}, []);
+          ulPorts.appendChild(li);
+          const a = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode(p.label)]);
+          li.appendChild(a);
+          a.addEventListener('click', function (evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+            cy.elements().unselect();
+            port.select();
+          });
+        }
+      });
+
+      // JUST TEST PURPOSE
+      // show router image
+      const model = node.data('model');
+      if (model) {
+        let path, thumb;
+        if (model === 'NCS-55A1-36H') {
+          thumb = 'static/site/img/sNCS-55A1-36H.png';
+          path = 'static/site/img/NCS-55A1-36H.png';
+        }
+        if (model === 'NCS-5501') {
+          thumb = 'static/site/img/sNCS-5501-SE.png';
+          path = 'static/site/img/NCS-5501-SE.png';
+        }
+        if (model === 'ASR9901') {
+          thumb = 'static/site/img/sASR9901.jpg';
+          path = 'static/site/img/ASR9901.jpg';
+        }
+
+        if (path) {
+          const img = document.createElement('img');
+          img.src = thumb;
+          img.width = tipDiv.clientWidth - 10;
+          const a = createTag('a', { href: path, 'data-lightbox': 'models' }, [img]);
+          tipDiv.appendChild(a);
+        }
+      }
+    }
+
+    function tooltipPhysicalPort(tipDiv, node) {
+      // add <h4>Name of port</h4>
+      tipDiv.appendChild(createTag('h4', {}, [document.createTextNode(node.data('label'))]));
+
+      const routerId = node.data('routerId');
+      const router = cy.$id(routerId);
+      if (router) {
+        // add <h4>Router</h4>
+        tipDiv.appendChild(createTag('h4', {}, [document.createTextNode('Router')]));
+        const a = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode(routerId)]);
+        a.addEventListener('click', function (evt) {
           evt.stopPropagation();
           evt.preventDefault();
+          cy.elements().unselect();
+          router.select();
+        });
+        tipDiv.appendChild(createTag('p', {}, [a]));
+      }
+
+      const connectedEdges = node.connectedEdges('.portToPort');
+      if (connectedEdges && connectedEdges.length > 0) {
+        // add <h4>Edges</h4>
+        tipDiv.appendChild(createTag('h4', {}, [document.createTextNode('Edges')]));
+        connectedEdges.forEach((edge) => {
+          const a = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode(edge.id())]);
+          a.addEventListener('click', function (evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+            cy.elements().unselect();
+            edge.select();
+          });
+          tipDiv.appendChild(createTag('p', {}, [a]));
+        });
+      }
+    }
+
+    function tooltipTopologyRouter(tipDiv, node) {
+      // add checkbox to enable/disable connected edges
+      let input = createTag('input', { type: 'checkbox', id: 'tipDiv_' + node.id(), value: node.id() }, []);
+      input.checked = !node.hasClass('disabled');
+      input.addEventListener('change', function (evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        node.connectedEdges().forEach((edge) => {
           if (evt.target.checked) {
             edge.removeClass('disabled');
           } else {
             edge.addClass('disabled');
           }
+        });
+        CyShortestPath.restart(cy);
+      });
 
-          CyShortestPath.restart(cy);
+      let label = createTag('label', {}, [document.createTextNode('enable/disable connected edges')]);
+      label.htmlFor = 'tipDiv_' + node.id();
+      tipDiv.append(createTag('div', {}, [input, label]));
+
+      // add button "Set as source"
+      input = createTag('input', { type: 'button', value: 'Set as source', style: 'width: 50%;' }, []);
+      input.addEventListener('click', function (evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        selectDijkstraSource.value = node.id();
+        CyShortestPath.restart(cy);
+      });
+      tipDiv.append(createTag('p', {}, [input]));
+
+      // add button "Set as target"
+      input = createTag('input', { type: 'button', value: 'Set as target', style: 'width: 50%;' }, []);
+      input.addEventListener('click', function (evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        selectDijkstraTarget.value = node.id();
+        CyShortestPath.restart(cy);
+      });
+      tipDiv.append(createTag('p', {}, [input]));
+
+      // add <h4>Neighbor routers</h4>
+      tipDiv.appendChild(createTag('h4', {}, [document.createTextNode('Neighbor routers')]));
+
+      // add link to neighbor routers
+      const ulRouters = createTag('ul', {}, []);
+      tipDiv.appendChild(ulRouters);
+      node.neighborhood('node').forEach((neighbor) => {
+        const li = createTag('li', {}, []);
+        ulRouters.appendChild(li);
+        const a = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode(neighbor.id())]);
+        li.appendChild(a);
+        a.addEventListener('click', function (evt) {
+          evt.stopPropagation();
+          evt.preventDefault();
+          cy.elements().unselect();
+          neighbor.select();
         });
 
-        var label = document.createElement('label');
-        label.htmlFor = 'tipDiv_' + edge.id();
-        label.appendChild(document.createTextNode('enable/disable'));
+        // add link to edge
+        const ulEdges = createTag('ul', {}, []);
+        li.appendChild(ulEdges);
+        node.edgesWith(neighbor).forEach((edge) => {
+          const li = createTag('li', {}, []);
+          const a = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode('edge')]);
+          a.addEventListener('click', function (evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+            cy.elements().unselect();
+            edge.select();
+          });
+          li.appendChild(a);
+          ulEdges.appendChild(li);
+        });
+      });
+    }
 
-        var div = document.createElement('div');
-        div.appendChild(input);
-        div.appendChild(label);
-        tipDiv.append(div);
+    function showTooltipEdge(tipDiv, edge) {
+      hideTooltip(tipDiv);
+
+      // create enable/disable checkbox
+      if (nwdiagramState.dataName === 'topology') {
+        tooltipTopologyEdge(tipDiv, edge);
+        return;
       }
 
-      // create table
-      var table = document.createElement('table');
-      var tr, tdTitle, tdValue;
+      // add <h4>Source port</h4>
+      tipDiv.appendChild(createTag('h4', {}, [document.createTextNode('Source port')]));
+      const sourcePort = cy.$id(edge.source().id());
+      let a = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode(edge.source().id())]);
+      a.addEventListener('click', function (evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        cy.elements().unselect();
+        sourcePort.select();
+      });
+      tipDiv.appendChild(createTag('p', {}, [a]));
 
-      tr = table.insertRow();
-      tdTitle = tr.insertCell();
-      tdValue = tr.insertCell();
-      tdTitle.innerText = 'source';
-      tdValue.innerText = edge.source().data('id');
+      // add <h4>Target port</h4>
+      tipDiv.appendChild(createTag('h4', {}, [document.createTextNode('Target port')]));
+      const targetPort = cy.$id(edge.target().id());
+      a = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode(edge.target().id())]);
+      a.addEventListener('click', function (evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        cy.elements().unselect();
+        targetPort.select();
+      });
+      tipDiv.appendChild(createTag('p', {}, [a]));
+    }
 
-      tr = table.insertRow();
-      tdTitle = tr.insertCell();
-      tdValue = tr.insertCell();
-      tdTitle.innerText = 'target';
-      tdValue.innerText = edge.target().data('id');
+    function tooltipTopologyEdge(tipDiv, edge) {
+      const input = createTag('input', { type: 'checkbox', id: 'tipDiv_' + edge.id(), value: edge.id() }, []);
+      input.checked = !edge.hasClass('disabled');
+      input.addEventListener('change', function (evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        if (evt.target.checked) {
+          edge.removeClass('disabled');
+        } else {
+          edge.addClass('disabled');
+        }
+        CyShortestPath.restart(cy);
+      });
 
-      tipDiv.append(table);
+      const label = createTag('label', {}, [document.createTextNode('enable/disable edge')]);
+      label.htmlFor = 'tipDiv_' + edge.id();
+      tipDiv.append(createTag('div', {}, [input, label]));
+
+      // add <h4>Connected routers</h4>
+      tipDiv.appendChild(createTag('h4', {}, [document.createTextNode('Connected routers')]));
+
+      // add link to connected routers
+      const ulRouters = createTag('ul', {}, []);
+      tipDiv.appendChild(ulRouters);
+      edge.connectedNodes().forEach((neighbor) => {
+        const li = createTag('li', {}, []);
+        ulRouters.appendChild(li);
+        const a = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode(neighbor.id())]);
+        li.appendChild(a);
+        a.addEventListener('click', function (evt) {
+          evt.stopPropagation();
+          evt.preventDefault();
+          cy.elements().unselect();
+          neighbor.select();
+        });
+      });
     }
 
     // the button to revert to initial position
@@ -884,7 +1017,6 @@
       selectDijkstraSource.addEventListener('change', function (evt) {
         evt.stopPropagation();
         evt.preventDefault();
-
         CyShortestPath.restart(cy);
       });
     }
@@ -938,9 +1070,59 @@
       // trigger to calculate shortest path at current source
       selectDijkstraSource.dispatchEvent(new Event('change'));
 
-      // trigger to show pathTo current target
-      selectDijkstraTarget.dispatchEvent(new Event('change'));
+      var calculatedPairs = [];
 
+      // select next (source, target) pair
+      function moveNext2() {
+        if (!CyShortestPath.isRunning) {
+          return;
+        }
+
+        // next index of (source, target) pair
+        targetIndex++;
+        if (targetIndex === routerIds.length) {
+          // rewind to top of target list
+          targetIndex = 0;
+          selectDijkstraTarget.options[targetIndex].selected = true;
+
+          // then move next source
+          sourceIndex++;
+          if (sourceIndex === routerIds.length) {
+            sourceIndex = 0;
+          }
+          selectDijkstraSource.options[sourceIndex].selected = true;
+          selectDijkstraSource.dispatchEvent(new Event('change'));
+          calculatedPairs.push(sourceIndex.toString() + '-' + targetIndex.toString());
+        } else {
+          selectDijkstraTarget.options[targetIndex].selected = true;
+        }
+
+        // check if reach to original position
+        if (sourceIndex === originalSourceIndex && targetIndex === originalTargetIndex) {
+          console.log('done');
+
+          // show final path
+          selectDijkstraTarget.dispatchEvent(new Event('change'));
+
+          // then finish
+          dijkstraStartStop.checked = false;
+          CyShortestPath.isRunning = selectDijkstraSource.disabled = selectDijkstraTarget.disabled = dijkstraStartStop.checked;
+          return;
+        }
+
+        if (calculatedPairs.includes(targetIndex.toString() + '-' + sourceIndex.toString())) {
+          // console.log("already displayed reverse path, just skip it");
+          moveNext2();
+        } else {
+          calculatedPairs.push(sourceIndex.toString() + '-' + targetIndex.toString());
+          selectDijkstraTarget.dispatchEvent(new Event('change'));
+          setTimeout(moveNext2, nwdiagramState.shortestPathDuration);
+        }
+      }
+
+      moveNext2();
+
+      /*
       // select next (source, target) pair
       function moveNext() {
         if (!CyShortestPath.isRunning) {
@@ -969,6 +1151,7 @@
       }
 
       moveNext();
+      */
     }
 
     var dijkstraClearButton = document.getElementById('idDijkstraClear');
