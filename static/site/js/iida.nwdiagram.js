@@ -578,6 +578,18 @@
       });
     }
 
+    function createTag(tag, attrs, children) {
+      var el = document.createElement(tag);
+      Object.keys(attrs).forEach(function (key) {
+        var val = attrs[key];
+        el.setAttribute(key, val);
+      });
+      children.forEach(function (child) {
+        el.appendChild(child);
+      });
+      return el;
+    }
+
     // the button to revert to initial position
     var initialPositionButton = document.getElementById('idInitialPosition');
     if (initialPositionButton) {
@@ -605,22 +617,6 @@
             .promise();
         })
       );
-    }
-
-    function createTag(tag, attrs, children) {
-      var el = document.createElement(tag);
-      Object.keys(attrs).forEach(function (key) {
-        var val = attrs[key];
-        el.setAttribute(key, val);
-      });
-      children.forEach(function (child) {
-        el.appendChild(child);
-      });
-      return el;
-    }
-
-    function createA(link) {
-      return createTag('a', { target: '_blank', href: link.url, class: 'tip-link' }, [document.createTextNode(link.name)]);
     }
 
     var bundleEtherDiv = document.getElementById('idBundleEther');
