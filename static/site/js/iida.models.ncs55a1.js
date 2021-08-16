@@ -3,7 +3,7 @@
 (function () {
   iida.models.ncs55a1 = function () {
 
-    var IMG_PATH = '/static/site/img/NCS-55A1-36H.png'
+    var IMG_PATH = 'static/site/img/NCS-55A1-36H.png'
     var IMG_WIDTH = 1920;
     var IMG_HEIGHT = 171;
 
