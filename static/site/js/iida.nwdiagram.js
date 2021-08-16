@@ -402,7 +402,7 @@
             if (model === 'NCS-55A1-36H') {
               var portDatas = [];
               ports.forEach(p => {
-                portDatas.push({data: {id: p.id}});
+                portDatas.push({data: {id: p.id}, grabbable: false});
               });
               minicyContainer.style.visibility = '';
               var ncs = iida.ncs55a1();
