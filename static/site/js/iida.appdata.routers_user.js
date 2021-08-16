@@ -31,8 +31,8 @@
           align: ['R', 'B'],
         },
         {
-          id: 'G0/0/0/0',
-          label: 'G0/0/0/0\nBundle-E1000',
+          id: 'Te0/0/0/0',
+          label: 'Te0/0/0/0\nBundle-E1000',
           align: ['L', 'C'],
         },
         {
@@ -84,8 +84,8 @@
           align: ['L', 'B'],
         },
         {
-          id: 'G0/0/0/0',
-          label: 'G0/0/0/0\nBundle-E1000',
+          id: 'Te0/0/0/0',
+          label: 'Te0/0/0/0\nBundle-E1000',
           align: ['L', 'C'],
         },
       ],
@@ -117,8 +117,8 @@
           align: ['R', 'B'],
         },
         {
-          id: 'G0/0/0/0',
-          label: 'G0/0/0/0\nBundle-E1000',
+          id: 'Te0/0/0/0',
+          label: 'Te0/0/0/0\nBundle-E1000',
           align: ['L', 'C'],
         },
       ],
@@ -150,8 +150,8 @@
           align: ['R', 'C'],
         },
         {
-          id: 'G0/0/0/0',
-          label: 'G0/0/0/0\nBundle-E1000',
+          id: 'Te0/0/0/0',
+          label: 'Te0/0/0/0\nBundle-E1000',
           align: ['L', 'C'],
         },
       ],
@@ -183,8 +183,8 @@
           align: ['R', 'B'],
         },
         {
-          id: 'G0/0/0/0',
-          label: 'G0/0/0/0\nBundle-E1000',
+          id: 'Te0/0/0/0',
+          label: 'Te0/0/0/0\nBundle-E1000',
           align: ['L', 'C'],
         },
       ],
@@ -216,8 +216,8 @@
           align: ['R', 'C'],
         },
         {
-          id: 'G0/0/0/0',
-          label: 'G0/0/0/0\nBundle-E1000',
+          id: 'Te0/0/0/0',
+          label: 'Te0/0/0/0\nBundle-E1000',
           align: ['L', 'C'],
         },
       ],
@@ -249,8 +249,8 @@
           align: ['R', 'B'],
         },
         {
-          id: 'G0/0/0/0',
-          label: 'G0/0/0/0\nBundle-E1000',
+          id: 'Te0/0/0/0',
+          label: 'Te0/0/0/0\nBundle-E1000',
           align: ['L', 'C'],
         },
       ],
@@ -282,8 +282,8 @@
           align: ['R', 'C'],
         },
         {
-          id: 'G0/0/0/0',
-          label: 'G0/0/0/0\nBundle-E1000',
+          id: 'Te0/0/0/0',
+          label: 'Te0/0/0/0\nBundle-E1000',
           align: ['L', 'C'],
         },
       ],

@@ -5,7 +5,7 @@
     var _container = container;
     var _data;
 
-    var _cy = cytoscape({
+    exports.cy = exports.cy || cytoscape({
       container: _container,
       minZoom: 0.1,
       maxZoom: 3,
@@ -38,9 +38,9 @@
     function exports() {}
 
     exports.call = function () {
-      _cy.elements().removeAllListeners();
-      _cy.elements().remove();
-      _cy.reset();
+      exports.cy.elements().removeAllListeners();
+      exports.cy.elements().remove();
+      exports.cy.reset();
 
       var callback = arguments[0];
       arguments[0] = this;
@@ -61,14 +61,6 @@
         return _container;
       }
       _container = _;
-      return this;
-    };
-
-    exports.cy = function (_) {
-      if (!arguments.length) {
-        return _cy;
-      }
-      _cy = _;
       return this;
     };
 

@@ -26,6 +26,9 @@
     topologyElements: {}, // cytoscape.js eles
   };
 
+  // see iida.models.xxx.js
+  iida.models = iida.models || {};
+
   // see iida.cystyles.js
   iida.styles = iida.styles || {};
 

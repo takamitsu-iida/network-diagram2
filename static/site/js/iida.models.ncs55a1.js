@@ -1,7 +1,7 @@
 /* global iida */
 
 (function () {
-  iida.ncs55a1 = function () {
+  iida.models.ncs55a1 = function () {
 
     var IMG_PATH = '/static/site/img/NCS-55A1-36H.png'
     var IMG_WIDTH = 1920;
@@ -79,7 +79,11 @@
 
     function exports (minicy) {
       const data = minicy.datum();
-      const cy = minicy.cy();
+      const cy = minicy.cy;
+      const container = minicy.container();
+
+      container.style.height = IMG_HEIGHT + 'px';
+      cy.resize();
 
       cy.add({
         data: {id: 'MASTER'},

@@ -377,23 +377,20 @@
       // show router image
       const model = node.data('model');
       if (model) {
-        let path, thumb;
+        let path;
         if (model === 'NCS-55A1-36H') {
-          thumb = 'static/site/img/sNCS-55A1-36H.png';
-          path = 'static/site/img/NCS-55A1-36H.png';
+          path = 'static/site/img/sNCS-55A1-36H.png';
         }
         if (model === 'NCS-5501') {
-          thumb = 'static/site/img/sNCS-5501-SE.png';
-          path = 'static/site/img/NCS-5501-SE.png';
+          path = 'static/site/img/sNCS-5501.png';
         }
         if (model === 'ASR9901') {
-          thumb = 'static/site/img/sASR9901.jpg';
-          path = 'static/site/img/ASR9901.jpg';
+          path = 'static/site/img/sASR9901.jpg';
         }
 
         if (path) {
           const img = document.createElement('img');
-          img.src = thumb;
+          img.src = path;
           img.width = tipDiv.clientWidth - 10;
           const a = createTag('a', { href: '#' }, [img]);
           a.addEventListener('click', function (evt) {
@@ -405,9 +402,18 @@
                 portDatas.push({data: {id: p.id}, grabbable: false});
               });
               minicyContainer.style.visibility = '';
-              var ncs = iida.ncs55a1();
-              minicy.datum(portDatas).call(ncs);
+              minicy.datum(portDatas).call(iida.models.ncs55a1());
             }
+            if (model === 'NCS-5501') {
+              var portDatas = [];
+              ports.forEach(p => {
+                portDatas.push({data: {id: p.id}, grabbable: false});
+              });
+              minicyContainer.style.visibility = '';
+              minicy.datum(portDatas).call(iida.models.ncs5501());
+            }
+
+
           });
           tipDiv.appendChild(a);
         }
