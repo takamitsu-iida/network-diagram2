@@ -121,6 +121,11 @@
       });
     }
 
+    var minicyContainer = document.getElementById('idMinicy');
+    if (minicyContainer) {
+      var minicy = iida.minicy(minicyContainer);
+    }
+
     function setCyElements(cy, name, eles) {
       // save element name
       nwdiagramState.dataName = name;
@@ -310,6 +315,9 @@
       while (tipDiv.lastChild) {
         tipDiv.removeChild(tipDiv.lastChild);
       }
+
+      // hide minicy
+      minicyContainer.style.visibility = 'hidden';
     }
 
     function showTooltipNode(tipDiv, node) {
@@ -387,7 +395,20 @@
           const img = document.createElement('img');
           img.src = thumb;
           img.width = tipDiv.clientWidth - 10;
-          const a = createTag('a', { href: path, 'data-lightbox': 'models' }, [img]);
+          const a = createTag('a', { href: '#' }, [img]);
+          a.addEventListener('click', function (evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+            if (model === 'NCS-55A1-36H') {
+              var portDatas = [];
+              ports.forEach(p => {
+                portDatas.push({data: {id: p.id}});
+              });
+              minicyContainer.style.visibility = '';
+              var ncs = iida.ncs55a1();
+              minicy.datum(portDatas).call(ncs);
+            }
+          });
           tipDiv.appendChild(a);
         }
       }
@@ -1091,7 +1112,7 @@
 
         // check if reached to original position
         if (sourceIndex === originalSourceIndex && targetIndex === originalTargetIndex) {
-          console.log('done');
+          // console.log('done');
           // show final path
           selectDijkstraTarget.dispatchEvent(new Event('change'));
           // then finish
@@ -1215,14 +1236,29 @@
     }
 
     // DEBUG PURPOSE
-    var cdebugButton = document.getElementById('idDebugButton');
-    if (cdebugButton) {
-      cdebugButton.addEventListener('click', function (evt) {
+    var debugButton = document.getElementById('idDebugButton');
+    if (debugButton) {
+      debugButton.addEventListener('click', function (evt) {
         evt.stopPropagation();
         evt.preventDefault();
-        cy.elements().forEach((element) => {
-          console.log(element.id() + ' ' + element.position().x);
-        });
+
+        var dummyData = {
+          nodes: [
+            {
+              data: { id: 'Hu0/0/0/0' },
+            },
+            {
+              data: { id: 'Hu0/0/0/1' },
+            },
+            {
+              data: { id: 'Hu0/0/0/24' },
+            },
+          ],
+        };
+
+        minicyContainer.style.visibility = '';
+        var ncs = iida.ncs55a1();
+        minicy.datum(dummyData).call(ncs);
       });
     }
   };

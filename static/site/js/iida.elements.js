@@ -215,44 +215,116 @@
       return this;
     };
 
-    exports.offset = function (router_width, router_height, port_width, port_height) {
-      var rw = router_width / 2;
-      var rh = router_height / 2;
-      var pw = port_width / 2;
-      var ph = port_height / 2;
+    exports.offset = function (routerWidth, routerHeight, portWidth, portHeight) {
+      // TODO: routerHeight should be adjusted automatically
 
       switch (_align[0]) {
         case 'L': // Left
-          _offsetX = -1 * (rw - pw);
+          _offsetX = -1 * (routerWidth / 2 - portWidth / 2);
+          break;
+        case 'LO': // Left Outside
+          _offsetX = -1 * (routerWidth / 2 + portWidth / 2);
           break;
         case 'C': // Center
           _offsetX = 0;
           break;
         case 'R': // Right
-          _offsetX = rw - pw;
+          _offsetX = routerWidth / 2 - portWidth / 2;
+          break;
+        case 'RO': // Right Outside
+          _offsetX = routerWidth / 2 + portWidth / 2;
           break;
       }
 
       switch (_align[1]) {
         case 'T': // Top
-          _offsetY = -1 * (rh - ph);
+          _offsetY = -1 * routerHeight / 2 + portHeight / 2;
+          break;
+        case 'T1': // 1st Top
+          _offsetY = -1 * routerHeight / 2 + portHeight / 2;
           break;
         case 'T2': // 2nd Top
-          _offsetY = -1 * (rh - ph) + port_height;
+          _offsetY = -1 * routerHeight / 2 + portHeight / 2 + portHeight * 1;
+          break;
+        case 'T3': // 3rd Top
+          _offsetY = -1 * routerHeight / 2 + portHeight / 2 + portHeight * 2;
+          break;
+        case 'T4':
+          _offsetY = -1 * routerHeight / 2 + portHeight / 2 + portHeight * 3;
+          break;
+        case 'T5':
+          _offsetY = -1 * routerHeight / 2 + portHeight / 2 + portHeight * 4;
+          break;
+        case 'T6':
+          _offsetY = -1 * routerHeight / 2 + portHeight / 2 + portHeight * 5;
+          break;
+        case 'T7':
+          _offsetY = -1 * routerHeight / 2 + portHeight / 2 + portHeight * 6;
+          break;
+        case 'T8':
+          _offsetY = -1 * routerHeight / 2 + portHeight / 2 + portHeight * 7;
+          break;
+        case 'T9':
+          _offsetY = -1 * routerHeight / 2 + portHeight / 2 + portHeight * 8;
+          break;
+        case 'T10':
+          _offsetY = -1 * routerHeight / 2 + portHeight / 2 + portHeight * 9;
+          break;
+        case 'T11':
+          _offsetY = -1 * routerHeight / 2 + portHeight / 2 + portHeight * 10;
+          break;
+        case 'T12':
+          _offsetY = -1 * routerHeight / 2 + portHeight / 2 + portHeight * 11;
           break;
         case 'C': // Center
           _offsetY = 0;
           break;
         case 'B': // Bottom
-          _offsetY = rh - ph;
+          _offsetY = routerHeight / 2 - portHeight / 2;
+          break;
+        case 'B1': // 1st from Bottom
+          _offsetY = routerHeight / 2 - portHeight / 2;
+          break;
+        case 'B2': // 2nd from Bottom
+          _offsetY = routerHeight / 2 - portHeight / 2 - portHeight * 1;
+          break;
+        case 'B3': // 3rd from Bottom
+          _offsetY = routerHeight / 2 - portHeight / 2 - portHeight * 2;
+          break;
+        case 'B4': // 3rd from Bottom
+          _offsetY = routerHeight / 2 - portHeight / 2 - portHeight * 3;
+          break;
+        case 'B5': // 3rd from Bottom
+          _offsetY = routerHeight / 2 - portHeight / 2 - portHeight * 4;
+          break;
+        case 'B6': // 3rd from Bottom
+          _offsetY = routerHeight / 2 - portHeight / 2 - portHeight * 5;
+          break;
+        case 'B7': // 3rd from Bottom
+          _offsetY = routerHeight / 2 - portHeight / 2 - portHeight * 6;
+          break;
+        case 'B8': // 3rd from Bottom
+          _offsetY = routerHeight / 2 - portHeight / 2 - portHeight * 7;
+          break;
+        case 'B9': // 3rd from Bottom
+          _offsetY = routerHeight / 2 - portHeight / 2 - portHeight * 8;
+          break;
+        case 'B10': // 3rd from Bottom
+          _offsetY = routerHeight / 2 - portHeight / 2 - portHeight * 9;
+          break;
+        case 'B11': // 3rd from Bottom
+          _offsetY = routerHeight / 2 - portHeight / 2 - portHeight * 10;
+          break;
+        case 'B12': // 3rd from Bottom
+          _offsetY = routerHeight / 2 - portHeight / 2 - portHeight * 11;
           break;
       }
 
       return this;
     };
 
-    exports.fit = function (router_position) {
-      _position = { x: router_position.x + _offsetX, y: router_position.y + _offsetY };
+    exports.fit = function (routerPosition) {
+      _position = { x: routerPosition.x + _offsetX, y: routerPosition.y + _offsetY };
       return this;
     };
 
@@ -440,8 +512,8 @@
       var routerId = router.id;
       var label = router.label || '';
       var popper = router.popper || '';
-      var router_width = router.width || DEFAULT_ROUTER_WIDTH;
-      var router_height = router.height || DEFAULT_ROUTER_HEIGHT;
+      var routerWidth = router.width || DEFAULT_ROUTER_WIDTH;
+      var routerHeight = router.height || DEFAULT_ROUTER_HEIGHT;
       var classes = router.classes || [];
       var dragWith = router.dragWith || [];
       var redundant = router.redundant || 1;
@@ -455,8 +527,8 @@
         .label(label)
         .popper(popper)
         .ports(ports)
-        .width(router_width)
-        .height(router_height)
+        .width(routerWidth)
+        .height(routerHeight)
         .classes(classes)
         .dragWith(dragWith)
         .redundant(redundant)
@@ -465,7 +537,7 @@
       eles.nodes.push(n.toObject());
 
       // create hidden rootPort node
-      var rootPortId = '_' + routerId; // IMPORTANT: rootPortId is defined as "_" + routerId
+      var rootPortId = '_' + routerId; // IMPORTANT: rootPortId is defined as '_' + routerId
       var n = createNode()
         .id(rootPortId)
         .nodeType('rootPort') // rootPort is hidden port which designate the node
@@ -473,7 +545,7 @@
         .align(['C', 'C'])
         .width(10)
         .height(10)
-        .offset(router_width, router_height, 10, 10);
+        .offset(routerWidth, routerHeight, 10, 10);
       eles.nodes.push(n.toObject());
 
       // create port node
@@ -482,8 +554,8 @@
         var portId = routerId + pid;
         var label = port.label || pid;
         var align = port.align || ['C', 'C'];
-        var port_width = port.width || DEFAULT_PORT_WIDTH;
-        var port_height = port.height || DEFAULT_PORT_HEIGHT;
+        var portWidth = port.width || DEFAULT_PORT_WIDTH;
+        var portHeight = port.height || DEFAULT_PORT_HEIGHT;
         var classes = port.classes || [];
 
         var n = createNode()
@@ -492,18 +564,18 @@
           .routerId(routerId)
           .align(align)
           .label(label)
-          .width(port_width)
-          .height(port_height)
+          .width(portWidth)
+          .height(portHeight)
           .classes(classes)
-          .offset(router_width, router_height, port_width, port_height);
+          .offset(routerWidth, routerHeight, portWidth, portHeight);
 
         eles.nodes.push(n.toObject());
 
         // create internal hidden edge from rootPort to this port
-        var edge_id = rootPortId + portId; // is equal to _routerId routerId pid
+        var edgeId = rootPortId + portId; // is equal to _routerId routerId pid
         var e = createEdge()
           .edgeType('routerToPort') // routerToPort type is special hidden edge
-          .id(edge_id)
+          .id(edgeId)
           .source(rootPortId)
           .target(portId)
           .weight(0);
@@ -545,7 +617,7 @@
         return;
       }
 
-      var edge_id = source + target;
+      var edgeId = source + target;
       var label = edge.label || '';
       var popper = edge.popper || '';
       var weight = edge.weight || 1;
@@ -553,7 +625,7 @@
 
       var e = createEdge()
         .edgeType('portToPort') // portToPort is the default edge type
-        .id(edge_id)
+        .id(edgeId)
         .source(source)
         .sourceRouter(sourceRouter)
         .sourcePort(sourcePort)
@@ -583,8 +655,8 @@
     // copy router nodes
     elements.nodes.forEach((node) => {
       if (node.classes.includes('router')) {
-        var new_node = JSON.parse(JSON.stringify(node)); // deep copy
-        eles.nodes.push(new_node);
+        var newNode = JSON.parse(JSON.stringify(node)); // deep copy
+        eles.nodes.push(newNode);
       }
     });
 
@@ -594,12 +666,12 @@
       if (sourceRouter === targetRouter) {
         return;
       }
-      var new_edge = JSON.parse(JSON.stringify(edge)); // deep copy
+      var newEdge = JSON.parse(JSON.stringify(edge)); // deep copy
 
       // fix the source and target to router node
-      new_edge.data.source = sourceRouter;
-      new_edge.data.target = targetRouter;
-      eles.edges.push(new_edge);
+      newEdge.data.source = sourceRouter;
+      newEdge.data.target = targetRouter;
+      eles.edges.push(newEdge);
     });
 
     return eles;
