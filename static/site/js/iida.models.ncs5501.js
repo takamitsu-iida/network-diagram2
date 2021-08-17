@@ -1,138 +1,130 @@
 /* global iida */
 
 (function () {
-  iida.models.ncs5501 = function () {
-
-    var IMG_PATH = 'static/site/img/NCS-5501.png'
+  iida.models.ncs5501 = (function () {
+    var THUMBNAIL_PATH = 'static/site/img/sNCS-5501.png';
+    var IMG_PATH = 'static/site/img/NCS-5501.png';
     var IMG_WIDTH = 1920;
     var IMG_HEIGHT = 168;
-
-    var IMG_X = IMG_WIDTH/2;
-    var IMG_Y = IMG_HEIGHT/2;
-
-    var nodeWidth = 78;
-    var nodeHeight = 34;
+    var PORT_WIDTH = 56;
+    var PORT_HEIGHT = 30;
 
     // (x, y) by paint application
     var positionMap = {
-      'Te0/0/0/0': [410, 45],
-      'Te0/0/0/1': [410, 110],
+      // interface GigabitEthernet0/0/0/1
+      // interface TenGigE0/0/0/1
 
-      'Te0/0/0/2': [475, 45],
-      'Te0/0/0/3': [475, 110],
+      'G0/0/0/0': [80, 42],
+      'G0/0/0/1': [80, 108],
 
-      'Te0/0/0/4': [540, 45],
-      'Te0/0/0/5': [540, 110],
+      'G0/0/0/2': [140, 42],
+      'G0/0/0/3': [140, 108],
 
-      'Te0/0/0/6': [600, 45],
-      'Te0/0/0/7': [600, 110],
+      'G0/0/0/4': [205, 42],
+      'G0/0/0/5': [205, 108],
 
-      'Te0/0/0/8': [660, 45],
-      'Te0/0/0/9': [660, 110],
+      'G0/0/0/6': [270, 42],
+      'G0/0/0/7': [270, 108],
 
-      'Te0/0/0/10': [720, 45],
-      'Te0/0/0/11': [720, 110],
+      'G0/0/0/8': [330, 42],
+      'G0/0/0/9': [330, 108],
 
-      'Te0/0/0/12': [780, 45],
-      'Te0/0/0/13': [780, 110],
+      'G0/0/0/10': [390, 42],
+      'G0/0/0/11': [390, 108],
 
-      'Te0/0/0/14': [845, 45],
-      'Te0/0/0/15': [845, 110],
+      'G0/0/0/12': [455, 42],
+      'G0/0/0/13': [455, 108],
 
-      'Te0/0/0/16': [910, 45],
-      'Te0/0/0/17': [910, 110],
+      'G0/0/0/14': [515, 42],
+      'G0/0/0/15': [515, 108],
 
-      'Te0/0/0/18': [970, 45],
-      'Te0/0/0/19': [970, 110],
+      'G0/0/0/16': [600, 42],
+      'G0/0/0/17': [600, 108],
 
-      'Te0/0/0/20': [1065, 45],
-      'Te0/0/0/21': [1065, 110],
+      'G0/0/0/18': [660, 42],
+      'G0/0/0/19': [660, 108],
 
-      'Te0/0/0/22': [1130, 45],
-      'Te0/0/0/23': [1130, 110],
+      'G0/0/0/20': [720, 42],
+      'G0/0/0/21': [720, 108],
 
-      'Te0/0/0/24': [1190, 45],
-      'Te0/0/0/25': [1190, 110],
+      'G0/0/0/22': [780, 42],
+      'G0/0/0/23': [780, 108],
 
-      'Te0/0/0/26': [1250, 45],
-      'Te0/0/0/27': [1250, 110],
+      'G0/0/0/24': [840, 42],
+      'G0/0/0/25': [840, 108],
 
-      'Te0/0/0/28': [1310, 45],
-      'Te0/0/0/29': [1310, 110],
+      'G0/0/0/26': [900, 42],
+      'G0/0/0/27': [900, 108],
 
-      'Te0/0/0/30': [1375, 45],
-      'Te0/0/0/31': [1375, 110],
+      'G0/0/0/28': [965, 42],
+      'G0/0/0/29': [965, 108],
 
-      'Te0/0/0/32': [1435, 45],
-      'Te0/0/0/33': [1435, 110],
+      'G0/0/0/30': [1025, 42],
+      'G0/0/0/31': [1025, 108],
 
-      'Te0/0/0/34': [1500, 45],
-      'Te0/0/0/35': [1500, 110],
+      'G0/0/0/32': [1107, 42],
+      'G0/0/0/33': [1107, 108],
 
-      'Te0/0/0/36': [1560, 45],
-      'Te0/0/0/37': [1560, 110],
+      'G0/0/0/34': [1170, 42],
+      'G0/0/0/35': [1170, 108],
 
-      'Te0/0/0/38': [1625, 45],
-      'Te0/0/0/39': [1625, 110],
+      'G0/0/0/36': [1230, 42],
+      'G0/0/0/37': [1230, 108],
 
-      'Hu0/0/1/0': [1725, 45],
-      'Hu0/0/1/1': [1725, 110],
+      'G0/0/0/38': [1290, 42],
+      'G0/0/0/39': [1290, 108],
 
-      'Hu0/0/1/2': [1835, 45],
-      'Hu0/0/1/3': [1835, 110],
+      'G0/0/0/40': [1355, 42],
+      'G0/0/0/41': [1355, 108],
+
+      'G0/0/0/42': [1415, 42],
+      'G0/0/0/43': [1415, 108],
+
+      'G0/0/0/44': [1477, 42],
+      'G0/0/0/45': [1477, 108],
+
+      'G0/0/0/46': [1540, 42],
+      'G0/0/0/47': [1540, 108],
+
+      // interface HundredGigE0/0/1/0
+      'H0/0/1/0': [1640, 44],
+      'H0/0/1/1': [1640, 112],
+
+      'H0/0/1/2': [1740, 44],
+      'H0/0/1/3': [1740, 112],
+
+      'H0/0/1/4': [1835, 44],
+      'H0/0/1/5': [1835, 112],
     };
+
+    for (const prop in positionMap) {
+      if (prop.startsWith('G0')) {
+        positionMap['Gi' + prop.substr(1)] = positionMap[prop];
+        positionMap['GigabitEthernet' + prop.substr(1)] = positionMap[prop];
+        positionMap['Te' + prop.substr(1)] = positionMap[prop];
+        positionMap['TenGigE' + prop.substr(1)] = positionMap[prop];
+      } else if (prop.startsWith('H0')) {
+        positionMap['Hu' + prop.substr(1)] = positionMap[prop];
+        positionMap['HundredGigE' + prop.substr(1)] = positionMap[prop];
+      }
+    }
 
     var offsetMap = {};
     for (let k in positionMap) {
-      offsetX = positionMap[k][0] - IMG_X;
-      offsetY = positionMap[k][1] - IMG_Y;
+      offsetX = positionMap[k][0] - IMG_WIDTH / 2;
+      offsetY = positionMap[k][1] - IMG_HEIGHT / 2;
       offsetMap[k] = [offsetX, offsetY];
     }
 
-    function exports (minicy) {
-      const data = minicy.datum();
-      const cy = minicy.cy;
-
-      cy.add({
-        data: {id: 'MASTER'},
-        selectable: false,
-        locked: false,
-        grabbable: true,
-      });
-
-      var masterNode = cy.$id('MASTER');
-      masterNode.style('shape', 'rectangle');
-      masterNode.style('width', IMG_WIDTH);
-      masterNode.style('height', IMG_HEIGHT);
-      masterNode.style('background-image', IMG_PATH);
-
-      cy.on('position', '#MASTER', function (evt) {
-        var routerPosition = evt.target.position();
-
-        cy.nodes().forEach(node => {
-          var offset = offsetMap[node.id()];
-          if (!offset) {
-            return;
-          }
-          var offsetX = offset[0];
-          var offsetY = offset[1];
-
-          node.position({ x: routerPosition.x + offsetX, y: routerPosition.y + offsetY});
-        });
-      });
-
-      cy.add(data);
-
-      cy.nodes().not(masterNode).forEach(node => {
-        node.style('width', nodeWidth);
-        node.style('height', nodeHeight);
-      });
-
-      cy.fit();
-      masterNode.emit('position');
-    }
-
-    return exports;
-  };
+    return {
+      THUMBNAIL_PATH,
+      IMG_PATH,
+      IMG_WIDTH,
+      IMG_HEIGHT,
+      PORT_WIDTH,
+      PORT_HEIGHT,
+      offsetMap,
+    };
+  })();
   //
 })();

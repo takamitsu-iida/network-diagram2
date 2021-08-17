@@ -278,7 +278,6 @@
         'text-valign': 'center',
         'text-halign': 'center',
         opacity: 0.8,
-        'border-opacity': 1.0,
       },
     },
 
@@ -293,7 +292,6 @@
         'font-size': 9,
         'background-color': '#f0e68c', // khaki
         'border-width': 0,
-        opacity: 1,
       },
     },
 

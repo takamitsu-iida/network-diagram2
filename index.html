@@ -58,9 +58,10 @@
     <script type="text/javascript" src="./static/site/js/iida.nwdiagram.js"></script>
 
     <!-- iida.models.xxx.js -->
-    <script type="text/javascript" src="./static/site/js/iida.minicy.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.cymodel.js"></script>
     <script type="text/javascript" src="./static/site/js/iida.models.ncs55a1.js"></script>
     <script type="text/javascript" src="./static/site/js/iida.models.ncs5501.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.models.asr9901.js"></script>
 
   </head>
 
@@ -88,9 +89,11 @@
 
           <h3>BundleEther</h3>
           <div id="idBundleEther"></div>
-
+<!--
           <h3>debug</h3>
           <input id="idDebugButton" type="button" value="Debug" style="width: 100%;"></td>
+-->
+
         </div>
 
         <div id="idMenuL" style="display: none">
@@ -197,7 +200,7 @@
       <div id="idRightPanel" class="right_panel">
         <div id="cy"></div>
 
-        <div id="idMinicy" class="minicyDiv" style="visibility: hidden;"></div>
+        <div id="idCyModel" style="visibility: hidden;"></div>
 
         <div id="on_cy">
           <table style="width: 100%">

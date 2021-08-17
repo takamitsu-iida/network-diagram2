@@ -121,9 +121,9 @@
       });
     }
 
-    var minicyContainer = document.getElementById('idMinicy');
-    if (minicyContainer) {
-      var minicy = iida.minicy(minicyContainer);
+    var cyModelContainer = document.getElementById('idCyModel');
+    if (cyModelContainer) {
+      var cyModel = iida.cyModel(cyModelContainer);
     }
 
     function setCyElements(cy, name, eles) {
@@ -316,8 +316,8 @@
         tipDiv.removeChild(tipDiv.lastChild);
       }
 
-      // hide minicy
-      minicyContainer.style.visibility = 'hidden';
+      // hide cyModel
+      cyModel.hide();
     }
 
     function showTooltipNode(tipDiv, node) {
@@ -377,43 +377,27 @@
       // show router image
       const model = node.data('model');
       if (model) {
-        let path;
+        let modelData;
         if (model === 'NCS-55A1-36H') {
-          path = 'static/site/img/sNCS-55A1-36H.png';
+          modelData = iida.models.ncs55a1;
+        } else if (model === 'NCS-5501') {
+          modelData = iida.models.ncs5501;
+        } else if (model === 'ASR9901') {
+          modelData = iida.models.asr9901;
         }
-        if (model === 'NCS-5501') {
-          path = 'static/site/img/sNCS-5501.png';
-        }
-        if (model === 'ASR9901') {
-          path = 'static/site/img/sASR9901.jpg';
-        }
-
-        if (path) {
+        if (modelData) {
           const img = document.createElement('img');
-          img.src = path;
+          img.src = modelData.THUMBNAIL_PATH;
           img.width = tipDiv.clientWidth - 10;
           const a = createTag('a', { href: '#' }, [img]);
           a.addEventListener('click', function (evt) {
             evt.stopPropagation();
             evt.preventDefault();
-            if (model === 'NCS-55A1-36H') {
-              var portDatas = [];
-              ports.forEach(p => {
-                portDatas.push({data: {id: p.id}, grabbable: false});
-              });
-              minicyContainer.style.visibility = '';
-              minicy.datum(portDatas).call(iida.models.ncs55a1());
-            }
-            if (model === 'NCS-5501') {
-              var portDatas = [];
-              ports.forEach(p => {
-                portDatas.push({data: {id: p.id}, grabbable: false});
-              });
-              minicyContainer.style.visibility = '';
-              minicy.datum(portDatas).call(iida.models.ncs5501());
-            }
-
-
+            var portDatas = [];
+            ports.forEach((p) => {
+              portDatas.push({ data: { id: p.id } });
+            });
+            cyModel.datum(portDatas).model(modelData).show();
           });
           tipDiv.appendChild(a);
         }
@@ -1247,24 +1231,6 @@
       debugButton.addEventListener('click', function (evt) {
         evt.stopPropagation();
         evt.preventDefault();
-
-        var dummyData = {
-          nodes: [
-            {
-              data: { id: 'Hu0/0/0/0' },
-            },
-            {
-              data: { id: 'Hu0/0/0/1' },
-            },
-            {
-              data: { id: 'Hu0/0/0/24' },
-            },
-          ],
-        };
-
-        minicyContainer.style.visibility = '';
-        var ncs = iida.ncs55a1();
-        minicy.datum(dummyData).call(ncs);
       });
     }
   };
