@@ -1,12 +1,5 @@
 /* global iida */
 
-/*
-currently valid models are
-'NCS-55A1-36H'
-'NCS-5501'
-'ASR9901'
-*/
-
 (function () {
   // see position.pptx
   var col, row;
