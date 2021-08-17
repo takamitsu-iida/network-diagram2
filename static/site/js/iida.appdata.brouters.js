@@ -207,6 +207,4 @@
   ];
   Array.prototype.push.apply(iida.appdata.edges, edges);
 
-
-
 })();
