@@ -377,7 +377,7 @@
       const model = node.data('model');
       if (model) {
         let modelData;
-        Object.keys(iida.models).forEach(function (key) {
+        Object.keys(iida.models).forEach((key) => {
           if (iida.models[key].MODEL === model) {
             modelData = iida.models[key];
           }
@@ -410,14 +410,14 @@
       if (router) {
         // add <h4>Router</h4>
         tipDiv.appendChild(createTag('h4', {}, [document.createTextNode('Router')]));
-        const a = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode(routerId)]);
-        a.addEventListener('click', function (evt) {
+        const aTag = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode(routerId)]);
+        aTag.addEventListener('click', function (evt) {
           evt.stopPropagation();
           evt.preventDefault();
           cy.elements().unselect();
           router.select();
         });
-        tipDiv.appendChild(createTag('p', {}, [a]));
+        tipDiv.appendChild(createTag('p', {}, [aTag]));
       }
 
       const connectedEdges = node.connectedEdges('.portToPort');
@@ -425,23 +425,23 @@
         // add <h4>Edges</h4>
         tipDiv.appendChild(createTag('h4', {}, [document.createTextNode('Edges')]));
         connectedEdges.forEach((edge) => {
-          const a = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode(edge.id())]);
-          a.addEventListener('click', function (evt) {
+          const aTag = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode(edge.id())]);
+          aTag.addEventListener('click', function (evt) {
             evt.stopPropagation();
             evt.preventDefault();
             cy.elements().unselect();
             edge.select();
           });
-          tipDiv.appendChild(createTag('p', {}, [a]));
+          tipDiv.appendChild(createTag('p', {}, [aTag]));
         });
       }
     }
 
     function tooltipTopologyRouter(tipDiv, node) {
       // add checkbox to enable/disable connected edges
-      let input = createTag('input', { type: 'checkbox', id: 'tipDiv_' + node.id(), value: node.id() }, []);
-      input.checked = !node.hasClass('disabled');
-      input.addEventListener('change', function (evt) {
+      let inputTag = createTag('input', { type: 'checkbox', id: 'tipDiv_' + node.id(), value: node.id() }, []);
+      inputTag.checked = !node.hasClass('disabled');
+      inputTag.addEventListener('change', function (evt) {
         evt.stopPropagation();
         evt.preventDefault();
         node.connectedEdges().forEach((edge) => {
@@ -454,29 +454,29 @@
         CyShortestPath.restart(cy);
       });
 
-      let label = createTag('label', {}, [document.createTextNode('enable/disable connected edges')]);
-      label.htmlFor = 'tipDiv_' + node.id();
-      tipDiv.append(createTag('div', {}, [input, label]));
+      let labelTag = createTag('label', {}, [document.createTextNode('enable/disable connected edges')]);
+      labelTag.htmlFor = 'tipDiv_' + node.id();
+      tipDiv.append(createTag('div', {}, [inputTag, labelTag]));
 
       // add button "Set as source"
-      input = createTag('input', { type: 'button', value: 'Set as source', style: 'width: 50%;' }, []);
-      input.addEventListener('click', function (evt) {
+      inputTag = createTag('input', { type: 'button', value: 'Set as source', style: 'width: 50%;' }, []);
+      inputTag.addEventListener('click', function (evt) {
         evt.stopPropagation();
         evt.preventDefault();
         selectDijkstraSource.value = node.id();
         CyShortestPath.restart(cy);
       });
-      tipDiv.append(createTag('p', {}, [input]));
+      tipDiv.append(createTag('p', {}, [inputTag]));
 
       // add button "Set as target"
-      input = createTag('input', { type: 'button', value: 'Set as target', style: 'width: 50%;' }, []);
-      input.addEventListener('click', function (evt) {
+      inputTag = createTag('input', { type: 'button', value: 'Set as target', style: 'width: 50%;' }, []);
+      inputTag.addEventListener('click', function (evt) {
         evt.stopPropagation();
         evt.preventDefault();
         selectDijkstraTarget.value = node.id();
         CyShortestPath.restart(cy);
       });
-      tipDiv.append(createTag('p', {}, [input]));
+      tipDiv.append(createTag('p', {}, [inputTag]));
 
       // add <h4>Neighbor routers</h4>
       tipDiv.appendChild(createTag('h4', {}, [document.createTextNode('Neighbor routers')]));
@@ -485,11 +485,11 @@
       const ulRouters = createTag('ul', {}, []);
       tipDiv.appendChild(ulRouters);
       node.neighborhood('node').forEach((neighbor) => {
-        const li = createTag('li', {}, []);
-        ulRouters.appendChild(li);
-        const a = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode(neighbor.id())]);
-        li.appendChild(a);
-        a.addEventListener('click', function (evt) {
+        const liTag = createTag('li', {}, []);
+        ulRouters.appendChild(liTag);
+        const aTag = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode(neighbor.id())]);
+        liTag.appendChild(aTag);
+        aTag.addEventListener('click', function (evt) {
           evt.stopPropagation();
           evt.preventDefault();
           cy.elements().unselect();
@@ -498,18 +498,18 @@
 
         // add link to edge
         const ulEdges = createTag('ul', {}, []);
-        li.appendChild(ulEdges);
+        liTag.appendChild(ulEdges);
         node.edgesWith(neighbor).forEach((edge) => {
-          const li = createTag('li', {}, []);
-          const a = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode('edge')]);
-          a.addEventListener('click', function (evt) {
+          const liTag = createTag('li', {}, []);
+          const aTag = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode('edge')]);
+          aTag.addEventListener('click', function (evt) {
             evt.stopPropagation();
             evt.preventDefault();
             cy.elements().unselect();
             edge.select();
           });
-          li.appendChild(a);
-          ulEdges.appendChild(li);
+          liTag.appendChild(aTag);
+          ulEdges.appendChild(liTag);
         });
       });
     }
@@ -526,32 +526,32 @@
       // add <h4>Source port</h4>
       tipDiv.appendChild(createTag('h4', {}, [document.createTextNode('Source port')]));
       const sourcePort = cy.$id(edge.source().id());
-      let a = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode(edge.source().id())]);
-      a.addEventListener('click', function (evt) {
+      let aTag = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode(edge.source().id())]);
+      aTag.addEventListener('click', function (evt) {
         evt.stopPropagation();
         evt.preventDefault();
         cy.elements().unselect();
         sourcePort.select();
       });
-      tipDiv.appendChild(createTag('p', {}, [a]));
+      tipDiv.appendChild(createTag('p', {}, [aTag]));
 
       // add <h4>Target port</h4>
       tipDiv.appendChild(createTag('h4', {}, [document.createTextNode('Target port')]));
       const targetPort = cy.$id(edge.target().id());
-      a = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode(edge.target().id())]);
-      a.addEventListener('click', function (evt) {
+      aTag = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode(edge.target().id())]);
+      aTag.addEventListener('click', function (evt) {
         evt.stopPropagation();
         evt.preventDefault();
         cy.elements().unselect();
         targetPort.select();
       });
-      tipDiv.appendChild(createTag('p', {}, [a]));
+      tipDiv.appendChild(createTag('p', {}, [aTag]));
     }
 
     function tooltipTopologyEdge(tipDiv, edge) {
-      const input = createTag('input', { type: 'checkbox', id: 'tipDiv_' + edge.id(), value: edge.id() }, []);
-      input.checked = !edge.hasClass('disabled');
-      input.addEventListener('change', function (evt) {
+      const inputTag = createTag('input', { type: 'checkbox', id: 'tipDiv_' + edge.id(), value: edge.id() }, []);
+      inputTag.checked = !edge.hasClass('disabled');
+      inputTag.addEventListener('change', function (evt) {
         evt.stopPropagation();
         evt.preventDefault();
         if (evt.target.checked) {
@@ -562,9 +562,9 @@
         CyShortestPath.restart(cy);
       });
 
-      const label = createTag('label', {}, [document.createTextNode('enable/disable edge')]);
-      label.htmlFor = 'tipDiv_' + edge.id();
-      tipDiv.append(createTag('div', {}, [input, label]));
+      const labelTag = createTag('label', {}, [document.createTextNode('enable/disable edge')]);
+      labelTag.htmlFor = 'tipDiv_' + edge.id();
+      tipDiv.append(createTag('div', {}, [inputTag, labelTag]));
 
       // add <h4>Connected routers</h4>
       tipDiv.appendChild(createTag('h4', {}, [document.createTextNode('Connected routers')]));
@@ -573,11 +573,11 @@
       const ulRouters = createTag('ul', {}, []);
       tipDiv.appendChild(ulRouters);
       edge.connectedNodes().forEach((neighbor) => {
-        const li = createTag('li', {}, []);
-        ulRouters.appendChild(li);
-        const a = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode(neighbor.id())]);
-        li.appendChild(a);
-        a.addEventListener('click', function (evt) {
+        const liTag = createTag('li', {}, []);
+        ulRouters.appendChild(liTag);
+        const aTag = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode(neighbor.id())]);
+        liTag.appendChild(aTag);
+        aTag.addEventListener('click', function (evt) {
           evt.stopPropagation();
           evt.preventDefault();
           cy.elements().unselect();
@@ -630,7 +630,7 @@
     var bundleEtherDiv = document.getElementById('idBundleEther');
     if (bundleEtherDiv) {
       iida.appdata.bundleEthers.forEach((bundleEther) => {
-        var input = createTag(
+        var inputTag = createTag(
           'input',
           {
             type: 'checkbox',
@@ -640,16 +640,12 @@
           },
           []
         );
+        var labelTag = document.createElement('label');
+        labelTag.htmlFor = bundleEther.id;
+        labelTag.appendChild(document.createTextNode(bundleEther.id));
+        bundleEtherDiv.appendChild(createTag('div', {}, [inputTag, labelTag]));
 
-        var label = document.createElement('label');
-        label.htmlFor = bundleEther.id;
-        label.appendChild(document.createTextNode(bundleEther.id));
-
-        var div = createTag('div', {}, [input, label]);
-
-        bundleEtherDiv.appendChild(div);
-
-        input.addEventListener('change', function (evt) {
+        inputTag.addEventListener('change', function (evt) {
           evt.stopPropagation();
           evt.preventDefault();
 
