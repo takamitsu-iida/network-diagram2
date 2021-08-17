@@ -2,6 +2,8 @@
 
 (function () {
   iida.models.asr9901 = (function () {
+
+    var MODEL = 'ASR9901';
     var THUMBNAIL_PATH = 'static/site/img/sASR9901.jpg';
     var IMG_PATH = 'static/site/img/ASR9901.jpg';
     var IMG_WIDTH = 1920;
@@ -100,6 +102,7 @@
     }
 
     return {
+      MODEL,
       THUMBNAIL_PATH,
       IMG_PATH,
       IMG_WIDTH,

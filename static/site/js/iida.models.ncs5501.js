@@ -2,6 +2,8 @@
 
 (function () {
   iida.models.ncs5501 = (function () {
+
+    var MODEL = 'NCS-5501';
     var THUMBNAIL_PATH = 'static/site/img/sNCS-5501.png';
     var IMG_PATH = 'static/site/img/NCS-5501.png';
     var IMG_WIDTH = 1920;
@@ -117,6 +119,7 @@
     }
 
     return {
+      MODEL,
       THUMBNAIL_PATH,
       IMG_PATH,
       IMG_WIDTH,

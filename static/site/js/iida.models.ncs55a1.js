@@ -2,6 +2,8 @@
 
 (function () {
   iida.models.ncs55a1 = (function () {
+
+    var MODEL = 'NCS-55A1-36H';
     var THUMBNAIL_PATH = 'static/site/img/sNCS-55A1-36H.png';
     var IMG_PATH = 'static/site/img/NCS-55A1-36H.png';
     var IMG_WIDTH = 1920;
@@ -82,6 +84,7 @@
     }
 
     return {
+      MODEL,
       THUMBNAIL_PATH,
       IMG_PATH,
       IMG_WIDTH,

@@ -39,6 +39,7 @@
         container: dom,
         minZoom: 0.5,
         maxZoom: 2,
+        wheelSensitivity: 0.2,
         elements: [],
         layout: { name: 'preset' },
         style: style,
@@ -91,7 +92,8 @@
 
       data.forEach((d) => {
         d.data['label'] = d.data['label'] || d.data['id'];
-        d.data['width'] = d.data['id'].startsWith('H') ? model.PORT_WIDTH + 6 : model.PORT_WIDTH;
+        // d.data['width'] = d.data['id'].startsWith('H') ? model.PORT_WIDTH + 6 : model.PORT_WIDTH;
+        d.data['width'] = model.PORT_WIDTH;
         d.data['height'] = model.PORT_HEIGHT;
         d['grabbable'] = false;
       });

@@ -360,11 +360,11 @@
         const port_id = node.id() + p.id;
         const port = cy.$id(port_id);
         if (port) {
-          const li = createTag('li', {}, []);
-          ulPorts.appendChild(li);
-          const a = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode(p.label)]);
-          li.appendChild(a);
-          a.addEventListener('click', function (evt) {
+          const liTag = createTag('li', {}, []);
+          ulPorts.appendChild(liTag);
+          const aTag = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode(p.label)]);
+          liTag.appendChild(aTag);
+          aTag.addEventListener('click', function (evt) {
             evt.stopPropagation();
             evt.preventDefault();
             cy.elements().unselect();
@@ -373,24 +373,21 @@
         }
       });
 
-      // JUST TEST PURPOSE
       // show router image
       const model = node.data('model');
       if (model) {
         let modelData;
-        if (model === 'NCS-55A1-36H') {
-          modelData = iida.models.ncs55a1;
-        } else if (model === 'NCS-5501') {
-          modelData = iida.models.ncs5501;
-        } else if (model === 'ASR9901') {
-          modelData = iida.models.asr9901;
-        }
+        Object.keys(iida.models).forEach(function (key) {
+          if (iida.models[key].MODEL === model) {
+            modelData = iida.models[key];
+          }
+        });
         if (modelData) {
-          const img = document.createElement('img');
-          img.src = modelData.THUMBNAIL_PATH;
-          img.width = tipDiv.clientWidth - 10;
-          const a = createTag('a', { href: '#' }, [img]);
-          a.addEventListener('click', function (evt) {
+          const imgTag = document.createElement('img');
+          imgTag.src = modelData.THUMBNAIL_PATH;
+          imgTag.width = tipDiv.clientWidth - 10;
+          const aTag = createTag('a', { href: '#' }, [imgTag]);
+          aTag.addEventListener('click', function (evt) {
             evt.stopPropagation();
             evt.preventDefault();
             var portDatas = [];
@@ -399,7 +396,7 @@
             });
             cyModel.datum(portDatas).model(modelData).show();
           });
-          tipDiv.appendChild(a);
+          tipDiv.appendChild(aTag);
         }
       }
     }
