@@ -1,9 +1,9 @@
 /* global iida */
 
 (function () {
-  iida.models.n3172pq = (function () {
+  iida.models.n3172 = (function () {
 
-    var MODEL = 'N3172PQ';
+    var MODEL = 'N3172';
     var THUMBNAIL_PATH = 'static/site/img/sNexus3172PQ.png';
     var IMG_PATH = 'static/site/img/Nexus3172PQ.png';
     var IMG_WIDTH = 1920;

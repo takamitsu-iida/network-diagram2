@@ -1,4 +1,7 @@
-﻿# フォルダごと無視
+﻿index.his.html
+iida.appdata.his*
+
+# フォルダごと無視
 /data/
 
 # vscodeのワークスペースは無視
@@ -291,4 +294,3 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
-

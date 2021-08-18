@@ -12,7 +12,7 @@
     if (cyContainer) {
       var cy = (window.cy = cytoscape({
         container: cyContainer,
-        minZoom: 0.3,
+        // minZoom: 0.3,
         maxZoom: 5,
         wheelSensitivity: 0.2,
         hideEdgesOnViewport: false,

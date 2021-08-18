@@ -666,11 +666,13 @@
       if (sourceRouter === targetRouter) {
         return;
       }
+
       var newEdge = JSON.parse(JSON.stringify(edge)); // deep copy
 
       // fix the source and target to router node
       newEdge.data.source = sourceRouter;
       newEdge.data.target = targetRouter;
+
       eles.edges.push(newEdge);
     });
 

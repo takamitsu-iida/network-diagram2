@@ -40,28 +40,31 @@
     },
 
     {
-      // selected node
-      selector: 'node:selected',
-      style: {
-        'background-color': '#ffd700', // gold
-      },
-    },
-
-    {
-      // selected edge
-      selector: 'edge:selected',
-      style: {
-        'overlay-color': 'black',
-        'overlay-padding': 8,
-        'overlay-opacity': '0.1',
-      },
-    },
-
-    {
       // size of loop
       selector: '.loop',
       style: {
         'control-point-step-size': 90,
+      },
+    },
+
+    {
+      selector: '.router.P',
+      style: {
+        'background-color': '#20b2aa', // lightseagreen
+      },
+    },
+
+    {
+      selector: '.router.PE',
+      style: {
+        'background-color': '#00ced1', // darkturquoise
+      },
+    },
+
+    {
+      selector: '.router.L2',
+      style: {
+        'background-color': '#add8e6', // lightblue
       },
     },
 
@@ -128,7 +131,7 @@
         'segment-weights': '0 1',
         'edge-distances': 'node-position', // "intersection" or "node-position"
         'segment-distances': function (edge) {
-          // return "-55 -55";
+          // return "- -";
           var s = -1 * (edge.source().data('width') / 2 + 25);
           var t = -1 * (edge.target().data('width') / 2 + 25);
           return s.toString() + ' ' + t.toString();
@@ -144,9 +147,105 @@
         'segment-weights': '0 1',
         'edge-distances': 'node-position', // "intersection" or "node-position"
         'segment-distances': function (edge) {
-          // return "-80 -80";
+          // return "- -";
           var s = -1 * (edge.source().data('width') / 2 + 25 + 25);
           var t = -1 * (edge.target().data('width') / 2 + 25 + 25);
+          return s.toString() + ' ' + t.toString();
+        },
+      },
+    },
+
+    {
+      // ']' shape edge with bigger distance
+      selector: 'edge.segmentsRight3',
+      style: {
+        'curve-style': 'segments',
+        'segment-weights': '0 1',
+        'edge-distances': 'node-position', // "intersection" or "node-position"
+        'segment-distances': function (edge) {
+          // return "- -";
+          var s = -1 * (edge.source().data('width') / 2 + 25 + 25 + 25);
+          var t = -1 * (edge.target().data('width') / 2 + 25 + 25 + 25);
+          return s.toString() + ' ' + t.toString();
+        },
+      },
+    },
+
+    {
+      // ']' shape edge with bigger distance
+      selector: 'edge.segmentsRight4',
+      style: {
+        'curve-style': 'segments',
+        'segment-weights': '0 1',
+        'edge-distances': 'node-position', // "intersection" or "node-position"
+        'segment-distances': function (edge) {
+          // return "- -";
+          var s = -1 * (edge.source().data('width') / 2 + 25 + 25 + 25 + 25);
+          var t = -1 * (edge.target().data('width') / 2 + 25 + 25 + 25 + 25);
+          return s.toString() + ' ' + t.toString();
+        },
+      },
+    },
+
+    {
+      // ']' shape edge with bigger distance
+      selector: 'edge.segmentsRight5',
+      style: {
+        'curve-style': 'segments',
+        'segment-weights': '0 1',
+        'edge-distances': 'node-position', // "intersection" or "node-position"
+        'segment-distances': function (edge) {
+          // return "- -";
+          var s = -1 * (edge.source().data('width') / 2 + 25 + 25 + 25 + 25 + 25);
+          var t = -1 * (edge.target().data('width') / 2 + 25 + 25 + 25 + 25 + 25);
+          return s.toString() + ' ' + t.toString();
+        },
+      },
+    },
+
+    {
+      // ']' shape edge with bigger distance
+      selector: 'edge.segmentsRight6',
+      style: {
+        'curve-style': 'segments',
+        'segment-weights': '0 1',
+        'edge-distances': 'node-position', // "intersection" or "node-position"
+        'segment-distances': function (edge) {
+          // return "- -";
+          var s = -1 * (edge.source().data('width') / 2 + 25 + 25 + 25 + 25 + 25 + 25);
+          var t = -1 * (edge.target().data('width') / 2 + 25 + 25 + 25 + 25 + 25 + 25);
+          return s.toString() + ' ' + t.toString();
+        },
+      },
+    },
+
+    {
+      // ']' shape edge with bigger distance
+      selector: 'edge.segmentsRight7',
+      style: {
+        'curve-style': 'segments',
+        'segment-weights': '0 1',
+        'edge-distances': 'node-position', // "intersection" or "node-position"
+        'segment-distances': function (edge) {
+          // return "- -";
+          var s = -1 * (edge.source().data('width') / 2 + 25 + 25 + 25 + 25 + 25 + 25 + 25);
+          var t = -1 * (edge.target().data('width') / 2 + 25 + 25 + 25 + 25 + 25 + 25 + 25);
+          return s.toString() + ' ' + t.toString();
+        },
+      },
+    },
+
+    {
+      // ']' shape edge with bigger distance
+      selector: 'edge.segmentsRight8',
+      style: {
+        'curve-style': 'segments',
+        'segment-weights': '0 1',
+        'edge-distances': 'node-position', // "intersection" or "node-position"
+        'segment-distances': function (edge) {
+          // return "- -";
+          var s = -1 * (edge.source().data('width') / 2 + 25 + 25 + 25 + 25 + 25 + 25 + 25 + 25);
+          var t = -1 * (edge.target().data('width') / 2 + 25 + 25 + 25 + 25 + 25 + 25 + 25 + 25);
           return s.toString() + ' ' + t.toString();
         },
       },
@@ -160,7 +259,7 @@
         'segment-weights': '0 1',
         'edge-distances': 'node-position', // "intersection" or "node-position"
         'segment-distances': function (edge) {
-          // return "55 55";
+          // return "+ +";
           var s = edge.source().data('width') / 2 + 25;
           var t = edge.target().data('width') / 2 + 25;
           return s.toString() + ' ' + t.toString();
@@ -176,11 +275,19 @@
         'segment-weights': '0 1',
         'edge-distances': 'node-position', // "intersection" or "node-position"
         'segment-distances': function (edge) {
-          // return "80 80";
+          // return "+ +";
           var s = edge.source().data('width') / 2 + 25 + 25;
           var t = edge.target().data('width') / 2 + 25 + 25;
           return s.toString() + ' ' + t.toString();
         },
+      },
+    },
+
+    {
+      // unbundled-bezier
+      selector: 'edge.unbundled-bezier',
+      style: {
+        'curve-style': 'unbundled-bezier',
       },
     },
 
@@ -191,6 +298,24 @@
         'overlay-color': 'black',
         'overlay-padding': 10,
         'overlay-opacity': '0.2',
+      },
+    },
+
+    {
+      // selected node
+      selector: 'node:selected',
+      style: {
+        'background-color': '#ffd700', // gold
+      },
+    },
+
+    {
+      // selected edge
+      selector: 'edge:selected',
+      style: {
+        'overlay-color': 'black',
+        'overlay-padding': 8,
+        'overlay-opacity': '0.1',
       },
     },
 
@@ -207,17 +332,19 @@
         'background-image': 'https://takamitsu-iida.github.io/network-diagram2/static/site/img/firewall.jpg',
       },
     },
+
   ];
 
   iida.styles.physical = [
     {
       selector: 'edge',
       style: {
-        width: 2,
+        width: 1,
         'curve-style': 'straight', // "bezier", "taxi" "bezier" "segments",
         'target-arrow-shape': 'circle',
         'source-arrow-shape': 'circle',
-        'line-color': '#a9a9a9', // darkgray
+        'line-color': '#000',
+        // 'line-color': '#a9a9a9', // darkgray
         'target-arrow-color': '#a9a9a9', // darkgray
         'source-arrow-color': '#a9a9a9', // darkgray
         'text-wrap': 'wrap', // wrap is needed to work \n
@@ -227,6 +354,156 @@
         },
         'font-size': 12,
         'min-zoomed-font-size': 6,
+      },
+    },
+
+    {
+      // taxi leftward 40px
+      selector: 'edge.taxiL40',
+      style: {
+        'curve-style': 'taxi',
+        'taxi-direction': 'leftward',
+        'taxi-turn': 40,
+      },
+    },
+
+    {
+      // taxi leftward 60px
+      selector: 'edge.taxiL60',
+      style: {
+        'curve-style': 'taxi',
+        'taxi-direction': 'leftward',
+        'taxi-turn': 60,
+      },
+    },
+
+    {
+      // taxi leftward 80px
+      selector: 'edge.taxiL80',
+      style: {
+        'curve-style': 'taxi',
+        'taxi-direction': 'leftward',
+        'taxi-turn': 80,
+      },
+    },
+
+    {
+      // taxi leftward 100px
+      selector: 'edge.taxiL100',
+      style: {
+        'curve-style': 'taxi',
+        'taxi-direction': 'leftward',
+        'taxi-turn': 100,
+      },
+    },
+
+    {
+      // taxi leftward 120px
+      selector: 'edge.taxiL120',
+      style: {
+        'curve-style': 'taxi',
+        'taxi-direction': 'leftward',
+        'taxi-turn': 120,
+      },
+    },
+
+    {
+      // taxi leftward 140px
+      selector: 'edge.taxiL140',
+      style: {
+        'curve-style': 'taxi',
+        'taxi-direction': 'leftward',
+        'taxi-turn': 140,
+      },
+    },
+
+    {
+      // taxi leftward 160px
+      selector: 'edge.taxiL160',
+      style: {
+        'curve-style': 'taxi',
+        'taxi-direction': 'leftward',
+        'taxi-turn': 160,
+      },
+    },
+
+    {
+      // taxi leftward 180px
+      selector: 'edge.taxiL180',
+      style: {
+        'curve-style': 'taxi',
+        'taxi-direction': 'leftward',
+        'taxi-turn': 180,
+      },
+    },
+
+    {
+      // taxi leftward 200px
+      selector: 'edge.taxiL200',
+      style: {
+        'curve-style': 'taxi',
+        'taxi-direction': 'leftward',
+        'taxi-turn': 200,
+      },
+    },
+
+    {
+      // taxi rightward 60px
+      selector: 'edge.taxiR60',
+      style: {
+        'curve-style': 'taxi',
+        'taxi-direction': 'rightward',
+        'taxi-turn': 60,
+      },
+    },
+
+    {
+      // taxi rightward 80px
+      selector: 'edge.taxiR80',
+      style: {
+        'curve-style': 'taxi',
+        'taxi-direction': 'rightward',
+        'taxi-turn': 80,
+      },
+    },
+
+    {
+      // taxi rightward 100px
+      selector: 'edge.taxiR100',
+      style: {
+        'curve-style': 'taxi',
+        'taxi-direction': 'rightward',
+        'taxi-turn': 100,
+      },
+    },
+
+    {
+      // taxi rightward 120px
+      selector: 'edge.taxiR120',
+      style: {
+        'curve-style': 'taxi',
+        'taxi-direction': 'rightward',
+        'taxi-turn': 120,
+      },
+    },
+
+    {
+      // taxi rightward 140px
+      selector: 'edge.taxiR140',
+      style: {
+        'curve-style': 'taxi',
+        'taxi-direction': 'rightward',
+        'taxi-turn': 140,
+      },
+    },
+
+    {
+      // taxi rightward 160px
+      selector: 'edge.taxiR160',
+      style: {
+        'curve-style': 'taxi',
+        'taxi-direction': 'rightward',
+        'taxi-turn': 160,
       },
     },
 
@@ -245,21 +522,6 @@
         'text-valign': 'center',
         'text-halign': 'center',
         opacity: 0.8,
-        'border-opacity': 1.0,
-      },
-    },
-
-    {
-      selector: '.router.P',
-      style: {
-        'background-color': '#20b2aa', // lightseagreen
-      },
-    },
-
-    {
-      selector: '.router.PE',
-      style: {
-        'background-color': '#40e0d0', // turquoise
       },
     },
 
@@ -308,13 +570,16 @@
     {
       selector: 'edge',
       style: {
-        width: 2,
+        width: 1,
         'curve-style': 'bezier', // in case of multiple edges between same nodes
         'target-arrow-shape': 'circle',
         'source-arrow-shape': 'circle',
-        'line-color': '#a9a9a9', // darkgray
+
+        'line-color': '#000',
+        // 'line-color': '#a9a9a9', // darkgray
         'target-arrow-color': '#a9a9a9', // darkgray
         'source-arrow-color': '#a9a9a9', // darkgray
+
         'text-wrap': 'wrap',
         'edge-text-rotation': 'autorotate',
         label: function (edge) {
@@ -338,20 +603,6 @@
         'text-wrap': 'wrap',
         'text-valign': 'center',
         'text-halign': 'center',
-      },
-    },
-
-    {
-      selector: '.router.P',
-      style: {
-        'background-color': '#20b2aa', // lightseagreen
-      },
-    },
-
-    {
-      selector: '.router.PE',
-      style: {
-        'background-color': '#40e0d0', // turquoise
       },
     },
   ];
