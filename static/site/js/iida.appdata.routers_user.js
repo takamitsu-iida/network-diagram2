@@ -18,7 +18,7 @@
       classes: ['PE'],
       dragWith: 'C棟ユーザ収容ルータ#2',
       redundant: 1,
-      model: 'NCS-5501',
+      model: 'NCS5501',
       ports: [
         {
           id: 'Hu0/0/1/0',
@@ -61,7 +61,7 @@
       classes: ['PE'],
       dragWith: 'C棟ユーザ収容ルータ#1',
       redundant: 2,
-      model: 'NCS-5501',
+      model: 'NCS5501',
       ports: [
         {
           id: 'Hu0/0/1/2',
@@ -104,7 +104,7 @@
       classes: ['PE'],
       dragWith: 'C棟ユーザ収容ルータ#4',
       redundant: 1,
-      model: 'NCS-5501',
+      model: 'NCS5501',
       ports: [
         {
           id: 'Hu0/0/1/0',
@@ -137,7 +137,7 @@
       classes: ['PE'],
       dragWith: 'C棟ユーザ収容ルータ#3',
       redundant: 2,
-      model: 'NCS-5501',
+      model: 'NCS5501',
       ports: [
         {
           id: 'Hu0/0/1/2',
@@ -170,7 +170,7 @@
       classes: ['PE'],
       dragWith: 'B棟ユーザ収容ルータ#2',
       redundant: 1,
-      model: 'NCS-5501',
+      model: 'NCS5501',
       ports: [
         {
           id: 'Hu0/0/1/0',
@@ -203,7 +203,7 @@
       classes: ['PE'],
       dragWith: 'B棟ユーザ収容ルータ#1',
       redundant: 2,
-      model: 'NCS-5501',
+      model: 'NCS5501',
       ports: [
         {
           id: 'Hu0/0/1/2',
@@ -236,7 +236,7 @@
       classes: ['PE'],
       dragWith: 'B棟ユーザ収容ルータ#4',
       redundant: 1,
-      model: 'NCS-5501',
+      model: 'NCS5501',
       ports: [
         {
           id: 'Hu0/0/1/0',
@@ -269,7 +269,7 @@
       classes: ['PE'],
       dragWith: 'B棟ユーザ収容ルータ#3',
       redundant: 2,
-      model: 'NCS-5501',
+      model: 'NCS5501',
       ports: [
         {
           id: 'Hu0/0/1/2',
