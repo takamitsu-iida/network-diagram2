@@ -238,43 +238,43 @@
 
       switch (_align[1]) {
         case 'T': // Top
-          _offsetY = -1 * routerHeight / 2 + portHeight / 2;
+          _offsetY = (-1 * routerHeight) / 2 + portHeight / 2;
           break;
         case 'T1': // 1st Top
-          _offsetY = -1 * routerHeight / 2 + portHeight / 2;
+          _offsetY = (-1 * routerHeight) / 2 + portHeight / 2;
           break;
         case 'T2': // 2nd Top
-          _offsetY = -1 * routerHeight / 2 + portHeight / 2 + portHeight * 1;
+          _offsetY = (-1 * routerHeight) / 2 + portHeight / 2 + portHeight * 1;
           break;
         case 'T3': // 3rd Top
-          _offsetY = -1 * routerHeight / 2 + portHeight / 2 + portHeight * 2;
+          _offsetY = (-1 * routerHeight) / 2 + portHeight / 2 + portHeight * 2;
           break;
         case 'T4':
-          _offsetY = -1 * routerHeight / 2 + portHeight / 2 + portHeight * 3;
+          _offsetY = (-1 * routerHeight) / 2 + portHeight / 2 + portHeight * 3;
           break;
         case 'T5':
-          _offsetY = -1 * routerHeight / 2 + portHeight / 2 + portHeight * 4;
+          _offsetY = (-1 * routerHeight) / 2 + portHeight / 2 + portHeight * 4;
           break;
         case 'T6':
-          _offsetY = -1 * routerHeight / 2 + portHeight / 2 + portHeight * 5;
+          _offsetY = (-1 * routerHeight) / 2 + portHeight / 2 + portHeight * 5;
           break;
         case 'T7':
-          _offsetY = -1 * routerHeight / 2 + portHeight / 2 + portHeight * 6;
+          _offsetY = (-1 * routerHeight) / 2 + portHeight / 2 + portHeight * 6;
           break;
         case 'T8':
-          _offsetY = -1 * routerHeight / 2 + portHeight / 2 + portHeight * 7;
+          _offsetY = (-1 * routerHeight) / 2 + portHeight / 2 + portHeight * 7;
           break;
         case 'T9':
-          _offsetY = -1 * routerHeight / 2 + portHeight / 2 + portHeight * 8;
+          _offsetY = (-1 * routerHeight) / 2 + portHeight / 2 + portHeight * 8;
           break;
         case 'T10':
-          _offsetY = -1 * routerHeight / 2 + portHeight / 2 + portHeight * 9;
+          _offsetY = (-1 * routerHeight) / 2 + portHeight / 2 + portHeight * 9;
           break;
         case 'T11':
-          _offsetY = -1 * routerHeight / 2 + portHeight / 2 + portHeight * 10;
+          _offsetY = (-1 * routerHeight) / 2 + portHeight / 2 + portHeight * 10;
           break;
         case 'T12':
-          _offsetY = -1 * routerHeight / 2 + portHeight / 2 + portHeight * 11;
+          _offsetY = (-1 * routerHeight) / 2 + portHeight / 2 + portHeight * 11;
           break;
         case 'C': // Center
           _offsetY = 0;
@@ -536,6 +536,7 @@
 
       eles.nodes.push(n.toObject());
 
+      /*
       // create hidden rootPort node
       var rootPortId = '_' + routerId; // IMPORTANT: rootPortId is defined as '_' + routerId
       var n = createNode()
@@ -547,6 +548,7 @@
         .height(10)
         .offset(routerWidth, routerHeight, 10, 10);
       eles.nodes.push(n.toObject());
+      */
 
       // create port node
       ports.forEach((port) => {
@@ -567,10 +569,12 @@
           .width(portWidth)
           .height(portHeight)
           .classes(classes)
+          .redundant(redundant)
           .offset(routerWidth, routerHeight, portWidth, portHeight);
 
         eles.nodes.push(n.toObject());
 
+        /*
         // create internal hidden edge from rootPort to this port
         var edgeId = rootPortId + portId; // is equal to _routerId routerId pid
         var e = createEdge()
@@ -579,6 +583,17 @@
           .source(rootPortId)
           .target(portId)
           .weight(0);
+        eles.edges.push(e.toObject());
+        */
+
+        // create internal hidden edge from node to this port
+        var edgeId = routerId + portId; // is equal to 'routerId'+'routerId'+'port.id'
+        var e = createEdge()
+          .edgeType('routerToPort') // routerToPort type is special hidden edge
+          .id(edgeId)
+          .source(routerId)
+          .target(portId)
+          .weight(0.0001);  // because 0 is not accepted, use small enough value
         eles.edges.push(e.toObject());
       });
     });

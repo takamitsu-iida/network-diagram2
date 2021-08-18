@@ -2,8 +2,10 @@
 
 (function () {
   iida.nwdiagram = function () {
+
+    // state object
     var nwdiagramState = {
-      dataName: 'physical', // or "topology"
+      nenuName: 'physical', // or "topology"
       showPopper: false,
       shortestPathDuration: 1000, // msec
     };
@@ -116,7 +118,7 @@
 
       // set elements and run "grid" layout
       cy.batch(function () {
-        setCyElements(cy, 'physical', iida.appdata.elements);
+        setCyElements(cy, iida.appdata.elements);
         setCyLayout(cy, 'grid');
       });
     }
@@ -126,10 +128,7 @@
       var cyModel = iida.cyModel(cyModelContainer);
     }
 
-    function setCyElements(cy, name, eles) {
-      // save element name
-      nwdiagramState.dataName = name;
-
+    function setCyElements(cy, eles) {
       // first remove popper
       removePopper(cy);
 
@@ -271,16 +270,16 @@
       });
     }
 
-    // on click link to change eles
+    // on click link to change menu
     ['idPhysical', 'idTopology'].forEach((id) => {
-      var a = document.getElementById(id);
-      if (!a) {
+      var aTag = document.getElementById(id);
+      if (!aTag) {
         return;
       }
-      a.addEventListener('click', function (evt) {
+      aTag.addEventListener('click', function (evt) {
         evt.stopPropagation();
         evt.preventDefault();
-        document.getElementsByName('dataChange').forEach((element) => {
+        document.getElementsByName('menuChange').forEach((element) => {
           element.classList.remove('active');
         });
         evt.target.classList.add('active');
@@ -288,23 +287,19 @@
         var menuP = document.getElementById('idMenuP');
         var menuL = document.getElementById('idMenuL');
         if (id === 'idTopology') {
-          cy.style(iida.styles.topology);
-          cy.batch(function () {
-            setCyElements(cy, 'topology', iida.appdata.topologyElements);
-            setCyLayout(cy, 'grid');
-          });
           menuP.style.display = 'none';
           menuL.style.display = 'block';
+          nwdiagramState.menuName = 'topology';
+          cy.elements().unselect();
+          cy.elements().addClass('topology');
         } else if (id === 'idPhysical') {
-          cy.style(iida.styles.physical);
-          cy.batch(function () {
-            setCyElements(cy, 'physical', iida.appdata.elements);
-            setCyLayout(cy, 'grid');
-          });
           menuL.style.display = 'none';
           menuP.style.display = 'block';
+          nwdiagramState.menuName = 'physical';
+          cy.elements().removeClass('topology');
         }
-
+        CyShortestPath.hidePathTo(cy);
+        cy.elements().unselect();
         var tipDiv = document.getElementById('idTipDiv');
         hideTooltip(tipDiv);
       });
@@ -329,7 +324,7 @@
         return;
       }
 
-      if (nwdiagramState.dataName === 'topology') {
+      if (nwdiagramState.menuName === 'topology') {
         tooltipTopologyRouter(tipDiv, node);
         return;
       }
@@ -518,7 +513,7 @@
       hideTooltip(tipDiv);
 
       // create enable/disable checkbox
-      if (nwdiagramState.dataName === 'topology') {
+      if (nwdiagramState.menuName === 'topology') {
         tooltipTopologyEdge(tipDiv, edge);
         return;
       }
@@ -706,17 +701,10 @@
         return;
       }
 
-      // in case of topology data, just show neighborhood()
-      if (nwdiagramState.dataName === 'topology') {
-        cy.batch(function () {
-          cy.nodes().hide();
-          roots.neighborhood().nodes().show();
-          roots.show();
-        });
-        return;
-      }
+      // in case of simple diagram data, this works
+      // cy.nodes().hide(); roots.neighborhood().nodes().show(); roots.show();
 
-      // in case of physical data, create subgraph and show it
+      // in case of physical diagram data, create subgraph and show it
       var eles = [];
       roots.forEach((root) => {
         eles.push(root);
@@ -856,7 +844,8 @@
         }
 
         // get start node by id
-        var startNode = cy.filter('node[id="' + startNodeId + '"]');
+        // var startNode = cy.filter('node[id="' + startNodeId + '"]');
+        var startNode = cy.$id(startNodeId);
         if (!startNode) {
           return;
         }
@@ -866,7 +855,7 @@
         //    root: The root node (selector or collection) where the algorithm starts.
         //    weight: function(edge) [optional] A function that returns the positive numeric weight for the edge. The weight indicates the cost of going from one node to another node.
         //    directed: [optional] A boolean indicating whether the algorithm should only go along edges from source to target (default false).
-        CyShortestPath.dijkstraResult = cy
+        var result = CyShortestPath.dijkstraResult = cy
           .elements()
           .not('.disabled')
           .dijkstra(
@@ -878,22 +867,22 @@
           );
 
         CyShortestPath.parameterChanged = false;
+        return result;
       };
 
       var _showPathTo = function (cy, targetNodeId) {
         // get end node by id
-        var targetNode = cy.filter('node[id="' + targetNodeId + '"]');
+        // var targetNode = cy.filter('node[id="' + targetNodeId + '"]');
+        var targetNode = cy.$id(targetNodeId);
         if (!targetNode) {
           return;
         }
 
-        if (!CyShortestPath.dijkstraResult) {
-          // first calc
-          CyShortestPath.dijkstra(cy, selectDijkstraSource.value);
-        }
-
         // get cached dijkstra result
         var dijkstra = CyShortestPath.dijkstraResult;
+        if (!dijkstra) {
+          dijkstra = CyShortestPath.dijkstra(cy, selectDijkstraSource.value);
+        }
 
         // calculate pathTo
         var pathTo = dijkstra.pathTo(targetNode);
@@ -987,6 +976,11 @@
 
     var setEdgeWeight = function (cy) {
       cy.edges().forEach((edge) => {
+        var edgeType = edge.data('edgeType');
+        if (!edgeType || edgeType === 'routerToPort') {
+          return;
+        }
+
         var sourceRedundantSystem = edge.source().data('redundant') || 1;
         var targetRedundantSystem = edge.target().data('redundant') || 1;
 
@@ -1116,86 +1110,6 @@
         }
       }
       moveNext3();
-
-      /*
-      // select next (source, target) pair
-      function moveNext2() {
-        if (!CyShortestPath.isRunning) {
-          return;
-        }
-
-        if (targetIndex === routerIds.length) {
-          // rewind to top of target list
-          targetIndex = 0;
-          selectDijkstraTarget.options[targetIndex].selected = true;
-
-          // then increment source
-          sourceIndex++;
-          if (sourceIndex === routerIds.length) {
-            sourceIndex = 0;
-          }
-
-          selectDijkstraSource.options[sourceIndex].selected = true;
-          selectDijkstraSource.dispatchEvent(new Event('change'));
-          calculatedPairs.push(sourceIndex.toString() + '-' + targetIndex.toString());
-        } else {
-          selectDijkstraTarget.options[targetIndex].selected = true;
-        }
-
-        // check if reach to original position
-        if (sourceIndex === originalSourceIndex && targetIndex === originalTargetIndex) {
-          console.log('done');
-
-          // show final path
-          selectDijkstraTarget.dispatchEvent(new Event('change'));
-
-          // then finish
-          dijkstraStartStop.checked = false;
-          CyShortestPath.isRunning = selectDijkstraSource.disabled = selectDijkstraTarget.disabled = dijkstraStartStop.checked;
-          return;
-        }
-
-        if (calculatedPairs.includes(targetIndex.toString() + '-' + sourceIndex.toString())) {
-          // console.log("already displayed reverse path, just skip it");
-          moveNext2();
-        } else {
-          calculatedPairs.push(sourceIndex.toString() + '-' + targetIndex.toString());
-          selectDijkstraTarget.dispatchEvent(new Event('change'));
-          setTimeout(moveNext2, nwdiagramState.shortestPathDuration);
-        }
-      }
-      moveNext2();
-      */
-
-      /*
-      // select next (source, target) pair
-      function moveNext() {
-        if (!CyShortestPath.isRunning) {
-          return;
-        }
-
-        targetIndex++;
-        if (targetIndex < routerIds.length) {
-          selectDijkstraTarget.options[targetIndex].selected = true;
-          selectDijkstraTarget.dispatchEvent(new Event('change'));
-          setTimeout(moveNext, nwdiagramState.shortestPathDuration);
-        } else {
-          sourceIndex++;
-          targetIndex = sourceIndex;
-          if (sourceIndex < routerIds.length) {
-            selectDijkstraSource.options[sourceIndex].selected = true;
-            selectDijkstraSource.dispatchEvent(new Event('change'));
-            moveNext();
-          } else {
-            // reach to end
-            console.log('done');
-            dijkstraStartStop.checked = false;
-            CyShortestPath.isRunning = selectDijkstraSource.disabled = selectDijkstraTarget.disabled = dijkstraStartStop.checked;
-          }
-        }
-      }
-      moveNext();
-      */
     }
 
     var dijkstraClearButton = document.getElementById('idDijkstraClear');
