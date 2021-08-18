@@ -684,8 +684,12 @@
   iida.appdata.topologyElements = createTopologyElements(elements);
 
   var routerIds = [];
-  iida.appdata.topologyElements.nodes.forEach((node) => {
-    routerIds.push(node.data.id);
+  iida.appdata.routers.forEach((router) => {
+    const classes = router['classes'] || [];
+    if (classes.includes('L2')) {
+      return;
+    }
+    routerIds.push(router.id);
   });
   iida.appdata.routerIds = routerIds;
 })();
