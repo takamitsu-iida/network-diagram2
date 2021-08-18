@@ -352,6 +352,16 @@
     },
 
     {
+      // taxi leftward
+      selector: 'edge.taxiL',
+      style: {
+        'curve-style': 'taxi',
+        'taxi-direction': 'leftward',
+        'taxi-turn': function (edge) { return edge.data('taxiTurn'); },
+      },
+    },
+
+    {
       // taxi leftward 40px
       selector: 'edge.taxiL40',
       style: {

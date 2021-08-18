@@ -13,7 +13,7 @@
     var _popper = '';
     var _grid = { row: 1, col: 1 };
     var _classes = [];
-    var _nodeType = 'router'; // "router" or "port" or "rootPort"
+    var _nodeType = 'router'; // "router" or "port"
     var _width = DEFAULT_ROUTER_WIDTH;
     var _height = DEFAULT_ROUTER_HEIGHT;
     var _dragWith = [];
@@ -344,6 +344,7 @@
     var _targetRouter;
     var _targetPort;
     var _weight = 1;
+    var _taxiTurn = 40;
 
     function exports() {
       return this;
@@ -362,6 +363,7 @@
         label: _label,
         popper: _popper,
         weight: _weight,
+        taxiTurn: _taxiTurn,
       };
       return {
         data: data,
@@ -480,6 +482,16 @@
       return this;
     };
 
+    exports.taxiTurn = function (_) {
+      if (!arguments.length) {
+        return _taxiTurn;
+      }
+      if (_) {
+        _taxiTurn = _;
+      }
+      return this;
+    };
+
     exports.classes = function (_) {
       if (!arguments.length) {
         return _classes;
@@ -536,20 +548,6 @@
 
       eles.nodes.push(n.toObject());
 
-      /*
-      // create hidden rootPort node
-      var rootPortId = '_' + routerId; // IMPORTANT: rootPortId is defined as '_' + routerId
-      var n = createNode()
-        .id(rootPortId)
-        .nodeType('rootPort') // rootPort is hidden port which designate the node
-        .routerId(routerId)
-        .align(['C', 'C'])
-        .width(10)
-        .height(10)
-        .offset(routerWidth, routerHeight, 10, 10);
-      eles.nodes.push(n.toObject());
-      */
-
       // create port node
       ports.forEach((port) => {
         var pid = port.id;
@@ -571,20 +569,7 @@
           .classes(classes)
           .redundant(redundant)
           .offset(routerWidth, routerHeight, portWidth, portHeight);
-
         eles.nodes.push(n.toObject());
-
-        /*
-        // create internal hidden edge from rootPort to this port
-        var edgeId = rootPortId + portId; // is equal to _routerId routerId pid
-        var e = createEdge()
-          .edgeType('routerToPort') // routerToPort type is special hidden edge
-          .id(edgeId)
-          .source(rootPortId)
-          .target(portId)
-          .weight(0);
-        eles.edges.push(e.toObject());
-        */
 
         // create internal hidden edge from node to this port
         var edgeId = routerId + portId; // is equal to 'routerId'+'routerId'+'port.id'
@@ -637,6 +622,7 @@
       var popper = edge.popper || '';
       var weight = edge.weight || 1;
       var classes = edge.classes || [];
+      var taxiTurn = edge.taxiTurn || 40;
 
       var e = createEdge()
         .edgeType('portToPort') // portToPort is the default edge type
@@ -650,7 +636,8 @@
         .label(label)
         .popper(popper)
         .classes(classes)
-        .weight(weight);
+        .weight(weight)
+        .taxiTurn(taxiTurn);
 
       eles.edges.push(e.toObject());
     });
