@@ -205,7 +205,8 @@
       targetPort: 'Hu0/0/0/27',
       label: '192.168.19.40/30',
       weight: 1,
-      classes: ['segmentsRight'],
+      classes: ['segmentsR'],
+      segmentDistances: 25,
     },
 
     {
@@ -215,7 +216,8 @@
       targetPort: 'Hu0/0/0/27',
       label: '192.168.19.44/30',
       weight: 5,
-      classes: ['segmentsRight2'],
+      classes: ['segmentsR'],
+      segmentDistances: 25 + 25,
     },
   ];
   Array.prototype.push.apply(iida.appdata.edges, edges);

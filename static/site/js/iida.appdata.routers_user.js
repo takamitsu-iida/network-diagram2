@@ -299,7 +299,8 @@
       targetPort: 'Hu0/0/1/4',
       label: '.253',
       weight: 1,
-      classes: ['segmentsLeft'],
+      classes: ['segmentsL'],
+      segmentDistances: 25,
     },
 
     {
@@ -318,7 +319,8 @@
       targetPort: 'Hu0/0/1/4',
       label: '.254',
       weight: 1,
-      classes: ['segmentsRight'],
+      classes: ['segmentsR'],
+      segmentDistances: 25,
     },
 
     {

@@ -2,7 +2,6 @@
 
 (function () {
   iida.nwdiagram = function () {
-
     // state object
     var nwdiagramState = {
       nenuName: 'physical', // or "topology"
@@ -141,14 +140,12 @@
       // add elements
       cy.add(eles);
 
-      // create new popper if physical diagram
-      if (name === 'physical') {
-        cy.elements().forEach((element) => {
-          if (element.data('popper') && element.data('popper') !== '') {
-            createPopper(cy, element);
-          }
-        });
-      }
+      // create new popper
+      cy.elements().forEach((element) => {
+        if (element.data('popper') && element.data('popper') !== '') {
+          createPopper(cy, element);
+        }
+      });
     }
 
     function setCyLayout(cy, layoutName) {
@@ -292,11 +289,23 @@
           nwdiagramState.menuName = 'topology';
           cy.elements().unselect();
           cy.elements().addClass('topology');
+          // popper should be hidden
+          cy.elements().forEach((element) => {
+            if (element.popperDiv) {
+              element.popperDiv.style.visibility = 'hidden';
+            }
+          });
         } else if (id === 'idPhysical') {
           menuL.style.display = 'none';
           menuP.style.display = 'block';
           nwdiagramState.menuName = 'physical';
           cy.elements().removeClass('topology');
+          // show popper in accordance with specified class
+          cy.elements().forEach((element) => {
+            if (element.popperDiv) {
+              element.popperDiv.style.visibility = '';
+            }
+          });
         }
         CyShortestPath.hidePathTo(cy);
         cy.elements().unselect();
@@ -829,7 +838,7 @@
         return;
       }
       if (show) {
-        if (nwdiagramState.showPopper && !element.hasClass('hidden')) {
+        if (nwdiagramState.showPopper) {
           popperDiv.classList.remove('hidden');
         }
       } else {
@@ -855,7 +864,7 @@
         //    root: The root node (selector or collection) where the algorithm starts.
         //    weight: function(edge) [optional] A function that returns the positive numeric weight for the edge. The weight indicates the cost of going from one node to another node.
         //    directed: [optional] A boolean indicating whether the algorithm should only go along edges from source to target (default false).
-        var result = CyShortestPath.dijkstraResult = cy
+        var result = (CyShortestPath.dijkstraResult = cy
           .elements()
           .not('.disabled')
           .dijkstra(
@@ -864,7 +873,7 @@
               return edge.data('weight');
             },
             false
-          );
+          ));
 
         CyShortestPath.parameterChanged = false;
         return result;

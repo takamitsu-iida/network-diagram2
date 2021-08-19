@@ -344,7 +344,12 @@
     var _targetRouter;
     var _targetPort;
     var _weight = 1;
-    var _taxiTurn = 40;
+
+    // need for class 'taxiL' or 'taxiR'
+    var _taxiTurn;
+
+    // need for class 'segments'
+    var _segmentDistances;
 
     function exports() {
       return this;
@@ -363,8 +368,17 @@
         label: _label,
         popper: _popper,
         weight: _weight,
-        taxiTurn: _taxiTurn,
       };
+
+      // if exists
+      if (_taxiTurn) {
+        data['taxiTurn'] = _taxiTurn;
+
+      }
+      if (_segmentDistances) {
+        data['segmentDistances'] = _segmentDistances;
+      }
+
       return {
         data: data,
         classes: _classes,
@@ -488,6 +502,16 @@
       }
       if (_) {
         _taxiTurn = _;
+      }
+      return this;
+    };
+
+    exports.segmentDistances = function (_) {
+      if (!arguments.length) {
+        return _segmentDistances;
+      }
+      if (_) {
+        _segmentDistances = _;
       }
       return this;
     };
@@ -622,7 +646,8 @@
       var popper = edge.popper || '';
       var weight = edge.weight || 1;
       var classes = edge.classes || [];
-      var taxiTurn = edge.taxiTurn || 40;
+      var taxiTurn = edge.taxiTurn;
+      var segmentDistances = edge.segmentDistances;
 
       var e = createEdge()
         .edgeType('portToPort') // portToPort is the default edge type
@@ -637,7 +662,8 @@
         .popper(popper)
         .classes(classes)
         .weight(weight)
-        .taxiTurn(taxiTurn);
+        .taxiTurn(taxiTurn)
+        .segmentDistances(segmentDistances);
 
       eles.edges.push(e.toObject());
     });

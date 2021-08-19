@@ -25,6 +25,16 @@
     },
 
     {
+      selector: 'edge.topology',
+      style: {
+        label: function (edge) {
+          return edge.data('weight') ? `\u2060${edge.data('weight')}\n\n\u2060` : '';
+        },
+        'font-size': 25,
+      },
+    },
+
+    {
       selector: '.router',
       style: {
         'border-color': '#000',
@@ -39,6 +49,22 @@
         'text-valign': 'center',
         'text-halign': 'center',
         opacity: 0.8,
+      },
+    },
+
+    {
+      selector: '.router.topology',
+      style: {
+        'border-color': '#000',
+        'border-width': 1,
+        shape: 'round-rectangle',
+        label: 'data(id)',
+        width: 'data(width)',
+        height: 'data(height)',
+        'font-size': 20,
+        'text-wrap': 'wrap',
+        'text-valign': 'center',
+        'text-halign': 'center',
       },
     },
 
@@ -82,6 +108,14 @@
     },
 
     {
+      // size of loop
+      selector: 'edge.loop',
+      style: {
+        'control-point-step-size': 90,
+      },
+    },
+
+    {
       // internal edge from router to port
       selector: 'edge.routerToPort',
       style: {
@@ -107,32 +141,6 @@
       selector: '.router.L2',
       style: {
         'background-color': '#add8e6', // lightblue
-      },
-    },
-
-    {
-      selector: '.router.topology',
-      style: {
-        'border-color': '#000',
-        'border-width': 1,
-        shape: 'round-rectangle',
-        label: 'data(id)',
-        width: 'data(width)',
-        height: 'data(height)',
-        'font-size': 20,
-        'text-wrap': 'wrap',
-        'text-valign': 'center',
-        'text-halign': 'center',
-      },
-    },
-
-    {
-      selector: 'edge.topology',
-      style: {
-        label: function (edge) {
-          return edge.data('weight') ? `\u2060${edge.data('weight')}\n\n\u2060` : '';
-        },
-        'font-size': 25,
       },
     },
 
@@ -185,127 +193,16 @@
 
     {
       // ']' shape edge
-      selector: 'edge.segmentsRight',
+      selector: 'edge.segmentsR',
       style: {
         'curve-style': 'segments',
         'segment-weights': '0 1',
         'edge-distances': 'node-position', // "intersection" or "node-position"
         'segment-distances': function (edge) {
+          var distances = edge.data('segmentDistances') || 25;
           // return "- -";
-          var s = -1 * (edge.source().data('width') / 2 + 25);
-          var t = -1 * (edge.target().data('width') / 2 + 25);
-          return s.toString() + ' ' + t.toString();
-        },
-      },
-    },
-
-    {
-      // ']' shape edge with bigger distance
-      selector: 'edge.segmentsRight2',
-      style: {
-        'curve-style': 'segments',
-        'segment-weights': '0 1',
-        'edge-distances': 'node-position', // "intersection" or "node-position"
-        'segment-distances': function (edge) {
-          // return "- -";
-          var s = -1 * (edge.source().data('width') / 2 + 25 + 25);
-          var t = -1 * (edge.target().data('width') / 2 + 25 + 25);
-          return s.toString() + ' ' + t.toString();
-        },
-      },
-    },
-
-    {
-      // ']' shape edge with bigger distance
-      selector: 'edge.segmentsRight3',
-      style: {
-        'curve-style': 'segments',
-        'segment-weights': '0 1',
-        'edge-distances': 'node-position', // "intersection" or "node-position"
-        'segment-distances': function (edge) {
-          // return "- -";
-          var s = -1 * (edge.source().data('width') / 2 + 25 + 25 + 25);
-          var t = -1 * (edge.target().data('width') / 2 + 25 + 25 + 25);
-          return s.toString() + ' ' + t.toString();
-        },
-      },
-    },
-
-    {
-      // ']' shape edge with bigger distance
-      selector: 'edge.segmentsRight4',
-      style: {
-        'curve-style': 'segments',
-        'segment-weights': '0 1',
-        'edge-distances': 'node-position', // "intersection" or "node-position"
-        'segment-distances': function (edge) {
-          // return "- -";
-          var s = -1 * (edge.source().data('width') / 2 + 25 + 25 + 25 + 25);
-          var t = -1 * (edge.target().data('width') / 2 + 25 + 25 + 25 + 25);
-          return s.toString() + ' ' + t.toString();
-        },
-      },
-    },
-
-    {
-      // ']' shape edge with bigger distance
-      selector: 'edge.segmentsRight5',
-      style: {
-        'curve-style': 'segments',
-        'segment-weights': '0 1',
-        'edge-distances': 'node-position', // "intersection" or "node-position"
-        'segment-distances': function (edge) {
-          // return "- -";
-          var s = -1 * (edge.source().data('width') / 2 + 25 + 25 + 25 + 25 + 25);
-          var t = -1 * (edge.target().data('width') / 2 + 25 + 25 + 25 + 25 + 25);
-          return s.toString() + ' ' + t.toString();
-        },
-      },
-    },
-
-    {
-      // ']' shape edge with bigger distance
-      selector: 'edge.segmentsRight6',
-      style: {
-        'curve-style': 'segments',
-        'segment-weights': '0 1',
-        'edge-distances': 'node-position', // "intersection" or "node-position"
-        'segment-distances': function (edge) {
-          // return "- -";
-          var s = -1 * (edge.source().data('width') / 2 + 25 + 25 + 25 + 25 + 25 + 25);
-          var t = -1 * (edge.target().data('width') / 2 + 25 + 25 + 25 + 25 + 25 + 25);
-          return s.toString() + ' ' + t.toString();
-        },
-      },
-    },
-
-    {
-      // ']' shape edge with bigger distance
-      selector: 'edge.segmentsRight7',
-      style: {
-        'curve-style': 'segments',
-        'segment-weights': '0 1',
-        'edge-distances': 'node-position', // "intersection" or "node-position"
-        'segment-distances': function (edge) {
-          // return "- -";
-          var s = -1 * (edge.source().data('width') / 2 + 25 + 25 + 25 + 25 + 25 + 25 + 25);
-          var t = -1 * (edge.target().data('width') / 2 + 25 + 25 + 25 + 25 + 25 + 25 + 25);
-          return s.toString() + ' ' + t.toString();
-        },
-      },
-    },
-
-    {
-      // ']' shape edge with bigger distance
-      selector: 'edge.segmentsRight8',
-      style: {
-        'curve-style': 'segments',
-        'segment-weights': '0 1',
-        'edge-distances': 'node-position', // "intersection" or "node-position"
-        'segment-distances': function (edge) {
-          // return "- -";
-          var s = -1 * (edge.source().data('width') / 2 + 25 + 25 + 25 + 25 + 25 + 25 + 25 + 25);
-          var t = -1 * (edge.target().data('width') / 2 + 25 + 25 + 25 + 25 + 25 + 25 + 25 + 25);
+          var s = -1 * (edge.source().data('width') / 2 + distances);
+          var t = -1 * (edge.target().data('width') / 2 + distances);
           return s.toString() + ' ' + t.toString();
         },
       },
@@ -313,41 +210,18 @@
 
     {
       // '[' shape edge
-      selector: 'edge.segmentsLeft',
+      selector: 'edge.segmentsL',
       style: {
         'curve-style': 'segments',
         'segment-weights': '0 1',
         'edge-distances': 'node-position', // "intersection" or "node-position"
         'segment-distances': function (edge) {
+          var distances = edge.data('segmentDistances') || 25;
           // return "+ +";
-          var s = edge.source().data('width') / 2 + 25;
-          var t = edge.target().data('width') / 2 + 25;
+          var s = edge.source().data('width') / 2 + distances;
+          var t = edge.target().data('width') / 2 + distances;
           return s.toString() + ' ' + t.toString();
         },
-      },
-    },
-
-    {
-      // '[' shape edge with bigger distance
-      selector: 'edge.segmentsLeft2',
-      style: {
-        'curve-style': 'segments',
-        'segment-weights': '0 1',
-        'edge-distances': 'node-position', // "intersection" or "node-position"
-        'segment-distances': function (edge) {
-          // return "+ +";
-          var s = edge.source().data('width') / 2 + 25 + 25;
-          var t = edge.target().data('width') / 2 + 25 + 25;
-          return s.toString() + ' ' + t.toString();
-        },
-      },
-    },
-
-    {
-      // size of loop
-      selector: 'edge.loop',
-      style: {
-        'control-point-step-size': 90,
       },
     },
 
@@ -357,157 +231,17 @@
       style: {
         'curve-style': 'taxi',
         'taxi-direction': 'leftward',
-        'taxi-turn': function (edge) { return edge.data('taxiTurn'); },
+        'taxi-turn': 'data(taxiTurn)'
       },
     },
 
     {
-      // taxi leftward 40px
-      selector: 'edge.taxiL40',
-      style: {
-        'curve-style': 'taxi',
-        'taxi-direction': 'leftward',
-        'taxi-turn': 40,
-      },
-    },
-
-    {
-      // taxi leftward 60px
-      selector: 'edge.taxiL60',
-      style: {
-        'curve-style': 'taxi',
-        'taxi-direction': 'leftward',
-        'taxi-turn': 60,
-      },
-    },
-
-    {
-      // taxi leftward 80px
-      selector: 'edge.taxiL80',
-      style: {
-        'curve-style': 'taxi',
-        'taxi-direction': 'leftward',
-        'taxi-turn': 80,
-      },
-    },
-
-    {
-      // taxi leftward 100px
-      selector: 'edge.taxiL100',
-      style: {
-        'curve-style': 'taxi',
-        'taxi-direction': 'leftward',
-        'taxi-turn': 100,
-      },
-    },
-
-    {
-      // taxi leftward 120px
-      selector: 'edge.taxiL120',
-      style: {
-        'curve-style': 'taxi',
-        'taxi-direction': 'leftward',
-        'taxi-turn': 120,
-      },
-    },
-
-    {
-      // taxi leftward 140px
-      selector: 'edge.taxiL140',
-      style: {
-        'curve-style': 'taxi',
-        'taxi-direction': 'leftward',
-        'taxi-turn': 140,
-      },
-    },
-
-    {
-      // taxi leftward 160px
-      selector: 'edge.taxiL160',
-      style: {
-        'curve-style': 'taxi',
-        'taxi-direction': 'leftward',
-        'taxi-turn': 160,
-      },
-    },
-
-    {
-      // taxi leftward 180px
-      selector: 'edge.taxiL180',
-      style: {
-        'curve-style': 'taxi',
-        'taxi-direction': 'leftward',
-        'taxi-turn': 180,
-      },
-    },
-
-    {
-      // taxi leftward 200px
-      selector: 'edge.taxiL200',
-      style: {
-        'curve-style': 'taxi',
-        'taxi-direction': 'leftward',
-        'taxi-turn': 200,
-      },
-    },
-
-    {
-      // taxi rightward 60px
-      selector: 'edge.taxiR60',
+      // taxi rightward
+      selector: 'edge.taxiR',
       style: {
         'curve-style': 'taxi',
         'taxi-direction': 'rightward',
-        'taxi-turn': 60,
-      },
-    },
-
-    {
-      // taxi rightward 80px
-      selector: 'edge.taxiR80',
-      style: {
-        'curve-style': 'taxi',
-        'taxi-direction': 'rightward',
-        'taxi-turn': 80,
-      },
-    },
-
-    {
-      // taxi rightward 100px
-      selector: 'edge.taxiR100',
-      style: {
-        'curve-style': 'taxi',
-        'taxi-direction': 'rightward',
-        'taxi-turn': 100,
-      },
-    },
-
-    {
-      // taxi rightward 120px
-      selector: 'edge.taxiR120',
-      style: {
-        'curve-style': 'taxi',
-        'taxi-direction': 'rightward',
-        'taxi-turn': 120,
-      },
-    },
-
-    {
-      // taxi rightward 140px
-      selector: 'edge.taxiR140',
-      style: {
-        'curve-style': 'taxi',
-        'taxi-direction': 'rightward',
-        'taxi-turn': 140,
-      },
-    },
-
-    {
-      // taxi rightward 160px
-      selector: 'edge.taxiR160',
-      style: {
-        'curve-style': 'taxi',
-        'taxi-direction': 'rightward',
-        'taxi-turn': 160,
+        'taxi-turn': 'data(taxiTurn)',
       },
     },
 
@@ -531,7 +265,7 @@
 
     {
       // on mouseover
-      selector: '.router.mouseover',
+      selector: 'node.mouseover',
       style: {
         'border-width': 3,
       },
