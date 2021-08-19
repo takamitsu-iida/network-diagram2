@@ -17,8 +17,7 @@
       popper: 'SID:20303',
       classes: ['PE'],
       dragWith: ['C棟サービス収容ルータ#2'],
-      redundant: 1,
-      model: 'ASR9901',
+      data: { redundant: 1, model: 'ASR9901' },
       ports: [
         {
           id: 'Hu0/0/0/20',
@@ -60,8 +59,7 @@
       popper: 'SID:20304',
       classes: ['PE'],
       dragWith: ['C棟サービス収容ルータ#1'],
-      redundant: 2,
-      model: 'ASR9901',
+      data: { redundant: 2, model: 'ASR9901' },
       ports: [
         {
           id: 'Hu0/0/0/21',
@@ -103,8 +101,7 @@
       popper: 'SID:20301',
       classes: ['PE'],
       dragWith: ['B棟サービス収容ルータ#2'],
-      redundant: 1,
-      model: 'ASR9901',
+      data: { redundant: 1, model: 'ASR9901' },
       ports: [
         {
           id: 'Hu0/0/0/21',
@@ -144,8 +141,7 @@
       popper: 'SID:20302',
       classes: ['PE'],
       dragWith: ['B棟サービス収容ルータ#1'],
-      redundant: 2,
-      model: 'ASR9901',
+      data: { redundant: 2, model: 'ASR9901' },
       ports: [
         {
           id: 'Hu0/0/0/21',

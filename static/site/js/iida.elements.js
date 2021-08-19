@@ -17,8 +17,6 @@
     var _width = DEFAULT_ROUTER_WIDTH;
     var _height = DEFAULT_ROUTER_HEIGHT;
     var _dragWith = [];
-    var _redundant = 1;
-    var _model = '';
     var _grabbable = true; // only router is grabbable
     var _ports = [];
     var _data = {};
@@ -44,8 +42,6 @@
       data['width'] = _width;
       data['height'] = _height;
       data['dragWith'] = _dragWith;
-      data['redundant'] = _redundant;
-      data['model'] = _model;
       data['grid'] = _grid;
       data['ports'] = _ports;
 
@@ -176,26 +172,6 @@
         } else {
           _dragWith = _;
         }
-      }
-      return this;
-    };
-
-    exports.redundant = function (_) {
-      if (!arguments.length) {
-        return _redundant;
-      }
-      if (_) {
-        _redundant = _;
-      }
-      return this;
-    };
-
-    exports.model = function (_) {
-      if (!arguments.length) {
-        return _model;
-      }
-      if (_) {
-        _model = _;
       }
       return this;
     };
@@ -585,8 +561,6 @@
       var routerHeight = router.height || DEFAULT_ROUTER_HEIGHT;
       var routerClasses = router.classes || [];
       var dragWith = router.dragWith || [];
-      var redundant = router.redundant || 1;
-      var model = router.model || '';
       var ports = router.ports || [];
       var routerData = router.data;
 
@@ -601,8 +575,6 @@
         .height(routerHeight)
         .classes(routerClasses)
         .dragWith(dragWith)
-        .redundant(redundant)
-        .model(model)
         .data(routerData);
 
       eles.nodes.push(n.toObject());
@@ -627,7 +599,6 @@
           .width(portWidth)
           .height(portHeight)
           .classes(portClasses)
-          .redundant(redundant)
           .data(portData)
           .offset(routerWidth, routerHeight, portWidth, portHeight);
         eles.nodes.push(n.toObject());
