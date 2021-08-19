@@ -21,7 +21,6 @@
     bundleEthers: [], // data of bundleEther
 
     // see iida.elements.js
-    routerIds: [], // list of router id
     elements: {}, // cytoscape.js eles
     topologyElements: {}, // cytoscape.js eles
   };

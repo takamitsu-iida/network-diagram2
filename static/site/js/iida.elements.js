@@ -21,6 +21,7 @@
     var _model = '';
     var _grabbable = true; // only router is grabbable
     var _ports = [];
+    var _data = {};
 
     // for port node
     var _routerId = undefined;
@@ -57,11 +58,18 @@
         _grabbable = false;
       }
 
+      // if exists
+      if (Object.keys(_data).length) {
+        // merge _data
+        data = Object.assign(data, _data);
+      }
+
       return {
         data: data,
         classes: _classes,
         grabbable: _grabbable,
       };
+
     };
 
     exports.id = function (_) {
@@ -189,6 +197,16 @@
       }
       if (_) {
         _model = _;
+      }
+      return this;
+    };
+
+    exports.data = function (_) {
+      if (!arguments.length) {
+        return _data;
+      }
+      if (_ && Object.keys(_).length) {
+        _data = Object.assign(_data, _);
       }
       return this;
     };
@@ -344,6 +362,7 @@
     var _targetRouter;
     var _targetPort;
     var _weight = 1;
+    var _data = {};
 
     // need for class 'taxiL' or 'taxiR'
     var _taxiTurn;
@@ -373,10 +392,13 @@
       // if exists
       if (_taxiTurn) {
         data['taxiTurn'] = _taxiTurn;
-
       }
       if (_segmentDistances) {
         data['segmentDistances'] = _segmentDistances;
+      }
+      if (Object.keys(_data).length) {
+        // merge _data
+        data = Object.assign(data, _data);
       }
 
       return {
@@ -530,6 +552,16 @@
       return this;
     };
 
+    exports.data = function (_) {
+      if (!arguments.length) {
+        return _data;
+      }
+      if (_ && Object.keys(_).length) {
+        _data = Object.assign(_data, _);
+      }
+      return this;
+    };
+
     return exports;
   };
 
@@ -546,29 +578,31 @@
     routers.forEach((router) => {
       var grid = router.grid || {};
       var routerId = router.id;
-      var label = router.label || '';
+      var routerLabel = router.label || '';
       var popper = router.popper || '';
       var routerWidth = router.width || DEFAULT_ROUTER_WIDTH;
       var routerHeight = router.height || DEFAULT_ROUTER_HEIGHT;
-      var classes = router.classes || [];
+      var routerClasses = router.classes || [];
       var dragWith = router.dragWith || [];
       var redundant = router.redundant || 1;
       var model = router.model || '';
       var ports = router.ports || [];
+      var routerData = router.data;
 
       var n = createNode()
         .id(routerId)
         .nodeType('router')
         .grid(grid)
-        .label(label)
+        .label(routerLabel)
         .popper(popper)
         .ports(ports)
         .width(routerWidth)
         .height(routerHeight)
-        .classes(classes)
+        .classes(routerClasses)
         .dragWith(dragWith)
         .redundant(redundant)
-        .model(model);
+        .model(model)
+        .data(routerData);
 
       eles.nodes.push(n.toObject());
 
@@ -576,22 +610,24 @@
       ports.forEach((port) => {
         var pid = port.id;
         var portId = routerId + pid;
-        var label = port.label || pid;
+        var portLabel = port.label || pid;
         var align = port.align || ['C', 'C'];
         var portWidth = port.width || DEFAULT_PORT_WIDTH;
         var portHeight = port.height || DEFAULT_PORT_HEIGHT;
-        var classes = port.classes || [];
+        var portClasses = port.classes || [];
+        var portData = port.data;
 
         var n = createNode()
           .id(portId)
           .nodeType('port')
           .routerId(routerId)
           .align(align)
-          .label(label)
+          .label(portLabel)
           .width(portWidth)
           .height(portHeight)
-          .classes(classes)
+          .classes(portClasses)
           .redundant(redundant)
+          .data(portData)
           .offset(routerWidth, routerHeight, portWidth, portHeight);
         eles.nodes.push(n.toObject());
 
@@ -642,12 +678,13 @@
       }
 
       var edgeId = source + target;
-      var label = edge.label || '';
-      var popper = edge.popper || '';
+      var edgeLabel = edge.label || '';
+      var edgePopper = edge.popper || '';
       var weight = edge.weight || 1;
-      var classes = edge.classes || [];
+      var edgeClasses = edge.classes || [];
       var taxiTurn = edge.taxiTurn;
       var segmentDistances = edge.segmentDistances;
+      var edgeData = edge.data;
 
       var e = createEdge()
         .edgeType('portToPort') // portToPort is the default edge type
@@ -658,11 +695,12 @@
         .target(target)
         .targetRouter(targetRouter)
         .targetPort(targetPort)
-        .label(label)
-        .popper(popper)
-        .classes(classes)
+        .label(edgeLabel)
+        .popper(edgePopper)
+        .classes(edgeClasses)
         .weight(weight)
         .taxiTurn(taxiTurn)
+        .data(edgeData)
         .segmentDistances(segmentDistances);
 
       eles.edges.push(e.toObject());
@@ -671,53 +709,6 @@
     return eles;
   };
 
-  //
-  // create topology model from iida.appdata.elements
-  //
-  var createTopologyElements = function (elements) {
-    var eles = {
-      nodes: [],
-      edges: [],
-    };
+  iida.appdata.elements = createElements(iida.appdata.routers, iida.appdata.edges);
 
-    // copy router nodes
-    elements.nodes.forEach((node) => {
-      if (node.classes.includes('router')) {
-        var newNode = JSON.parse(JSON.stringify(node)); // deep copy
-        eles.nodes.push(newNode);
-      }
-    });
-
-    elements.edges.forEach((edge) => {
-      var sourceRouter = edge.data.sourceRouter;
-      var targetRouter = edge.data.targetRouter;
-      if (sourceRouter === targetRouter) {
-        return;
-      }
-
-      var newEdge = JSON.parse(JSON.stringify(edge)); // deep copy
-
-      // fix the source and target to router node
-      newEdge.data.source = sourceRouter;
-      newEdge.data.target = targetRouter;
-
-      eles.edges.push(newEdge);
-    });
-
-    return eles;
-  };
-
-  var elements = createElements(iida.appdata.routers, iida.appdata.edges);
-  iida.appdata.elements = elements;
-  iida.appdata.topologyElements = createTopologyElements(elements);
-
-  var routerIds = [];
-  iida.appdata.routers.forEach((router) => {
-    const classes = router['classes'] || [];
-    if (classes.includes('L2')) {
-      return;
-    }
-    routerIds.push(router.id);
-  });
-  iida.appdata.routerIds = routerIds;
 })();
