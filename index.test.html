@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <title>network diagram</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- iida.css -->
+    <link rel="stylesheet" type="text/css" href="./static/site/css/iida.css" />
+
+    <!-- jQuery -->
+    <script src="//unpkg.com/jquery/dist/jquery.min.js"></script>
+
+    <!-- cytoscape.js -->
+    <!-- https://js.cytoscape.org/ -->
+    <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+
+    <!-- cytoscape-panzoom.js -->
+    <!-- https://github.com/cytoscape/cytoscape.js-panzoom -->
+    <script src="https://unpkg.com/cytoscape-panzoom/cytoscape-panzoom.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/cytoscape-panzoom/cytoscape.js-panzoom.css" />
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/cytoscape-panzoom/font-awesome-4.0.3/css/font-awesome.min.css" />
+
+    <!-- cytoscape-popper.js -->
+    <!-- https://github.com/cytoscape/cytoscape.js-popper -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/cytoscape-popper@2.0.0/cytoscape-popper.js"></script>
+
+    <!-- cytoscape-automove.js -->
+    <!-- https://github.com/cytoscape/cytoscape.js-automove -->
+    <!--
+    <script src="https://unpkg.com/cytoscape-automove/cytoscape-automove.js"></script>
+    -->
+
+    <!-- cytoscape-fcose -->
+    <script src="https://unpkg.com/layout-base/layout-base.js"></script>
+    <script src="https://unpkg.com/cose-base/cose-base.js"></script>
+    <script src="https://unpkg.com/cytoscape-fcose/cytoscape-fcose.js"></script>
+
+    <!-- iida.*.js -->
+    <!--
+    <script type="text/javascript" src="./dist/nwdiagram2.min.js"></script>
+    -->
+
+    <!-- iida.startup.js -->
+    <script type="text/javascript" src="./static/site/js/iida.startup.js"></script>
+
+    <!-- iida.appdata and iida.elements.js -->
+    <script type="text/javascript" src="./static/site/js/iida.appdata.bundle_ether.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.appdata.routers_core.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.appdata.routers_service.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.appdata.routers_user.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.elements.js"></script>
+
+    <!-- iida.models.xxx.js -->
+    <script type="text/javascript" src="./static/site/js/iida.cymodel.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.models.ncs55a1.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.models.ncs5501.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.models.asr9901.js"></script>
+
+    <!-- iida.cystyles.js and iida.cylayouts.js-->
+    <script type="text/javascript" src="./static/site/js/iida.cystyles.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.cylayouts.js"></script>
+
+    <!-- iida.nwdiagram.js -->
+    <script type="text/javascript" src="./static/site/js/iida.nwdiagram.js"></script>
+
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <div class="header_panel">
+      </div>
+
+      <div id="idLeftPanel" class="left_panel">
+        <h3>debug</h3>
+        <input id="idDebugButton" type="button" value="Debug" style="width: 100%;"></td>
+      </div>
+
+      <div id="idRightPanel" class="right_panel">
+        <div id="cy"></div>
+      </div>
+
+
+    </div>
+    <!-- end of wrapper -->
+  </body>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', iida.main);
+  </script>
+</html>

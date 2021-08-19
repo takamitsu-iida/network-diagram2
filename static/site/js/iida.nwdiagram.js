@@ -317,6 +317,9 @@
     });
 
     function hideTooltip(tipDiv) {
+      if (!tipDiv) {
+        return;
+      }
       // remove all children
       while (tipDiv.lastChild) {
         tipDiv.removeChild(tipDiv.lastChild);
@@ -350,6 +353,9 @@
     }
 
     function tooltipRouterPhysical(tipDiv, node) {
+      if (!tipDiv) {
+        return;
+      }
       // add <h4>router_id</h4>
       tipDiv.appendChild(createTag('h4', {}, [document.createTextNode(node.id())]));
 
@@ -484,6 +490,9 @@
     }
 
     function tooltipPort(tipDiv, node) {
+      if (!tipDiv) {
+        return;
+      }
       // add <h4>Name of port</h4>
       tipDiv.appendChild(createTag('h4', {}, [document.createTextNode(node.data('label'))]));
 
@@ -531,6 +540,9 @@
     }
 
     function tooltipEdgePhysical(tipDiv, edge) {
+      if (!tipDiv) {
+        return;
+      }
       // add <h4>Source port</h4>
       tipDiv.appendChild(createTag('h4', {}, [document.createTextNode('Source port')]));
       const sourcePort = cy.$id(edge.source().id());
@@ -1189,6 +1201,40 @@
       debugButton.addEventListener('click', function (evt) {
         evt.stopPropagation();
         evt.preventDefault();
+
+        var portId = 'C棟コアルータ#1';
+        var port = cy.$id(portId);
+
+        var visited = [];
+        var loopDetected = false;
+        var dfs = cy.elements().dfs({
+          roots: port,
+          visit: function(v, e, u, i, depth){
+            // console.log( 'visit ' + v.id() );
+            v.neighborhood('node').forEach(neighbor => {
+              if (neighbor === u) {
+                return;
+              }
+              if (visited.includes(neighbor)) {
+                console.log(neighbor.id());
+                loopDetected = true;
+              }
+            });
+            if (loopDetected) {
+              return false;
+            }
+            visited.push(v);
+          },
+          directed: false
+        });
+
+        if (loopDetected) {
+          console.log("LOOP DETECTED");
+        }
+
+        var path = dfs.path; // path to found node
+        path.select();
+
       });
     }
   };
