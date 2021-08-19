@@ -18,17 +18,18 @@
       dragWith: ['C棟コアルータ#2', 'B棟コアルータ#1', 'B棟コアルータ#2'],
       classes: ['P'],
       redundant: 1,
+      height: 200,
       model: 'NCS55A1-36H',
       ports: [
         {
           id: 'Hu0/0/0/0',
           label: 'Hu0/0/0/0\n.89',
-          align: ['LO', 'T'],
+          align: ['LO', 'T2'],
         },
         {
           id: 'Hu0/0/0/16',
           label: 'Hu0/0/0/16\n.9',
-          align: ['RO', 'T'],
+          align: ['RO', 'T2'],
         },
         {
           id: 'Hu0/0/0/27',
@@ -61,12 +62,13 @@
       dragWith: ['C棟コアルータ#1', 'B棟コアルータ#1', 'B棟コアルータ#2'],
       classes: ['P'],
       redundant: 2,
+      height: 200,
       model: 'NCS55A1-36H',
       ports: [
         {
           id: 'Hu0/0/0/0',
           label: 'Hu0/0/0/0\n.94',
-          align: ['LO', 'T'],
+          align: ['LO', 'T2'],
         },
         {
           id: 'Hu0/0/0/22',
@@ -81,7 +83,7 @@
         {
           id: 'Hu0/0/0/27',
           label: 'Hu0/0/0/27\n.46',
-          align: ['RO', 'B'],
+          align: ['RO', 'B2'],
         },
         {
           id: 'Hu0/0/0/1',
@@ -104,12 +106,13 @@
       dragWith: ['C棟コアルータ#1', 'C棟コアルータ#2', 'B棟コアルータ#2'],
       classes: ['P'],
       redundant: 1,
+      height: 200,
       model: 'NCS55A1-36H',
       ports: [
         {
           id: 'Hu0/0/0/27',
           label: 'Hu0/0/0/27\n.41',
-          align: ['RO', 'T'],
+          align: ['RO', 'T2'],
         },
         {
           id: 'Hu0/0/0/16',
@@ -124,7 +127,7 @@
         {
           id: 'Hu0/0/0/1',
           label: 'Hu0/0/0/1\n.9',
-          align: ['LO', 'B'],
+          align: ['LO', 'B2'],
         },
         {
           id: 'Hu0/0/0/0',
@@ -147,6 +150,7 @@
       dragWith: ['C棟コアルータ#1', 'C棟コアルータ#2', 'B棟コアルータ#1'],
       classes: ['P'],
       redundant: 2,
+      height: 200,
       model: 'NCS55A1-36H',
       ports: [
         {
@@ -162,12 +166,12 @@
         {
           id: 'Hu0/0/0/16',
           label: 'Hu0/0/0/16\n.5',
-          align: ['RO', 'B'],
+          align: ['RO', 'B2'],
         },
         {
           id: 'Hu0/0/0/1',
           label: 'Hu0/0/0/1\n.13',
-          align: ['LO', 'B'],
+          align: ['LO', 'B2'],
         },
         {
           id: 'Hu0/0/0/0',
