@@ -30,7 +30,7 @@
         label: function (edge) {
           return edge.data('weight') ? `\u2060${edge.data('weight')}\n\n\u2060` : '';
         },
-        'font-size': 25,
+        'font-size': 24,
       },
     },
 
@@ -55,16 +55,11 @@
     {
       selector: '.router.topology',
       style: {
-        'border-color': '#000',
-        'border-width': 1,
         shape: 'round-rectangle',
         label: 'data(id)',
-        width: 'data(width)',
-        height: 'data(height)',
-        'font-size': 20,
-        'text-wrap': 'wrap',
-        'text-valign': 'center',
-        'text-halign': 'center',
+        'font-size': 24,
+        'text-max-width': 'data(width)',
+        'text-overflow-wrap': 'anywhere',
       },
     },
 

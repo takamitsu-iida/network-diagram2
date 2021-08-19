@@ -289,9 +289,10 @@
           nwdiagramState.menuName = 'topology';
           cy.elements().unselect();
           cy.elements().addClass('topology');
-          setSelectOptions(selectDijkstraSource);  // set select options for dijkstra source
-          setSelectOptions(selectDijkstraTarget);  // set select options for dijkstra target
-          cy.elements().forEach((element) => {  // popper should be hidden during topology view
+          setSelectOptions(selectDijkstraSource); // set select options for dijkstra source
+          setSelectOptions(selectDijkstraTarget); // set select options for dijkstra target
+          cy.elements().forEach((element) => {
+            // popper should be hidden during topology view
             if (element.popperDiv) {
               element.popperDiv.style.visibility = 'hidden';
             }
@@ -301,7 +302,8 @@
           menuP.style.display = 'block';
           nwdiagramState.menuName = 'physical';
           cy.elements().removeClass('topology');
-          cy.elements().forEach((element) => {  // show popper in accordance with specified class
+          cy.elements().forEach((element) => {
+            // show popper in accordance with specified class
             if (element.popperDiv) {
               element.popperDiv.style.visibility = '';
             }
@@ -403,7 +405,6 @@
         }
       }
     }
-
 
     function tooltipRouterTopology(tipDiv, node) {
       // add checkbox to enable/disable connected edges
@@ -775,13 +776,46 @@
       });
     }
 
-    // filter by redundant system number #1 or #2 or #1-#2
-    [12, 1, 2].forEach((redundantNumber) => {
-      var a = document.getElementById('idRedundant' + redundantNumber);
-      if (!a) {
+    ['AB', 'B', 'C'].forEach((location) => {
+      var aTag = document.getElementById('idLocation' + location);
+      if (!aTag) {
         return;
       }
-      a.addEventListener('click', function (evt) {
+      aTag.addEventListener('click', function (evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        document.getElementsByName('locationFilter').forEach((element) => {
+          element.classList.remove('active');
+        });
+        evt.target.classList.add('active');
+
+        if (location === 'A') {
+          filterByLocation(cy, 'A', true);
+          filterByLocation(cy, 'B', false);
+        } else if (location === 'B') {
+          filterByLocation(cy, 'A', false);
+          filterByLocation(cy, 'B', true);
+        } else {
+          filterByLocation(cy, 'A', true);
+          filterByLocation(cy, 'B', true);
+        }
+      });
+    });
+
+    function filterByLocation(cy, location, show) {
+      var routers = cy.nodes('.router').filter((r) => {
+        return location === r.data('location');
+      });
+      showHideRouters(routers, show);
+    }
+
+    // filter by redundant system number #1 or #2 or #1-#2
+    [12, 1, 2].forEach((redundantNumber) => {
+      var aTag = document.getElementById('idRedundant' + redundantNumber);
+      if (!aTag) {
+        return;
+      }
+      aTag.addEventListener('click', function (evt) {
         evt.stopPropagation();
         evt.preventDefault();
         document.getElementsByName('redundantFilter').forEach((element) => {
@@ -789,23 +823,26 @@
         });
         evt.target.classList.add('active');
         if (redundantNumber === 1) {
-          showRedundant(cy, 1, true);
-          showRedundant(cy, 2, false);
+          filterByRedundant(cy, 1, true);
+          filterByRedundant(cy, 2, false);
         } else if (redundantNumber === 2) {
-          showRedundant(cy, 2, true);
-          showRedundant(cy, 1, false);
+          filterByRedundant(cy, 2, true);
+          filterByRedundant(cy, 1, false);
         } else {
-          showRedundant(cy, 1, true);
-          showRedundant(cy, 2, true);
+          filterByRedundant(cy, 1, true);
+          filterByRedundant(cy, 2, true);
         }
       });
     });
 
-    function showRedundant(cy, redundantNumber, show) {
+    function filterByRedundant(cy, redundantNumber, show) {
       var routers = cy.nodes('.router').filter((r) => {
-        var redundant = r.data('redundant');
-        return redundantNumber === redundant;
+        return redundantNumber === r.data('redundant');
       });
+      showHideRouters(routers, show);
+    }
+
+    function showHideRouters(routers, show) {
       routers.forEach((router) => {
         var routerId = router.id();
         var ports = router.data('ports') || [];
@@ -898,18 +935,6 @@
 
         // calculate pathTo
         var pathTo = dijkstra.pathTo(targetNode);
-
-        /*
-        // set cy2 elements
-        if (cy2) {
-            cy2.batch(function () {
-                cy2.elements().remove();
-                cy2.add(pathTo);
-                cy2.layout({ 'name': "grid" }).run();
-            });
-        }
-        */
-
         var step = 0;
         var highlightNext = function () {
           var el = pathTo[step];
@@ -1036,7 +1061,7 @@
       while (select.lastChild) {
         select.removeChild(select.lastChild);
       }
-      cy.elements('.router').forEach(router => {
+      cy.elements('.router').forEach((router) => {
         if (router.classes().includes('L2')) {
           return;
         }
@@ -1048,7 +1073,9 @@
 
     function getSelectValues(select) {
       const values = [];
-      Array.from(select.children).forEach((option) => { values.push(option.value); });  // select.children is HTMLCollection which is not iterable
+      Array.from(select.children).forEach((option) => {
+        values.push(option.value);
+      }); // select.children is HTMLCollection which is not iterable
       return values;
     }
 
