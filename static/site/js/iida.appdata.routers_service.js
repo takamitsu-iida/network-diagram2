@@ -22,28 +22,28 @@
       ports: [
         {
           id: 'Hu0/0/0/20',
-          label: 'Hu0/0/0/0/20\n.10',
-          align: ['L', 'C'],
+          label: 'Hu0/0/0/20\n.10',
+          align: ['LO', 'C'],
         },
         {
           id: 'Hu0/0/0/21',
-          label: 'Hu0/0/0/0/21\n.5',
-          align: ['L', 'B'],
+          label: 'Hu0/0/0/21\n.5',
+          align: ['C', 'B'],
         },
         {
           id: 'Te0/0/0/8',
           label: 'Te0/0/0/8',
-          align: ['R', 'T'],
+          align: ['RO', 'T'],
         },
         {
           id: 'Te0/0/0/9',
           label: 'Te0/0/0/9',
-          align: ['R', 'T2'],
+          align: ['RO', 'T2'],
         },
         {
           id: 'Te0/0/0/10',
           label: 'Te0/0/0/10',
-          align: ['R', 'C'],
+          align: ['RO', 'C'],
         },
       ],
     },
@@ -65,28 +65,28 @@
       ports: [
         {
           id: 'Hu0/0/0/21',
-          label: 'Hu0/0/0/0/21\n.6',
-          align: ['L', 'T'],
+          label: 'Hu0/0/0/21\n.6',
+          align: ['C', 'T'],
         },
         {
           id: 'Hu0/0/0/20',
-          label: 'Hu0/0/0/0/20\n.14',
-          align: ['L', 'C'],
+          label: 'Hu0/0/0/20\n.14',
+          align: ['LO', 'C'],
         },
         {
           id: 'Te0/0/0/8',
           label: 'Te0/0/0/8',
-          align: ['R', 'T'],
+          align: ['RO', 'T'],
         },
         {
           id: 'Te0/0/0/9',
           label: 'Te0/0/0/9',
-          align: ['R', 'T2'],
+          align: ['RO', 'T2'],
         },
         {
           id: 'Te0/0/0/10',
           label: 'Te0/0/0/10',
-          align: ['R', 'C'],
+          align: ['RO', 'C'],
         },
       ],
     },
@@ -108,26 +108,26 @@
       ports: [
         {
           id: 'Hu0/0/0/21',
-          label: 'Hu0/0/0/0/21\n.1',
-          align: ['L', 'B'],
+          label: 'Hu0/0/0/21\n.1',
+          align: ['C', 'B'],
         },
 
         {
           id: 'Hu0/0/0/20',
-          label: 'Hu0/0/0/0/20\n.2',
-          align: ['L', 'C'],
+          label: 'Hu0/0/0/20\n.2',
+          align: ['LO', 'C'],
         },
 
         {
           id: 'Te0/0/0/8',
           label: 'Te0/0/0/8\n.137',
-          align: ['R', 'T'],
+          align: ['RO', 'T'],
         },
 
         {
           id: 'Te0/0/0/9',
           label: 'Te0/0/0/9',
-          align: ['R', 'C'],
+          align: ['RO', 'C'],
         },
       ],
     },
@@ -149,26 +149,26 @@
       ports: [
         {
           id: 'Hu0/0/0/21',
-          label: 'Hu0/0/0/0/21\n.2',
-          align: ['L', 'T'],
+          label: 'Hu0/0/0/21\n.2',
+          align: ['C', 'T'],
         },
 
         {
           id: 'Hu0/0/0/20',
-          label: 'Hu0/0/0/0/20\n.6',
-          align: ['L', 'C'],
+          label: 'Hu0/0/0/20\n.6',
+          align: ['LO', 'C'],
         },
 
         {
           id: 'Te0/0/0/8',
           label: 'Te0/0/0/8\n.141',
-          align: ['R', 'T'],
+          align: ['RO', 'T'],
         },
 
         {
           id: 'Te0/0/0/9',
           label: 'Te0/0/0/9',
-          align: ['R', 'C'],
+          align: ['RO', 'C'],
         },
       ],
     },
@@ -182,6 +182,8 @@
       targetRouter: 'C棟コアルータ#1',
       targetPort: 'Hu0/0/0/16',
       label: '192.168.16.8/30',
+      classes: ['taxiL'],
+      taxiTurn: 60,
       weight: 1,
     },
 
@@ -191,6 +193,8 @@
       targetRouter: 'C棟コアルータ#2',
       targetPort: 'Hu0/0/0/16',
       label: '192.168.16.12/30',
+      classes: ['taxiL'],
+      taxiTurn: 60,
       weight: 5,
     },
 
@@ -209,6 +213,8 @@
       targetRouter: 'B棟コアルータ#1',
       targetPort: 'Hu0/0/0/16',
       label: '192.168.16.0/30',
+      classes: ['taxiL'],
+      taxiTurn: 60,
       weight: 1,
     },
 
@@ -227,6 +233,8 @@
       targetRouter: 'B棟コアルータ#2',
       targetPort: 'Hu0/0/0/16',
       label: '192.168.16.4/30',
+      classes: ['taxiL'],
+      taxiTurn: 60,
       weight: 5,
     },
   ];

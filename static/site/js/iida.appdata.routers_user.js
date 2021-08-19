@@ -22,18 +22,18 @@
       ports: [
         {
           id: 'Hu0/0/1/0',
-          label: 'Hu0/0/0/1/0\n.90',
-          align: ['R', 'C'],
+          label: 'Hu0/0/1/0\n.90',
+          align: ['RO', 'C'],
         },
         {
           id: 'Hu0/0/1/2',
           label: 'Hu0/0/1/2\n.45',
-          align: ['R', 'B'],
+          align: ['C', 'B'],
         },
         {
           id: 'Te0/0/0/0',
           label: 'Te0/0/0/0\nBundle-E1000',
-          align: ['L', 'C'],
+          align: ['LO', 'C'],
         },
         {
           id: 'Hu0/0/1/4',
@@ -66,12 +66,12 @@
         {
           id: 'Hu0/0/1/2',
           label: 'Hu0/0/1/2\n.46',
-          align: ['R', 'T'],
+          align: ['C', 'T'],
         },
         {
           id: 'Hu0/0/1/0',
           label: 'Hu0/0/1/0\n.93',
-          align: ['R', 'C'],
+          align: ['RO', 'C'],
         },
         {
           id: 'Hu0/0/1/5',
@@ -86,7 +86,7 @@
         {
           id: 'Te0/0/0/0',
           label: 'Te0/0/0/0\nBundle-E1000',
-          align: ['L', 'C'],
+          align: ['LO', 'C'],
         },
       ],
     },
@@ -109,17 +109,17 @@
         {
           id: 'Hu0/0/1/0',
           label: 'Hu0/0/1/0\n.98',
-          align: ['R', 'C'],
+          align: ['RO', 'C'],
         },
         {
           id: 'Hu0/0/1/2',
           label: 'Hu0/0/1/2\n.49',
-          align: ['R', 'B'],
+          align: ['C', 'B'],
         },
         {
           id: 'Te0/0/0/0',
           label: 'Te0/0/0/0\nBundle-E1000',
-          align: ['L', 'C'],
+          align: ['LO', 'C'],
         },
       ],
     },
@@ -142,17 +142,17 @@
         {
           id: 'Hu0/0/1/2',
           label: 'Hu0/0/1/2\n.50',
-          align: ['R', 'T'],
+          align: ['C', 'T'],
         },
         {
           id: 'Hu0/0/1/0',
           label: 'Hu0/0/1/0\n.102',
-          align: ['R', 'C'],
+          align: ['RO', 'C'],
         },
         {
           id: 'Te0/0/0/0',
           label: 'Te0/0/0/0\nBundle-E1000',
-          align: ['L', 'C'],
+          align: ['LO', 'C'],
         },
       ],
     },
@@ -175,17 +175,17 @@
         {
           id: 'Hu0/0/1/0',
           label: 'Hu0/0/1/0\n.2',
-          align: ['R', 'C'],
+          align: ['RO', 'C'],
         },
         {
           id: 'Hu0/0/1/2',
           label: 'Hu0/0/1/2\n.1',
-          align: ['R', 'B'],
+          align: ['C', 'B'],
         },
         {
           id: 'Te0/0/0/0',
           label: 'Te0/0/0/0\nBundle-E1000',
-          align: ['L', 'C'],
+          align: ['LO', 'C'],
         },
       ],
     },
@@ -208,17 +208,17 @@
         {
           id: 'Hu0/0/1/2',
           label: 'Hu0/0/1/2\n.2',
-          align: ['R', 'T'],
+          align: ['C', 'T'],
         },
         {
           id: 'Hu0/0/1/0',
           label: 'Hu0/0/1/0\n.6',
-          align: ['R', 'C'],
+          align: ['RO', 'C'],
         },
         {
           id: 'Te0/0/0/0',
           label: 'Te0/0/0/0\nBundle-E1000',
-          align: ['L', 'C'],
+          align: ['LO', 'C'],
         },
       ],
     },
@@ -241,17 +241,17 @@
         {
           id: 'Hu0/0/1/0',
           label: 'Hu0/0/1/0\n.10',
-          align: ['R', 'C'],
+          align: ['RO', 'C'],
         },
         {
           id: 'Hu0/0/1/2',
           label: 'Hu0/0/1/2\n.5',
-          align: ['R', 'B'],
+          align: ['C', 'B'],
         },
         {
           id: 'Te0/0/0/0',
           label: 'Te0/0/0/0\nBundle-E1000',
-          align: ['L', 'C'],
+          align: ['LO', 'C'],
         },
       ],
     },
@@ -274,17 +274,17 @@
         {
           id: 'Hu0/0/1/2',
           label: 'Hu0/0/1/2\n.6',
-          align: ['R', 'T'],
+          align: ['C', 'T'],
         },
         {
           id: 'Hu0/0/1/0',
           label: 'Hu0/0/1/0\n.14',
-          align: ['R', 'C'],
+          align: ['RO', 'C'],
         },
         {
           id: 'Te0/0/0/0',
           label: 'Te0/0/0/0\nBundle-E1000',
-          align: ['L', 'C'],
+          align: ['LO', 'C'],
         },
       ],
     },
@@ -304,11 +304,13 @@
     },
 
     {
-      sourceRouter: 'C棟コアルータ#1',
-      sourcePort: 'Hu0/0/0/0',
-      targetRouter: 'C棟ユーザ収容ルータ#1',
-      targetPort: 'Hu0/0/1/0',
+      sourceRouter: 'C棟ユーザ収容ルータ#1',
+      sourcePort: 'Hu0/0/1/0',
+      targetRouter: 'C棟コアルータ#1',
+      targetPort: 'Hu0/0/0/0',
       label: '192.168.10.88/30',
+      classes: ['taxiR'],
+      taxiTurn: '100',
       weight: 1,
     },
 
@@ -333,11 +335,13 @@
     },
 
     {
-      sourceRouter: 'C棟コアルータ#2',
-      sourcePort: 'Hu0/0/0/0',
-      targetRouter: 'C棟ユーザ収容ルータ#2',
-      targetPort: 'Hu0/0/1/0',
+      sourceRouter: 'C棟ユーザ収容ルータ#2',
+      sourcePort: 'Hu0/0/1/0',
+      targetRouter: 'C棟コアルータ#2',
+      targetPort: 'Hu0/0/0/0',
       label: '192.168.10.92/30',
+      classes: ['taxiR'],
+      taxiTurn: 60,
       weight: 5,
     },
 
@@ -401,6 +405,8 @@
       targetRouter: 'B棟コアルータ#1',
       targetPort: 'Hu0/0/0/1',
       label: '192.168.10.8/30',
+      classes: ['taxiR'],
+      taxiTurn: 60,
       weight: 1,
     },
 
@@ -419,6 +425,8 @@
       targetRouter: 'B棟コアルータ#2',
       targetPort: 'Hu0/0/0/1',
       label: '192.168.10.12/30',
+      classes: ['taxiR'],
+      taxiTurn: 100,
       weight: 5,
     },
   ];

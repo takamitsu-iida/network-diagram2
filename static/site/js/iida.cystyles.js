@@ -57,7 +57,7 @@
       style: {
         shape: 'round-rectangle',
         label: 'data(id)',
-        'font-size': 24,
+        'font-size': 20,
         'text-max-width': 'data(width)',
         'text-overflow-wrap': 'anywhere',
       },
@@ -141,7 +141,7 @@
 
     {
       // highlight dijkstra path
-      selector: '.router.dijkstraPath',
+      selector: 'node.dijkstraPath',
       style: {
         'border-color': '#0000ff', // blue
         'border-width': 3,

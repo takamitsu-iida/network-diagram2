@@ -69,7 +69,6 @@
         classes: _classes,
         grabbable: _grabbable,
       };
-
     };
 
     exports.id = function (_) {
@@ -241,6 +240,7 @@
           _offsetX = -1 * (routerWidth / 2 - portWidth / 2);
           break;
         case 'LO': // Left Outside
+        case 'OL': // Left Outside
           _offsetX = -1 * (routerWidth / 2 + portWidth / 2);
           break;
         case 'C': // Center
@@ -250,6 +250,7 @@
           _offsetX = routerWidth / 2 - portWidth / 2;
           break;
         case 'RO': // Right Outside
+        case 'OR': // Right Outside
           _offsetX = routerWidth / 2 + portWidth / 2;
           break;
       }
@@ -638,7 +639,7 @@
           .id(edgeId)
           .source(routerId)
           .target(portId)
-          .weight(0.0001);  // because 0 is not accepted, use small enough value
+          .weight(0.0001); // because 0 is not accepted, use small enough value
         eles.edges.push(e.toObject());
       });
     });
@@ -710,5 +711,4 @@
   };
 
   iida.appdata.elements = createElements(iida.appdata.routers, iida.appdata.edges);
-
 })();
