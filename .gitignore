@@ -131,8 +131,8 @@ tramp
 /auto/
 
 # cask packages
-.cask/
-dist/
+# .cask/
+# dist/
 
 # Flycheck
 flycheck_*.el
@@ -172,7 +172,7 @@ __pycache__/
 env/
 build/
 develop-eggs/
-dist/
+# dist/
 downloads/
 eggs/
 .eggs/
