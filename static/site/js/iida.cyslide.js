@@ -9,6 +9,8 @@
     onContainerDiv.style['top'] = 0;
     onContainerDiv.style['right'] = 0;
     onContainerDiv.style['z-index'] = 20;
+    container.appendChild(onContainerDiv);
+
     var closeButton = document.createElement('input');
     closeButton.type = 'button';
     closeButton.value = 'Close';
@@ -16,7 +18,10 @@
       container.style.visibility = 'hidden';
     });
     onContainerDiv.appendChild(closeButton);
-    container.appendChild(onContainerDiv);
+
+    var radioDiv = document.createElement('div');
+    radioDiv.id = 'idRadioDiv';
+    onContainerDiv.appendChild(radioDiv);
 
     var elements = [];
     var filters = [];
@@ -85,40 +90,77 @@
       return this;
     }
 
-    exports.show = function (_) {
-      container.style.visibility = '';
-
+    function showFiltered(filterId) {
       showElements();
+      cy.batch(function () {
+        for (let index = 0; index <= filterId; index++) {
+          console.log('filter: ' + index);
+          var f = filters[index];
+          if (f) {
+            f(cy);
+          }
+        }
+      });
+      cy.layout(layoutOption).run();
+    }
+
+    function createRadioButton() {
+      while (radioDiv.lastChild) {
+        radioDiv.removeChild(radioDiv.lastChild);
+      }
+
+      filters.forEach((filter, index) => {
+        var inputTag = document.createElement('input');
+        inputTag.id = filter.name;
+        inputTag.type = 'radio';
+        inputTag.name = 'filters';
+        inputTag.value = index;
+        inputTag.addEventListener('change', function (evt) {
+          evt.preventDefault();
+          evt.stopPropagation();
+          var index = evt.target.value;
+          showFiltered(index);
+        });
+
+        var labelTag = document.createElement('label');
+        labelTag.appendChild(document.createTextNode(filter.filterName || filter.name));
+        labelTag.htmlFor = filter.name;
+
+        radioDiv.appendChild(labelTag);
+        radioDiv.appendChild(inputTag);
+      });
+    }
+
+    exports.show = function (_) {
+      createRadioButton();
+      container.style.visibility = '';
 
       var step = 0;
       if (arguments.length) {
         step = _;
       }
 
-      function showFiltered() {
+      function _show() {
         console.log('step: ' + step);
 
         let f = filters[step];
         if (f) {
           f(cy);
-          /*
-            cy.elements().remove();
-            cy.reset();
-            cy.add(filtered);
-            */
-            cy.layout(layoutOption).run();
+          cy.layout(layoutOption).run();
         }
 
         step++;
         if (step < filters.length) {
-          setTimeout(showFiltered, 1000);
+          setTimeout(_show, 1000);
         }
       }
 
-      setTimeout(showFiltered, 1000);
+      showElements();
+      setTimeout(_show, 1000);
     };
 
     exports.hide = function () {
+      container.removeChild(document.getElementById('idRadio'));
       container.style.visibility = 'hidden';
     };
 

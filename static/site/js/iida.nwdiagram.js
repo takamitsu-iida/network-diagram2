@@ -1032,8 +1032,11 @@
           return;
         }
 
-        var sourceRedundantSystem = edge.source().data('redundant') || 1;
-        var targetRedundantSystem = edge.target().data('redundant') || 1;
+        var srcRouter = cy.$id(edge.source().data('routerId'));
+        var tgtRouter = cy.$id(edge.target().data('routerId'));
+
+        var sourceRedundantSystem = srcRouter.data('redundant') || 1;
+        var targetRedundantSystem = tgtRouter.data('redundant') || 1;
 
         switch (sourceRedundantSystem + targetRedundantSystem) {
           case 2: // #1-#1 main-main
