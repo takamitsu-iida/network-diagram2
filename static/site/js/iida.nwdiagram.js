@@ -959,7 +959,9 @@
             highlightNext();
           }
         };
-        highlightNext();
+        if (pathTo.length > 0) {
+          highlightNext();
+        }
 
         pathTo[0].addClass('dijkstraSource');
         pathTo[pathTo.length - 1].addClass('dijkstraTarget');
@@ -1195,6 +1197,46 @@
       });
     }
 
+    function cycleDetect() {
+      var nodeId = 'C棟コアルータ#1';
+      var root = cy.$id(nodeId);
+
+      var visited = [];
+      var isCycle = false;
+      var dfs = cy.elements().dfs({
+        roots: root,
+        visit: function (v, e, u, i, depth) {
+          // console.log( 'visit ' + v.id() );
+          v.neighborhood('node').forEach((neighbor) => {
+            if (neighbor === u) {
+              return;
+            }
+            if (visited.includes(neighbor)) {
+              console.log(neighbor.id());
+              isCycle = true;
+            }
+          });
+          visited.push(v);
+          if (isCycle) {
+            return false;
+          }
+        },
+        directed: false,
+      });
+
+      if (isCycle) {
+        console.log('LOOP DETECTED');
+      }
+
+      var path = dfs.path; // path to found node
+      path.select();
+    }
+
+    var cySlideContainer = document.getElementById('idCySlide');
+    if (cySlideContainer) {
+      var cySlide = iida.cySlide(cySlideContainer);
+    }
+
     // DEBUG PURPOSE
     var debugButton = document.getElementById('idDebugButton');
     if (debugButton) {
@@ -1202,39 +1244,53 @@
         evt.stopPropagation();
         evt.preventDefault();
 
-        var portId = 'C棟コアルータ#1';
-        var port = cy.$id(portId);
+        var elements = {
+          nodes: [
+            { data: { id: 'e', grid: { row: 1, col: 2 } } },
+            { data: { id: 'g', grid: { row: 3, col: 1 } } },
+            { data: { id: 'j', grid: { row: 2, col: 2 } } },
+            { data: { id: 'k', grid: { row: 3, col: 3 } } },
+          ],
+          edges: [
+            { data: { source: 'j', target: 'e' } },
+            { data: { source: 'j', target: 'k' } },
+            { data: { source: 'j', target: 'g' } },
+            { data: { source: 'e', target: 'j' } },
+            { data: { source: 'e', target: 'k' } },
+            { data: { source: 'k', target: 'j' } },
+            { data: { source: 'k', target: 'e' } },
+            { data: { source: 'k', target: 'g' } },
+            { data: { source: 'g', target: 'j' } },
+          ],
+        };
 
-        var visited = [];
-        var loopDetected = false;
-        var dfs = cy.elements().dfs({
-          roots: port,
-          visit: function(v, e, u, i, depth){
-            // console.log( 'visit ' + v.id() );
-            v.neighborhood('node').forEach(neighbor => {
-              if (neighbor === u) {
-                return;
-              }
-              if (visited.includes(neighbor)) {
-                console.log(neighbor.id());
-                loopDetected = true;
-              }
-            });
-            if (loopDetected) {
-              return false;
+        var f1 = function (cy) {
+          var eles = cy.edges().filter(edge => {
+            if (edge.source().id() === 'j') {
+              return edge;
             }
-            visited.push(v);
-          },
-          directed: false
-        });
+          });
+          eles = cy.elements().not(eles);
+          cy.elements().remove();
+          cy.add(eles);
+        };
 
-        if (loopDetected) {
-          console.log("LOOP DETECTED");
-        }
+        var f2 = function (cy) {
+          cy.elements().remove();
+          cy.add(
+            {
+              nodes: [
+                { data: { id: 'm', grid: { row: 1, col: 1 } } },
+                { data: { id: 'j', grid: { row: 2, col: 2 } } },
+              ],
+              edges: [
+                { data: { source: 'm', target: 'j' } },
+              ],
+            }
+          );
+        };
 
-        var path = dfs.path; // path to found node
-        path.select();
-
+        cySlide.elements(elements).filters([f1, f2]).show();
       });
     }
   };

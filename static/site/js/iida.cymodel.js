@@ -41,7 +41,7 @@
         maxZoom: 2,
         wheelSensitivity: 0.2,
         elements: [],
-        layout: { name: 'preset' },
+        layout: { name: 'grid' },
         style: style,
       });
     }
@@ -51,14 +51,13 @@
     }
 
     exports.show = function () {
+      container.style.visibility = '';
+
       // clean up existing cy
       cy.removeAllListeners();
       cy.elements().removeAllListeners();
       cy.elements().remove();
       cy.reset();
-
-      container.style.height = model.IMG_HEIGHT + 'px';
-      cy.resize();
 
       cy.add({
         data: {
@@ -73,7 +72,13 @@
         grabbable: true,
       });
 
+      cy.fit();
+
+      // fix container height and resize cy
       var masterNode = cy.$id('__MASTER___');
+      container.style['max-height'] = model.IMG_HEIGHT + 'px';
+      container.style['height'] = masterNode.renderedHeight() + 'px';
+      cy.resize();
 
       cy.on('position', '.__MASTER__', function (evt) {
         var position = evt.target.position();
@@ -92,19 +97,17 @@
 
       data.forEach((d) => {
         d.data['label'] = d.data['label'] || d.data['id'];
-        // d.data['width'] = d.data['id'].startsWith('H') ? model.PORT_WIDTH + 6 : model.PORT_WIDTH;
         d.data['width'] = model.PORT_WIDTH;
         d.data['height'] = model.PORT_HEIGHT;
         d['grabbable'] = false;
       });
 
       cy.add(data);
-
       cy.fit();
 
       masterNode.emit('position');
 
-      container.style.visibility = '';
+
     };
 
     exports.hide = function () {

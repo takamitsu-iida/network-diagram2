@@ -16,7 +16,7 @@
     cols: undefined, // 15, // force num of columns in the grid
     position: function (node) {
       // returns { row, col } for element
-      return node.data('grid');
+      return node.data('grid') || { row: 1, col: 1 };
     },
     sort: undefined, // a sorting function to order the nodes; e.g. function(a, b){ return a.data('weight') - b.data('weight') }
     animate: true, // whether to transition the node positions
