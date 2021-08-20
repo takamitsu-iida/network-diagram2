@@ -51,13 +51,14 @@
     }
 
     exports.show = function () {
-      container.style.visibility = '';
-
       // clean up existing cy
       cy.removeAllListeners();
       cy.elements().removeAllListeners();
       cy.elements().remove();
-      cy.reset();
+
+      // revert container div height to 100%
+      container.style['height'] = '100%';
+      cy.resize();
 
       cy.add({
         data: {
@@ -76,7 +77,6 @@
 
       // fix container height and resize cy
       var masterNode = cy.$id('__MASTER___');
-      container.style['max-height'] = model.IMG_HEIGHT + 'px';
       container.style['height'] = masterNode.renderedHeight() + 'px';
       cy.resize();
 
@@ -101,13 +101,14 @@
         d.data['height'] = model.PORT_HEIGHT;
         d['grabbable'] = false;
       });
-
       cy.add(data);
       cy.fit();
 
+      // fix port position
       masterNode.emit('position');
 
-
+      // show container div
+      container.style.visibility = '';
     };
 
     exports.hide = function () {
