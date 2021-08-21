@@ -4,24 +4,33 @@
   iida.cySlide = function (dom) {
     var container = dom;
 
-    var onContainerDiv = document.createElement('div');
-    onContainerDiv.style['position'] = 'absolute';
-    onContainerDiv.style['top'] = 0;
-    onContainerDiv.style['right'] = 0;
-    onContainerDiv.style['z-index'] = 20;
-    container.appendChild(onContainerDiv);
+    var rightDiv = document.createElement('div');
+    rightDiv.style['position'] = 'absolute';
+    rightDiv.style['top'] = 0;
+    rightDiv.style['right'] = 0;
+    rightDiv.style['z-index'] = 20;
+    container.appendChild(rightDiv);
 
     var closeButton = document.createElement('input');
     closeButton.type = 'button';
     closeButton.value = 'Close';
-    closeButton.addEventListener('click', function () {
+    closeButton.addEventListener('click', function (evt) {
+      evt.preventDefault();
+      evt.stopPropagation();
       container.style.visibility = 'hidden';
     });
-    onContainerDiv.appendChild(closeButton);
+    rightDiv.appendChild(closeButton);
 
-    var radioDiv = document.createElement('div');
-    radioDiv.id = 'idRadioDiv';
-    onContainerDiv.appendChild(radioDiv);
+    var leftDiv = document.createElement('div');
+    leftDiv.style['position'] = 'absolute';
+    leftDiv.style['top'] = 0;
+    leftDiv.style['left'] = 0;
+    leftDiv.style['z-index'] = 20;
+    container.appendChild(leftDiv);
+
+    var fieldsetTag = document.createElement('fieldset');
+    fieldsetTag.style.margin = '10px';
+    leftDiv.appendChild(fieldsetTag);
 
     var elements = [];
     var filters = [];
@@ -94,7 +103,6 @@
       showElements();
       cy.batch(function () {
         for (let index = 0; index <= filterId; index++) {
-          console.log('filter: ' + index);
           var f = filters[index];
           if (f) {
             f(cy);
@@ -105,12 +113,20 @@
     }
 
     function createRadioButton() {
-      while (radioDiv.lastChild) {
-        radioDiv.removeChild(radioDiv.lastChild);
+      while (fieldsetTag.lastChild) {
+        fieldsetTag.removeChild(fieldsetTag.lastChild);
       }
 
+      const legendTag = document.createElement('legend');
+      legendTag.appendChild(document.createTextNode('Filters'));
+      fieldsetTag.appendChild(legendTag);
+
       filters.forEach((filter, index) => {
-        var inputTag = document.createElement('input');
+        let spanTag = document.createElement('span');
+        spanTag.style.paddingLeft = '10px';
+        spanTag.style.paddingRight = '10px';
+
+        let inputTag = document.createElement('input');
         inputTag.id = filter.name;
         inputTag.type = 'radio';
         inputTag.name = 'filters';
@@ -118,16 +134,17 @@
         inputTag.addEventListener('change', function (evt) {
           evt.preventDefault();
           evt.stopPropagation();
-          var index = evt.target.value;
-          showFiltered(index);
+          inputTag.focus();
+          showFiltered(evt.target.value);
         });
 
-        var labelTag = document.createElement('label');
+        let labelTag = document.createElement('label');
         labelTag.appendChild(document.createTextNode(filter.filterName || filter.name));
         labelTag.htmlFor = filter.name;
 
-        radioDiv.appendChild(labelTag);
-        radioDiv.appendChild(inputTag);
+        spanTag.appendChild(inputTag);
+        spanTag.appendChild(labelTag);
+        fieldsetTag.appendChild(spanTag);
       });
     }
 

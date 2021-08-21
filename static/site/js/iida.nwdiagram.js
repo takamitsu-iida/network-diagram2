@@ -1268,7 +1268,13 @@
         };
 
         var f1 = function (cy) {
-          var eles = cy.edges().filter(edge => {
+          cy.elements().remove();
+          cy.add(elements);
+        };
+        f1.filterName = 'init';
+
+        var f2 = function (cy) {
+          var eles = cy.edges().filter((edge) => {
             if (edge.source().id() === 'j') {
               return edge;
             }
@@ -1277,23 +1283,18 @@
           cy.elements().remove();
           cy.add(eles);
         };
+        f2.filterName = 'remove edge to j';
 
-        var f2 = function (cy) {
+        var f3 = function (cy) {
           cy.elements().remove();
-          cy.add(
-            {
-              nodes: [
-                { data: { id: 'm', grid: { row: 1, col: 1 } } },
-                { data: { id: 'j', grid: { row: 2, col: 2 } } },
-              ],
-              edges: [
-                { data: { source: 'm', target: 'j' } },
-              ],
-            }
-          );
+          cy.add({
+            nodes: [{ data: { id: 'm', grid: { row: 1, col: 1 } } }, { data: { id: 'j', grid: { row: 2, col: 2 } } }],
+            edges: [{ data: { source: 'm', target: 'j' } }],
+          });
         };
+        f3.filterName = 'change elements';
 
-        cySlide.elements(elements).filters([f1, f2]).show();
+        cySlide.elements(elements).filters([f1, f2, f3]).show();
       });
     }
   };

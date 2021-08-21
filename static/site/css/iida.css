@@ -15,6 +15,10 @@ input[type='checkbox'] {
   cursor: pointer;
 }
 
+fieldset:focus-within {
+  background: #d3d3d3;
+}
+
 .wrapper {
   display: grid;
   column-gap: 8px;
@@ -145,7 +149,6 @@ input[type='checkbox'] {
   overflow-x: hidden;
   /* Disable horizontal scroll */
 }
-
 
 .top_right_fixed {
   position: fixed;
