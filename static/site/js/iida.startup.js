@@ -16,13 +16,12 @@
     DEFAULT_PORT_WIDTH: 60, // 25*2.41 silver ratio
 
     // see iida.appdata.routers_xxx.js
-    routers: [], // data of routers and ports
-    edges: [], // data of edges
-    bundleEthers: [], // data of bundleEther
+    routers: [],
+    edges: [],
+    bundleEthers: [],
 
     // see iida.elements.js
-    elements: {}, // cytoscape.js eles
-    topologyElements: {}, // cytoscape.js eles
+    elements: {},
   };
 
   // see iida.models.xxx.js
@@ -55,6 +54,6 @@
     });
     */
     iida.nwdiagram();
-
   };
+
 })();

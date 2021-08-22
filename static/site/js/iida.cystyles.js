@@ -226,7 +226,7 @@
       style: {
         'curve-style': 'taxi',
         'taxi-direction': 'leftward',
-        'taxi-turn': 'data(taxiTurn)'
+        'taxi-turn': 'data(taxiTurn)',
       },
     },
 
@@ -318,6 +318,21 @@
         'background-image': 'https://takamitsu-iida.github.io/network-diagram2/static/site/img/firewall.jpg',
       },
     },
+
+    {
+      selector: '.cloud',
+      style: {
+        'width': 100,
+        'height': 100,
+        'border-width': 0,
+        'background-color': '#e9e9e9',
+        'background-image': iida.appdata.svgCloud,
+      },
+    },
+
+
   ];
+
+
 
 })();

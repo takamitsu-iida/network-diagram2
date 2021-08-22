@@ -235,6 +235,9 @@
         case 'T': // Top
           _offsetY = (-1 * routerHeight) / 2 + portHeight / 2;
           break;
+        case 'TO': // Top Outside
+          _offsetY = (-1 * routerHeight) / 2 - portHeight / 2;
+          break;
         case 'T1': // 1st Top
           _offsetY = (-1 * routerHeight) / 2 + portHeight / 2;
           break;
@@ -276,6 +279,9 @@
           break;
         case 'B': // Bottom
           _offsetY = routerHeight / 2 - portHeight / 2;
+          break;
+          case 'BO': // Bottom Outside
+          _offsetY = routerHeight / 2 + portHeight / 2;
           break;
         case 'B1': // 1st from Bottom
           _offsetY = routerHeight / 2 - portHeight / 2;
@@ -583,7 +589,7 @@
       ports.forEach((port) => {
         var pid = port.id;
         var portId = routerId + pid;
-        var portLabel = port.label || pid;
+        var portLabel = port.label || '';
         var align = port.align || ['C', 'C'];
         var portWidth = port.width || DEFAULT_PORT_WIDTH;
         var portHeight = port.height || DEFAULT_PORT_HEIGHT;
