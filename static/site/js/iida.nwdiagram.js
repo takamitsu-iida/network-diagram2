@@ -7,6 +7,12 @@
       nenuName: 'physical', // or "topology"
       showPopper: false,
       shortestPathDuration: 1000, // msec
+      showOnlyFiltered: false,
+      filteredMap: {
+        byText: [],
+        byBuilding: [],
+        byFloor: [],
+      },
     };
 
     var cyContainer = document.getElementById('cy');
@@ -35,7 +41,7 @@
         evt.target.data('grabX', evt.target.position().x);
         evt.target.data('grabY', evt.target.position().y);
 
-        cy.$('.router').forEach((router) => {
+        cy.nodes('.router').forEach((router) => {
           var position = router.position();
           router.data('oldX', position.x);
           router.data('oldY', position.y);
@@ -86,11 +92,13 @@
 
       cy.on('select', 'node', function (evt) {
         var tipDiv = document.getElementById('idTipDiv');
+        hideTooltip(tipDiv);
         showTooltipNode(tipDiv, evt.target);
       });
 
       cy.on('select', 'edge', function (evt) {
         var tipDiv = document.getElementById('idTipDiv');
+        hideTooltip(tipDiv);
         showTooltipEdge(tipDiv, evt.target);
       });
 
@@ -158,7 +166,7 @@
         fit: true,
         animate: true,
       };
-      cy.$('.router').layout(option).run();
+      cy.nodes('.router').layout(option).run();
       // cy.layout(option).run();
     }
 
@@ -195,6 +203,8 @@
 
       function updatePopper() {
         popperDiv.style.display = 'none';
+
+        // updatePopper() is so heavy, need throttling
         doLater(function () {
           var zoom = cy.zoom();
           var fontSize = Math.round(12 * zoom);
@@ -324,14 +334,11 @@
       while (tipDiv.lastChild) {
         tipDiv.removeChild(tipDiv.lastChild);
       }
-
       // hide cyModel at the same time
       cyModel.hide();
     }
 
     function showTooltipNode(tipDiv, node) {
-      hideTooltip(tipDiv);
-
       var nodeType = node.data('nodeType');
       if (!nodeType) {
         // maybe unknown data is used
@@ -529,8 +536,6 @@
     }
 
     function showTooltipEdge(tipDiv, edge) {
-      hideTooltip(tipDiv);
-
       // create enable/disable checkbox
       if (nwdiagramState.menuName === 'topology') {
         tooltipEdgeTopology(tipDiv, edge);
@@ -707,7 +712,7 @@
       connectedButton.addEventListener('click', function (evt) {
         evt.stopPropagation();
         evt.preventDefault();
-        var roots = cy.$('.router:selected');
+        var roots = cy.nodes('.router:selected');
         showConnected(cy, roots);
       });
     }
@@ -788,39 +793,6 @@
       });
     }
 
-    ['AB', 'B', 'C'].forEach((location) => {
-      var aTag = document.getElementById('idLocation' + location);
-      if (!aTag) {
-        return;
-      }
-      aTag.addEventListener('click', function (evt) {
-        evt.stopPropagation();
-        evt.preventDefault();
-        document.getElementsByName('locationFilter').forEach((element) => {
-          element.classList.remove('active');
-        });
-        evt.target.classList.add('active');
-
-        if (location === 'A') {
-          filterByLocation(cy, 'A', true);
-          filterByLocation(cy, 'B', false);
-        } else if (location === 'B') {
-          filterByLocation(cy, 'A', false);
-          filterByLocation(cy, 'B', true);
-        } else {
-          filterByLocation(cy, 'A', true);
-          filterByLocation(cy, 'B', true);
-        }
-      });
-    });
-
-    function filterByLocation(cy, location, show) {
-      var routers = cy.nodes('.router').filter((r) => {
-        return location === r.data('location');
-      });
-      showHideRouters(routers, show);
-    }
-
     // filter by redundant system number #1 or #2 or #1-#2
     [12, 1, 2].forEach((redundantNumber) => {
       var aTag = document.getElementById('idRedundant' + redundantNumber);
@@ -834,6 +806,7 @@
           element.classList.remove('active');
         });
         evt.target.classList.add('active');
+
         if (redundantNumber === 1) {
           filterByRedundant(cy, 1, true);
           filterByRedundant(cy, 2, false);
@@ -867,9 +840,6 @@
               showHideElement(edge, show);
             });
           }
-        });
-        router.connectedEdges().forEach((edge) => {
-          showHideElement(edge, show);
         });
         showHideElement(router, show);
       });
@@ -1031,6 +1001,9 @@
         if (!edgeType || edgeType === 'routerToPort') {
           return;
         }
+        if (edge.data.fixedWeight) {
+          return;
+        }
 
         var srcRouter = cy.$id(edge.source().data('routerId'));
         var tgtRouter = cy.$id(edge.target().data('routerId'));
@@ -1078,7 +1051,7 @@
       while (select.lastChild) {
         select.removeChild(select.lastChild);
       }
-      cy.elements('.router').forEach((router) => {
+      cy.nodes('.router').forEach((router) => {
         if (router.classes().includes('L2')) {
           return;
         }
@@ -1200,6 +1173,58 @@
       });
     }
 
+    var idSearchText = document.getElementById('idSearchText');
+    if (idSearchText) {
+      // init nwdiagramState.filteredMap.byText
+      cy.nodes('.router').forEach((r) => {
+        nwdiagramState.filteredMap.byText.push(r.id());
+      });
+      idSearchText.addEventListener('input', function (evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        var searchText = evt.target.value;
+        console.log(searchText);
+        if (searchText) {
+          nwdiagramState.filteredMap.byText = iida.appdata.searchRouters(searchText);
+        } else {
+          nwdiagramState.filteredMap.byText = [];
+          cy.nodes('.router').forEach((r) => {
+            nwdiagramState.filteredMap.byText.push(r.id());
+          });
+        }
+        updateFiltered();
+      });
+    }
+
+    function updateFiltered() {
+      const results = nwdiagramState.filteredMap.byText;
+
+      var idSearchResultList = document.getElementById('idSearchResultList');
+      while (idSearchResultList.lastChild) {
+        idSearchResultList.removeChild(idSearchResultList.lastChild);
+      }
+      results.forEach((routerId) => {
+        var p = document.createElement('p');
+        p.appendChild(document.createTextNode(routerId));
+        idSearchResultList.appendChild(p);
+      });
+
+      if (nwdiagramState.showOnlyFiltered) {
+        const showRouters = [];
+        const hideRouters = [];
+        cy.nodes('.router').forEach((router) => {
+          if (results.indexOf(router.id()) < 0) {
+            hideRouters.push(router);
+          } else {
+            showRouters.push(router);
+          }
+          showHideRouters(showRouters, true);
+          showHideRouters(hideRouters, false);
+        });
+      }
+    }
+
+    // just trying
     function cycleDetect() {
       var nodeId = 'C棟コアルータ#1';
       var root = cy.$id(nodeId);

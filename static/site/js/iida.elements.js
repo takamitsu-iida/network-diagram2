@@ -688,4 +688,23 @@
   };
 
   iida.appdata.elements = createElements(iida.appdata.routers, iida.appdata.edges);
+
+
+  iida.appdata.searchRouters = function(searchText) {
+    const routers = iida.appdata.routers || [];
+    const searchTextLower = searchText.toLowerCase();
+    let ids = [];
+    routers.forEach(r => {
+      const id = r.id || '';
+      const label = r.label || '';
+      if (id.toLowerCase().indexOf(searchTextLower) !== -1) {
+        ids.push(id);
+      } else if (label.toLowerCase().indexOf(searchTextLower) != -1) {
+        ids.push(id);
+      }
+    });
+    return ids;
+  }
+
+
 })();
