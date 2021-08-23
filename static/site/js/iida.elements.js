@@ -22,7 +22,7 @@
     var _data = {};
 
     // for port node
-    var _routerId = undefined;
+    var _routerId;
     var _align = ['C', 'C']; // Center, Center
     var _offsetX = 0; // Center of the router
     var _offsetY = 0; // Center of the router
@@ -54,7 +54,7 @@
         _grabbable = false;
       }
 
-      // if exists
+      // if exists _data
       if (Object.keys(_data).length) {
         // merge _data
         data = Object.assign(data, _data);
