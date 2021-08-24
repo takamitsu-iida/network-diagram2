@@ -7,6 +7,7 @@
       nenuName: 'physical', // or "topology"
       showPopper: false,
       shortestPathDuration: 1000, // msec
+      moveFilteredToCenter: true,
       searchMap: {
         byText: [], // list of routerId
       },
@@ -924,6 +925,12 @@
       });
       showHideRouters(showRouters, true);
       showHideRouters(hideRouters, false);
+
+      // move them to center ?
+      if (nwdiagramState.moveFilteredToCenter) {
+        const subgraph = cy.collection(showRouters)
+        cy.center(subgraph);
+      }
     }
 
     var CyShortestPath = (function () {
@@ -1371,5 +1378,17 @@
       });
     }
   };
+
+  function moveToCenter(cy, ele) {
+    var pos = ele.renderedPosition();
+    var center = {
+      x: cy.container().clientWidth / 2,
+      y: cy.container().clientHeight  / 2,
+    };
+    // vector from pos to center
+    var v = { x: center.x - pos.x, y: center.y - pos.y };
+    cy.panBy(v);
+  }
+
   //
 })();
