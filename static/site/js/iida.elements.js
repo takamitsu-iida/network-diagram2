@@ -694,9 +694,9 @@
     const routers = iida.appdata.routers || [];
     const searchTextLower = searchText.toLowerCase();
     let ids = [];
-    routers.forEach(r => {
-      const id = r.id || '';
-      const label = r.label || '';
+    routers.forEach(router => {
+      const id = router.id || '';
+      const label = router.label || '';
       if (id.toLowerCase().indexOf(searchTextLower) !== -1) {
         ids.push(id);
       } else if (label.toLowerCase().indexOf(searchTextLower) != -1) {
@@ -705,6 +705,5 @@
     });
     return ids;
   }
-
 
 })();

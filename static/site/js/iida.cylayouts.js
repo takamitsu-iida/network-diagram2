@@ -5,15 +5,15 @@
     name: 'grid',
 
     fit: true, // whether to fit the viewport to the graph
-    padding: 105, // padding used on fit, DEFAULT_ROUTER_WIDTH / 2
+    padding: 50, // padding used on fit, DEFAULT_ROUTER_WIDTH / 2
     boundingBox: undefined, // constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
     avoidOverlap: true, // prevents node overlap, may overflow boundingBox if not enough space
-    avoidOverlapPadding: 50, // extra spacing around nodes when avoidOverlap: true
+    avoidOverlapPadding: 120, // extra spacing around nodes when avoidOverlap: true
     nodeDimensionsIncludeLabels: false, // Excludes the label when calculating node bounding boxes for the layout algorithm
     spacingFactor: undefined, // Applies a multiplicative factor (>0) to expand or compress the overall area that the nodes take up
     condense: false, // uses all available space on false, uses minimal space on true
-    rows: undefined, // 12, // force num of rows in the grid
-    cols: undefined, // 15, // force num of columns in the grid
+    rows: undefined, // force num of rows in the grid
+    cols: undefined, // force num of columns in the grid
     position: function (node) {
       // returns { row, col } for element
       return node.data('grid') || { row: 1, col: 1 };

@@ -1351,11 +1351,7 @@
         f1.filterName = 'init';
 
         var f2 = function (cy) {
-          var eles = cy.edges().filter((edge) => {
-            if (edge.source().id() === 'j') {
-              return edge;
-            }
-          });
+          var eles = cy.edges().filter((edge) => edge.source().id() === 'j');
           eles = cy.elements().not(eles);
           cy.elements().remove();
           cy.add(eles);
