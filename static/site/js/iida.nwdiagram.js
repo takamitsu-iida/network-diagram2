@@ -8,10 +8,10 @@
       showPopper: false,
       shortestPathDuration: 1000, // msec
       searchMap: {
-        byText: [],
+        byText: [], // list of routerId
       },
       filterMap: {
-        byRedundant: [],
+        byRedundant: [], // list of routerId
         byBuilding: [],
         byFloor: [],
       },
@@ -87,7 +87,7 @@
           fixPortPosition(cy.$id(portId));
         });
 
-        // fix rootPort position, rootPort's id is "_" + routerId
+        // fix rootPort position, the rootPort's id is "_" + routerId
         portId = '_' + router.id();
         fixPortPosition(cy.$id(portId));
       });
@@ -795,8 +795,11 @@
       });
     }
 
-    // filter by redundant system number #1 or #2 or #1-#2
-    [12, 1, 2].forEach((redundantNumber) => {
+    // filter by redundant system number All or #1 or #2
+    if (document.getElementById('idRedundantAll')) {
+      nwdiagramState.filterMap.byRedundant = cy.nodes('.router').map((router) => router.id());
+    }
+    ['All', '1', '2'].forEach((redundantNumber) => {
       var aTag = document.getElementById('idRedundant' + redundantNumber);
       if (!aTag) {
         return;
@@ -809,40 +812,20 @@
         });
         evt.target.classList.add('active');
 
-        if (redundantNumber === 1) {
-          filterByRedundant(cy, 1, true);
-          filterByRedundant(cy, 2, false);
-        } else if (redundantNumber === 2) {
-          filterByRedundant(cy, 2, true);
-          filterByRedundant(cy, 1, false);
-        } else {
-          filterByRedundant(cy, 1, true);
-          filterByRedundant(cy, 2, true);
+        if (redundantNumber === 'All') {
+          nwdiagramState.filterMap.byRedundant = cy.nodes('.router').map((router) => router.id());
+          updateFiltered();
+          return;
         }
-
-        //
-        // temp code
-        //
         nwdiagramState.filterMap.byRedundant = [];
-        cy.nodes('.router').forEach(router => {
-          if (redundantNumber === 1 || redundantNumber === 2) {
-            if (router.data('redundant') === redundantNumber) {
-              nwdiagramState.filterMap.byRedundant.push(router.id());
-            }
-          } else {
-            nwdiagramState.filterMap.byRedundant.push(router);
+        cy.nodes('.router').forEach((router) => {
+          if (router.data('redundant').toString() === redundantNumber) {
+            nwdiagramState.filterMap.byRedundant.push(router.id());
           }
         });
-
+        updateFiltered();
       });
     });
-
-    function filterByRedundant(cy, redundantNumber, show) {
-      var routers = cy.nodes('.router').filter((r) => {
-        return redundantNumber === r.data('redundant');
-      });
-      showHideRouters(routers, show);
-    }
 
     function showHideRouters(routers, show) {
       routers.forEach((router) => {
@@ -883,6 +866,64 @@
       } else {
         popperDiv.classList.add('hidden');
       }
+    }
+
+    // filter by building number 'All' or 'B' or 'C'
+    if (document.getElementById('idBuildingAll')) {
+      nwdiagramState.filterMap.byBuilding = cy.nodes('.router').map((router) => router.id());
+    }
+    ['All', 'B', 'C'].forEach((buildingNumber) => {
+      var aTag = document.getElementById('idBuilding' + buildingNumber);
+      if (!aTag) {
+        return;
+      }
+      aTag.addEventListener('click', function (evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        document.getElementsByName('buildingFilter').forEach((element) => {
+          element.classList.remove('active');
+        });
+        evt.target.classList.add('active');
+        if (buildingNumber === 'All') {
+          nwdiagramState.filterMap.byBuilding = cy.nodes('.router').map((router) => router.id());
+          updateFiltered();
+          return;
+        }
+        nwdiagramState.filterMap.byBuilding = [];
+        cy.nodes('.router').forEach((router) => {
+          if (router.data('building') === buildingNumber) {
+            nwdiagramState.filterMap.byBuilding.push(router.id());
+          }
+        });
+        updateFiltered();
+      });
+    });
+
+    function updateFiltered() {
+      let filtered = [];
+      for (const [_key, value] of Object.entries(nwdiagramState.filterMap)) {
+        if (!value || value.length === 0) {
+          continue;
+        }
+        if (filtered.length === 0) {
+          filtered = value;
+          continue;
+        }
+        filtered = value.filter((item) => filtered.indexOf(item) >= 0);
+      }
+      // console.log(filtered);
+      const showRouters = [];
+      const hideRouters = [];
+      cy.nodes('.router').forEach((router) => {
+        const routerId = router.id();
+        if (filtered.indexOf(routerId) >= 0) {
+          showRouters.push(router);
+        } else {
+          hideRouters.push(router);
+        }
+      });
+      showHideRouters(showRouters, true);
+      showHideRouters(hideRouters, false);
     }
 
     var CyShortestPath = (function () {
