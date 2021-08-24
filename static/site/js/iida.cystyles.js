@@ -73,7 +73,7 @@
         label: 'data(label)',
         width: 'data(width)',
         height: 'data(height)',
-        'font-size': 10,
+        'font-size': 9,
         'text-wrap': 'wrap',
         'text-valign': 'center',
         'text-halign': 'center',
@@ -136,6 +136,13 @@
       selector: '.router.L2',
       style: {
         'background-color': '#add8e6', // lightblue
+      },
+    },
+
+    {
+      selector: '.router.searched',
+      style: {
+        'background-color': '#ffdab9', // peachpuff
       },
     },
 

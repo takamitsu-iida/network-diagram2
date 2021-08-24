@@ -1175,7 +1175,7 @@
 
     var idSearchText = document.getElementById('idSearchText');
     if (idSearchText) {
-      // init nwdiagramState.filteredMap.byText
+      // init search results
       cy.nodes('.router').forEach((r) => {
         nwdiagramState.filteredMap.byText.push(r.id());
       });
@@ -1183,14 +1183,10 @@
         evt.stopPropagation();
         evt.preventDefault();
         var searchText = evt.target.value;
-        console.log(searchText);
         if (searchText) {
           nwdiagramState.filteredMap.byText = iida.appdata.searchRouters(searchText);
         } else {
           nwdiagramState.filteredMap.byText = [];
-          cy.nodes('.router').forEach((r) => {
-            nwdiagramState.filteredMap.byText.push(r.id());
-          });
         }
         updateFiltered();
       });
@@ -1199,28 +1195,36 @@
     function updateFiltered() {
       const results = nwdiagramState.filteredMap.byText;
 
-      var idSearchResultList = document.getElementById('idSearchResultList');
-      while (idSearchResultList.lastChild) {
-        idSearchResultList.removeChild(idSearchResultList.lastChild);
+      // show search results by text
+      /*
+      var idSearchResult = document.getElementById('idSearchResult');
+      while (idSearchResult.lastChild) {
+        idSearchResult.removeChild(idSearchResult.lastChild);
       }
       results.forEach((routerId) => {
         var p = document.createElement('p');
         p.appendChild(document.createTextNode(routerId));
-        idSearchResultList.appendChild(p);
+        idSearchResult.appendChild(p);
+      });
+      */
+
+      // show search results by color
+      const showRouters = [];
+      const hideRouters = [];
+      cy.nodes('.router').forEach((router) => {
+        if (results.indexOf(router.id()) < 0) {
+          hideRouters.push(router);
+          router.removeClass('searched');
+        } else {
+          showRouters.push(router);
+          router.addClass('searched');
+        }
       });
 
+      // hide unmached ?
       if (nwdiagramState.showOnlyFiltered) {
-        const showRouters = [];
-        const hideRouters = [];
-        cy.nodes('.router').forEach((router) => {
-          if (results.indexOf(router.id()) < 0) {
-            hideRouters.push(router);
-          } else {
-            showRouters.push(router);
-          }
-          showHideRouters(showRouters, true);
-          showHideRouters(hideRouters, false);
-        });
+        showHideRouters(showRouters, true);
+        showHideRouters(hideRouters, false);
       }
     }
 
