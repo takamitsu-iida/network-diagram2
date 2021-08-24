@@ -173,7 +173,7 @@
       // highlight dijkstra source node
       selector: '.router.dijkstraSource',
       style: {
-        'border-color': '#ff8c00', // darkorange
+        'background-color': '#ff8c00', // darkorange
         'border-width': 8,
       },
     },
@@ -182,7 +182,7 @@
       // highlight dijkstra target node
       selector: '.router.dijkstraTarget',
       style: {
-        'border-color': '#800080', // purple
+        'background-color': '#ff8c00', // darkorange
         'border-width': 8,
       },
     },
@@ -274,19 +274,11 @@
     },
 
     {
-      // selected node
-      selector: 'node:selected',
-      style: {
-        'background-color': '#ffd700', // gold
-      },
-    },
-
-    {
-      // selected edge
-      selector: 'edge:selected',
+      // selected node and edge
+      selector: ':selected',
       style: {
         'overlay-color': 'black',
-        'overlay-padding': 8,
+        'overlay-padding': 10,
         'overlay-opacity': '0.1',
       },
     },
@@ -300,7 +292,7 @@
     },
 
     {
-      // control to disabled or not, disabled node is excluded from dijkstra search
+      // class to control disabled or not, disabled node is excluded from dijkstra search
       selector: '.disabled',
       style: {
         // edge
@@ -313,33 +305,18 @@
     },
 
     {
-      selector: '.imgRouter',
-      style: {
-        'background-image': 'https://takamitsu-iida.github.io/network-diagram2/static/site/img/router.jpg',
-      },
-    },
-
-    {
-      selector: '.imgFirewall',
-      style: {
-        'background-image': 'https://takamitsu-iida.github.io/network-diagram2/static/site/img/firewall.jpg',
-      },
-    },
-
-    {
+      // svg icon
       selector: '.cloud',
       style: {
         'width': 100,
         'height': 100,
         'border-width': 0,
-        'background-color': '#e9e9e9',
+        'background-color': '#e9e9e9',  // same color as #cy
         'background-image': iida.appdata.svgCloud,
       },
     },
 
-
   ];
-
 
 
 })();
