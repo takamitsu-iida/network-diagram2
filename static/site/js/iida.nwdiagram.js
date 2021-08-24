@@ -20,6 +20,7 @@
 
     var cyContainer = document.getElementById('cy');
     if (cyContainer) {
+      cytoscape.warnings(false);
       var cy = (window.cy = cytoscape({
         container: cyContainer,
         // minZoom: 0.3,
@@ -34,6 +35,7 @@
         layout: { name: 'preset' },
         elements: [],
       }));
+      cytoscape.warnings(true);
 
       // add the panzoom control with default parameter
       // https://github.com/cytoscape/cytoscape.js-panzoom
@@ -928,8 +930,8 @@
 
       // move them to center ?
       if (nwdiagramState.moveFilteredToCenter) {
-        const subgraph = cy.collection(showRouters)
-        cy.center(subgraph);
+        const subgraph = cy.collection(showRouters);
+        cy.center(subgraph).fit(subgraph, 50);
       }
     }
 
@@ -1378,17 +1380,5 @@
       });
     }
   };
-
-  function moveToCenter(cy, ele) {
-    var pos = ele.renderedPosition();
-    var center = {
-      x: cy.container().clientWidth / 2,
-      y: cy.container().clientHeight  / 2,
-    };
-    // vector from pos to center
-    var v = { x: center.x - pos.x, y: center.y - pos.y };
-    cy.panBy(v);
-  }
-
   //
 })();

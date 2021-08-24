@@ -5,7 +5,7 @@
     name: 'grid',
 
     fit: true, // whether to fit the viewport to the graph
-    padding: 50, // padding used on fit, DEFAULT_ROUTER_WIDTH / 2
+    padding: 50, // padding used on fit
     boundingBox: undefined, // constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
     avoidOverlap: true, // prevents node overlap, may overflow boundingBox if not enough space
     avoidOverlapPadding: 120, // extra spacing around nodes when avoidOverlap: true
@@ -19,7 +19,7 @@
       return node.data('grid') || { row: 1, col: 1 };
     },
     sort: undefined, // a sorting function to order the nodes; e.g. function(a, b){ return a.data('weight') - b.data('weight') }
-    animate: true, // whether to transition the node positions
+    animate: false, // whether to transition the node positions
     animationDuration: 500, // duration of animation in ms if enabled
     animationEasing: 'ease', // easing of animation if enabled
     animateFilter: function (node, i) {

@@ -35,6 +35,7 @@
 
     var cy = exports.cy;
     if (!cy) {
+      cytoscape.warnings(false);
       cy = exports.cy = cytoscape({
         container: dom,
         minZoom: 0.5,
@@ -45,6 +46,7 @@
         style: style,
       });
     }
+    cytoscape.warnings(true);
 
     function exports() {
       return this;
