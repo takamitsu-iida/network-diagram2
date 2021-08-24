@@ -18,7 +18,7 @@
       popper: 'SID:20103',
       dragWith: ['C棟コアルータ#2', 'B棟コアルータ#1', 'B棟コアルータ#2'],
       classes: ['P'],
-      data: { redundant: 1, model: 'NCS55A1-36H' },
+      data: { redundant: 1, building: 'C', model: 'NCS55A1-36H' },
       ports: [
         {
           id: 'Hu0/0/0/0',
@@ -61,7 +61,7 @@
       popper: 'SID:20104',
       dragWith: ['C棟コアルータ#1', 'B棟コアルータ#1', 'B棟コアルータ#2'],
       classes: ['P'],
-      data: { redundant: 2, model: 'NCS55A1-36H' },
+      data: { redundant: 2, building: 'C', model: 'NCS55A1-36H' },
       ports: [
         {
           id: 'Hu0/0/0/0',
@@ -104,7 +104,7 @@
       popper: 'SID:20101',
       dragWith: ['C棟コアルータ#1', 'C棟コアルータ#2', 'B棟コアルータ#2'],
       classes: ['P'],
-      data: { redundant: 1, model: 'NCS55A1-36H' },
+      data: { redundant: 1, building: 'B', model: 'NCS55A1-36H' },
       ports: [
         {
           id: 'Hu0/0/0/27',
@@ -147,7 +147,7 @@
       popper: 'SID:20102',
       dragWith: ['C棟コアルータ#1', 'C棟コアルータ#2', 'B棟コアルータ#1'],
       classes: ['P'],
-      data: { redundant: 2, model: 'NCS55A1-36H' },
+      data: { redundant: 2, building: 'B', model: 'NCS55A1-36H' },
       ports: [
         {
           id: 'Hu0/0/0/22',

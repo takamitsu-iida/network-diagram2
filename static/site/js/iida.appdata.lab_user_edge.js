@@ -17,7 +17,7 @@
       popper: 'SID:20427',
       classes: ['PE'],
       dragWith: 'C棟ユーザ収容ルータ#2',
-      data: { redundant: 1, model: 'NCS5501' },
+      data: { redundant: 1, building: 'C', model: 'NCS5501' },
       ports: [
         {
           id: 'Hu0/0/1/0',
@@ -59,7 +59,7 @@
       popper: 'SID:20428',
       classes: ['PE'],
       dragWith: 'C棟ユーザ収容ルータ#1',
-      data: { redundant: 2, model: 'NCS5501' },
+      data: { redundant: 2, building: 'C', model: 'NCS5501' },
       ports: [
         {
           id: 'Hu0/0/1/2',
@@ -101,7 +101,7 @@
       popper: 'SID:20429',
       classes: ['PE'],
       dragWith: 'C棟ユーザ収容ルータ#4',
-      data: { redundant: 1, model: 'NCS5501' },
+      data: { redundant: 1, building: 'C', model: 'NCS5501' },
       ports: [
         {
           id: 'Hu0/0/1/0',
@@ -133,7 +133,7 @@
       popper: 'SID:20430',
       classes: ['PE'],
       dragWith: 'C棟ユーザ収容ルータ#3',
-      data: { redundant: 2, model: 'NCS5501' },
+      data: { redundant: 2, building: 'C', model: 'NCS5501' },
       ports: [
         {
           id: 'Hu0/0/1/2',
@@ -165,7 +165,7 @@
       popper: 'SID:20417',
       classes: ['PE'],
       dragWith: 'B棟ユーザ収容ルータ#2',
-      data: { redundant: 1, model: 'NCS5501' },
+      data: { redundant: 1, building: 'B', model: 'NCS5501' },
       ports: [
         {
           id: 'Hu0/0/1/0',
@@ -197,7 +197,7 @@
       popper: 'SID:20418',
       classes: ['PE'],
       dragWith: 'B棟ユーザ収容ルータ#1',
-      data: { redundant: 2, model: 'NCS5501' },
+      data: { redundant: 2, building: 'B', model: 'NCS5501' },
       ports: [
         {
           id: 'Hu0/0/1/2',
@@ -229,7 +229,7 @@
       popper: 'SID:20419',
       classes: ['PE'],
       dragWith: 'B棟ユーザ収容ルータ#4',
-      data: { redundant: 1, model: 'NCS5501' },
+      data: { redundant: 1, building: 'B', model: 'NCS5501' },
       ports: [
         {
           id: 'Hu0/0/1/0',
@@ -261,7 +261,7 @@
       popper: 'SID:20420',
       classes: ['PE'],
       dragWith: 'B棟ユーザ収容ルータ#3',
-      data: { redundant: 2, model: 'NCS5501' },
+      data: { redundant: 2, building: 'B', model: 'NCS5501' },
       ports: [
         {
           id: 'Hu0/0/1/2',
