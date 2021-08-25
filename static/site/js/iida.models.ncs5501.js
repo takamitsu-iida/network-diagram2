@@ -7,7 +7,7 @@
     var THUMBNAIL_PATH = 'static/site/img/sNCS5501.png';
     var IMG_PATH = 'static/site/img/NCS5501.png';
     var IMG_WIDTH = 1920;
-    var IMG_HEIGHT = 168;
+    var IMG_HEIGHT = 172;
     var PORT_WIDTH = 52;
     var PORT_HEIGHT = 30;
 
