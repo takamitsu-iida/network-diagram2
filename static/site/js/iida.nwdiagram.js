@@ -1246,6 +1246,13 @@
       cy.nodes('.router').forEach((r) => {
         nwdiagramState.searchMap.byText.push(r.id());
       });
+      // init clear button
+      document.getElementById('idSearchTextClear').addEventListener('click', function (evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        idSearchText.value = '';
+        idSearchText.dispatchEvent(new Event('input'));
+      });
       idSearchText.addEventListener('input', function (evt) {
         evt.stopPropagation();
         evt.preventDefault();
