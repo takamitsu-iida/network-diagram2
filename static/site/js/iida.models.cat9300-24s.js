@@ -1,60 +1,60 @@
 /* global iida */
 
 (function () {
-  iida.models.cat2960x24 = (function () {
+  iida.models.cat9300_24 = (function () {
 
-    var MODEL = 'CAT2960X-24';
-    var THUMBNAIL_PATH = 'static/site/img/sCAT2960X-24.png';
-    var IMG_PATH = 'static/site/img/CAT2960X-24.png';
+    var MODEL = 'CAT9300-24S';
+    var THUMBNAIL_PATH = 'static/site/img/sCAT9300-24S.jpg';
+    var IMG_PATH = 'static/site/img/CAT9300-24S.jpg';
     var IMG_WIDTH = 1920;
-    var IMG_HEIGHT = 188;
+    var IMG_HEIGHT = 174;
     var PORT_WIDTH = 50;
     var PORT_HEIGHT = 30;
 
     // (x, y) by paint application
     var positionMap = {
 
-      // interface GigabitEthernet0/1/0
-      'G0/1': [844, 74],
-      'G0/2': [844, 128],
+      // interface GigabitEthernet1/0/1
+      'G1/0/1': [857, 64],
+      'G1/0/2': [857, 128],
 
-      'G0/3': [904, 74],
-      'G0/4': [904, 128],
+      'G1/0/3': [912, 64],
+      'G1/0/4': [912, 128],
 
-      'G0/5': [964, 74],
-      'G0/6': [964, 128],
+      'G1/0/5': [968, 64],
+      'G1/0/6': [968, 128],
 
-      'G0/7': [1025, 74],
-      'G0/8': [1025, 128],
+      'G1/0/7': [1024, 64],
+      'G1/0/8': [1024, 128],
 
-      'G0/9': [1085, 74],
-      'G0/10': [1085, 128],
+      'G1/0/9': [1080, 64],
+      'G1/0/10': [1080, 128],
 
-      'G0/11': [1145, 74],
-      'G0/12': [1145, 128],
+      'G1/0/11': [1134, 64],
+      'G1/0/12': [1134, 128],
 
-      'G0/13': [1231, 74],
-      'G0/14': [1231, 128],
+      'G1/0/13': [1204, 64],
+      'G1/0/14': [1204, 128],
 
-      'G0/15': [1292, 74],
-      'G0/16': [1292, 128],
+      'G1/0/15': [1262, 64],
+      'G1/0/16': [1262, 128],
 
-      'G0/17': [1353, 74],
-      'G0/18': [1353, 128],
+      'G1/0/17': [1316, 64],
+      'G1/0/18': [1316, 128],
 
-      'G0/19': [1412, 74],
-      'G0/20': [1412, 128],
+      'G1/0/19': [1372, 64],
+      'G1/0/20': [1372, 128],
 
-      'G0/21': [1473, 74],
-      'G0/22': [1473, 128],
+      'G1/0/21': [1428, 64],
+      'G1/0/22': [1428, 128],
 
-      'G0/23': [1534, 74],
-      'G0/24': [1534, 128],
+      'G1/0/23': [1484, 64],
+      'G1/0/24': [1484, 128],
 
     };
 
     for (const prop in positionMap) {
-      if (prop.startsWith('G0')) {
+      if (prop.startsWith('G1')) {
         positionMap['Gi' + prop.substr(1)] = positionMap[prop];
         positionMap['GigabitEthernet' + prop.substr(1)] = positionMap[prop];
       } else if (prop.startsWith('T0')) {
