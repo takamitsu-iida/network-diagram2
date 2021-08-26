@@ -1387,6 +1387,35 @@
       });
     }
 
+    var idModalButton = document.getElementById('idModalButton');
+    if (idModalButton) {
+      // Get the modal
+      var modal = document.getElementById('idModalInfo');
+
+      // When the user clicks the button, open the modal
+      idModalButton.addEventListener('click', function (evt) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        modal.style.display = 'block';
+      });
+
+      // Get the <span> element that closes the modal
+      const span = document.getElementsByClassName('modal-close')[0];
+      span.addEventListener('click', function (evt) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        modal.style.display = 'none';
+      });
+
+      modal.addEventListener('click', function (evt) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        if (evt.target == modal) {
+          modal.style.display = "none";
+        }
+      });
+    }
+
     function onClickLink(evt) {
       try {
         // browser may block pop up
