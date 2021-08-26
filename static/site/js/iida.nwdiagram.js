@@ -1386,6 +1386,16 @@
         cySlide.elements(elements).filters([f1, f2, f3]).show();
       });
     }
+
+    function onClickLink(evt) {
+      try {
+        // browser may block pop up
+        window.open(evt.target.data('href'));
+      } catch (e) {
+        // fall back on url change
+        window.location.href = evt.target.data('href');
+      }
+    }
   };
   //
 })();
