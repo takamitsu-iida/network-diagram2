@@ -128,12 +128,36 @@
         });
       });
 
+      //
       // set elements and run "grid" layout
+      //
       cy.batch(function () {
         setCyElements(cy, iida.appdata.elements);
         setCyLayout(cy, 'grid');
       });
     }
+
+    var eleInfoDiv = document.getElementById('idElementInfo');
+
+    var detailInfoDiv = document.getElementById('idDetailInfo');
+    var idModalButton = document.getElementById('idModalButton');
+    if (detailInfoDiv && idModalButton) {
+      idModalButton.addEventListener('click', function (evt) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        detailInfoDiv.style.display = 'block';
+      });
+
+      // <span> element that closes the div
+      document.getElementById('idDetailInfoClose').addEventListener('click', function (evt) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        detailInfoDiv.style.display = 'none';
+      });
+    }
+
+
+
 
     var cyModelContainer = document.getElementById('idCyModel');
     if (cyModelContainer) {
@@ -141,7 +165,7 @@
     }
 
     function setCyElements(cy, eles) {
-      // first remove popper
+      // first remove popper if exists
       removePopper(cy);
 
       // and then remove elements
@@ -270,8 +294,8 @@
       });
     }
 
-    var idPopper = document.getElementById('idPopper');
-    if (idPopper) {
+    if (document.querySelector('#idPopper')) {
+      const idPopper = document.getElementById('idPopper');
       idPopper.addEventListener('change', function (evt) {
         evt.stopPropagation();
         evt.preventDefault();
@@ -629,8 +653,8 @@
     }
 
     // the button to revert to initial position
-    var initialPositionButton = document.getElementById('idInitialPosition');
-    if (initialPositionButton) {
+    if (document.querySelector('#idInitialPosition')) {
+      const initialPositionButton = document.getElementById('idInitialPosition');
       initialPositionButton.addEventListener('click', function (evt) {
         evt.stopPropagation();
         evt.preventDefault();
@@ -657,8 +681,9 @@
       );
     }
 
-    var bundleEtherDiv = document.getElementById('idBundleEther');
-    if (bundleEtherDiv) {
+    if (document.querySelector('#idBundleEther')) {
+      const bundleEtherDiv = document.getElementById('idBundleEther');
+
       iida.appdata.bundleEthers.forEach((bundleEther) => {
         var inputTag = createTag(
           'input',
@@ -712,8 +737,8 @@
       });
     }
 
-    var connectedButton = document.getElementById('idConnected');
-    if (connectedButton) {
+    if (document.querySelector('#idConnected')) {
+      const connectedButton = document.getElementById('idConnected');
       connectedButton.addEventListener('click', function (evt) {
         evt.stopPropagation();
         evt.preventDefault();
@@ -799,7 +824,8 @@
     }
 
     // filter by redundant system number All or #1 or #2
-    if (document.getElementById('idRedundantAll')) {
+    if (document.querySelector('#idRedundantAll')) {
+      // in case of All, list up all routerId
       nwdiagramState.filterMap.byRedundant = cy.nodes('.router').map((router) => router.id());
     }
     ['All', '1', '2'].forEach((redundantNumber) => {
@@ -872,7 +898,8 @@
     }
 
     // filter by building number 'All' or 'B' or 'C'
-    if (document.getElementById('idBuildingAll')) {
+    if (document.querySelector('#idBuildingAll')) {
+      // in case of All, list up all the routerId
       nwdiagramState.filterMap.byBuilding = cy.nodes('.router').map((router) => router.id());
     }
     ['All', 'B', 'C'].forEach((buildingNumber) => {
@@ -1062,7 +1089,7 @@
       });
     }
 
-    var setEdgeWeight = function (cy) {
+    function setEdgeWeight(cy) {
       cy.edges().forEach((edge) => {
         var edgeType = edge.data('edgeType');
         if (!edgeType || edgeType === 'routerToPort') {
@@ -1092,7 +1119,7 @@
       });
 
       CyShortestPath.restart(cy);
-    };
+    }
 
     var selectDijkstraSource = document.getElementById('idDijkstraSource');
     if (selectDijkstraSource) {
@@ -1220,8 +1247,8 @@
       moveNext3();
     }
 
-    var dijkstraClearButton = document.getElementById('idDijkstraClear');
-    if (dijkstraClearButton) {
+    if (document.querySelector('#idDijkstraClear')) {
+      const dijkstraClearButton = document.getElementById('idDijkstraClear');
       dijkstraClearButton.addEventListener('click', function (evt) {
         evt.stopPropagation();
         evt.preventDefault();
@@ -1229,8 +1256,8 @@
       });
     }
 
-    var clearDisabledEdgeButton = document.getElementById('idResetDisabledEdge');
-    if (clearDisabledEdgeButton) {
+    if (document.querySelector('#idResetDisabledEdge')) {
+      const clearDisabledEdgeButton = document.getElementById('idResetDisabledEdge');
       clearDisabledEdgeButton.addEventListener('click', function (evt) {
         evt.stopPropagation();
         evt.preventDefault();
@@ -1240,12 +1267,14 @@
       });
     }
 
-    var idSearchText = document.getElementById('idSearchText');
-    if (idSearchText) {
+    if (document.querySelector('#idSearchText')) {
+      const idSearchText = document.getElementById('idSearchText');
+
       // init search results
       cy.nodes('.router').forEach((r) => {
         nwdiagramState.searchMap.byText.push(r.id());
       });
+
       // init clear button
       document.getElementById('idSearchTextClear').addEventListener('click', function (evt) {
         evt.stopPropagation();
@@ -1253,6 +1282,7 @@
         idSearchText.value = '';
         idSearchText.dispatchEvent(new Event('input'));
       });
+
       idSearchText.addEventListener('input', function (evt) {
         evt.stopPropagation();
         evt.preventDefault();
@@ -1269,7 +1299,7 @@
     function updateSearched() {
       const results = nwdiagramState.searchMap.byText;
 
-      // show search results by text
+      // show search results by <p> tag
       /*
       var idSearchResult = document.getElementById('idSearchResult');
       while (idSearchResult.lastChild) {
@@ -1384,35 +1414,6 @@
         f3.filterName = 'change elements';
 
         cySlide.elements(elements).filters([f1, f2, f3]).show();
-      });
-    }
-
-    var idModalButton = document.getElementById('idModalButton');
-    if (idModalButton) {
-      // Get the modal
-      var modal = document.getElementById('idModalInfo');
-
-      // When the user clicks the button, open the modal
-      idModalButton.addEventListener('click', function (evt) {
-        evt.preventDefault();
-        evt.stopPropagation();
-        modal.style.display = 'block';
-      });
-
-      // Get the <span> element that closes the modal
-      const span = document.getElementsByClassName('modal-close')[0];
-      span.addEventListener('click', function (evt) {
-        evt.preventDefault();
-        evt.stopPropagation();
-        modal.style.display = 'none';
-      });
-
-      modal.addEventListener('click', function (evt) {
-        evt.preventDefault();
-        evt.stopPropagation();
-        if (evt.target == modal) {
-          modal.style.display = "none";
-        }
       });
     }
 
