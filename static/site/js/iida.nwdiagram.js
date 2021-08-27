@@ -9,10 +9,10 @@
       shortestPathDuration: 1000, // msec
       moveFilteredToCenter: true,
       searchMap: {
-        byText: [], // list of routerId
+        byText: [], // list of routerId(not element)
       },
       filterMap: {
-        byRedundant: [], // list of routerId
+        byRedundant: [], // list of routerId(not element)
         byBuilding: [],
         byFloor: [],
       },
@@ -101,17 +101,17 @@
       });
 
       cy.on('select', 'node', function (evt) {
-        hideElementInfo(infoDiv);
-        showNodeInfo(infoDiv, evt.target);
+        hideElementInfo();
+        showNodeInfo(evt.target);
       });
 
       cy.on('select', 'edge', function (evt) {
-        hideElementInfo(infoDiv);
-        showEdgeInfo(infoDiv, evt.target);
+        hideElementInfo();
+        showEdgeInfo(evt.target);
       });
 
       cy.on('unselect', function (evt) {
-        hideElementInfo(infoDiv);
+        hideElementInfo();
       });
 
       cy.on('mouseover', 'node', function (evt) {
@@ -142,7 +142,7 @@
     // Element info
     var infoDiv = document.getElementById('idElementInfo');
 
-    // detailed info which is hidden by default
+    // Detailed element info which is hidden by default
     var detailInfoDiv = document.getElementById('idDetailInfo');
     if (detailInfoDiv) {
       // <span> element that closes the div
@@ -154,17 +154,10 @@
         });
       }
     }
+    // Detailed element info contents
+    var detailInfoContentsDiv = document.getElementById('idDetailInfoContents');
 
-    // NOTE: this should be removed later
-    var detailInfoButton = document.getElementById('idDetailInfoButton');
-    if (detailInfoButton) {
-      detailInfoButton.addEventListener('click', function (evt) {
-        evt.preventDefault();
-        evt.stopPropagation();
-        detailInfoDiv.style.display = 'block';
-      });
-    }
-
+    // container for iida.cymodel.js
     var cyModelContainer = document.getElementById('idCyModel');
     if (cyModelContainer) {
       var cyModel = iida.cyModel(cyModelContainer);
@@ -356,23 +349,33 @@
         }
         CyShortestPath.hidePathTo(cy);
         cy.elements().unselect();
-        hideElementInfo(infoDiv);
+        hideElementInfo();
       });
     });
 
-    function hideElementInfo(div) {
-      if (!div) {
+    function hideElementInfo() {
+      if (!infoDiv) {
         return;
       }
-      // remove all children
-      while (div.lastChild) {
-        div.removeChild(div.lastChild);
+
+      // remove all children from infoDiv
+      while (infoDiv.lastChild) {
+        infoDiv.removeChild(infoDiv.lastChild);
       }
+
+      // remove all children from detailInfoContentsDiv
+      if (detailInfoContentsDiv) {
+        while (detailInfoContentsDiv.lastChild) {
+          detailInfoContentsDiv.removeChild(detailInfoContentsDiv.lastChild);
+        }
+        detailInfoDiv.style.display = 'none';
+      }
+
       // hide cyModel at the same time
       cyModel.hide();
     }
 
-    function showNodeInfo(div, node) {
+    function showNodeInfo(node) {
       var nodeType = node.data('nodeType');
       if (!nodeType) {
         // maybe unknown data is used
@@ -381,31 +384,47 @@
 
       if (nodeType === 'router') {
         if (nwdiagramState.menuName === 'topology') {
-          showRouterInfoT(div, node);
+          showRouterInfoT(node);
         } else {
-          showRouterInfoP(div, node);
+          showRouterInfoP(node);
         }
         return;
       }
 
       if (nodeType === 'port') {
-        showPortInfo(div, node);
+        showPortInfo(node);
       }
     }
 
-    function showRouterInfoP(div, node) {
-      if (!div) {
+    function showRouterInfoP(node) {
+      if (!infoDiv) {
         return;
       }
       // add <h4>router_id</h4>
-      div.appendChild(createTag('h4', {}, [document.createTextNode(node.id())]));
+      infoDiv.appendChild(createTag('h4', {}, [document.createTextNode(node.id())]));
+
+      // if the node has additional info, create link to show it
+      if (detailInfoContentsDiv && iida.appdata.interfaces && iida.appdata.interfaces[node.id()]) {
+        const aTag = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode('detail info')]);
+        aTag.addEventListener('click', function (evt) {
+          evt.stopPropagation();
+          evt.preventDefault();
+          detailInfoDiv.style.display = 'block';
+        });
+        infoDiv.appendChild(aTag);
+        iida.appdata.interfaces[node.id()].forEach(obj => {
+          for (const [key, value] of Object.entries(obj)) {
+            detailInfoContentsDiv.appendChild(document.createTextNode(`${key}: ${value}`));
+          }
+        });
+      }
 
       // add <h4>Ports</h4>
-      div.appendChild(createTag('h4', {}, [document.createTextNode('Ports')]));
+      infoDiv.appendChild(createTag('h4', {}, [document.createTextNode('Ports')]));
 
       // add link to own ports
       const ulPorts = createTag('ul', {}, []);
-      div.appendChild(ulPorts);
+      infoDiv.appendChild(ulPorts);
 
       const ports = node.data('ports') || [];
       ports.forEach((p) => {
@@ -437,7 +456,7 @@
         if (modelData) {
           const imgTag = document.createElement('img');
           imgTag.src = modelData.THUMBNAIL_PATH;
-          imgTag.width = div.clientWidth - 10;
+          imgTag.width = infoDiv.clientWidth - 10;
           const aTag = createTag('a', { href: '#' }, [imgTag]);
           aTag.addEventListener('click', function (evt) {
             evt.stopPropagation();
@@ -448,12 +467,12 @@
             });
             cyModel.datum(portDatas).model(modelData).show();
           });
-          div.appendChild(aTag);
+          infoDiv.appendChild(aTag);
         }
       }
     }
 
-    function showRouterInfoT(div, node) {
+    function showRouterInfoT(node) {
       // add checkbox to enable/disable connected edges
       let inputTag = createTag('input', { type: 'checkbox', id: 'infoDiv_' + node.id(), value: node.id() }, []);
       inputTag.checked = !node.hasClass('disabled');
@@ -480,7 +499,7 @@
 
       let labelTag = createTag('label', {}, [document.createTextNode('enable/disable connected edges')]);
       labelTag.htmlFor = 'infoDiv_' + node.id();
-      div.append(createTag('div', {}, [inputTag, labelTag]));
+      infoDiv.append(createTag('div', {}, [inputTag, labelTag]));
 
       // add button "Set as source"
       inputTag = createTag('input', { type: 'button', value: 'Set as source', style: 'width: 50%;' }, []);
@@ -490,7 +509,7 @@
         selectDijkstraSource.value = node.id();
         CyShortestPath.restart(cy);
       });
-      div.append(createTag('p', {}, [inputTag]));
+      infoDiv.append(createTag('p', {}, [inputTag]));
 
       // add button "Set as target"
       inputTag = createTag('input', { type: 'button', value: 'Set as target', style: 'width: 50%;' }, []);
@@ -500,14 +519,14 @@
         selectDijkstraTarget.value = node.id();
         CyShortestPath.restart(cy);
       });
-      div.append(createTag('p', {}, [inputTag]));
+      infoDiv.append(createTag('p', {}, [inputTag]));
 
       // add <h4>Neighbor routers</h4>
-      div.appendChild(createTag('h4', {}, [document.createTextNode('Neighbor routers')]));
+      infoDiv.appendChild(createTag('h4', {}, [document.createTextNode('Neighbor routers')]));
 
       // add link to neighbor routers
       const ulRouters = createTag('ul', {}, []);
-      div.appendChild(ulRouters);
+      infoDiv.appendChild(ulRouters);
       node.neighborhood('node').forEach((neighbor) => {
         const liTag = createTag('li', {}, []);
         ulRouters.appendChild(liTag);
@@ -538,18 +557,18 @@
       });
     }
 
-    function showPortInfo(div, node) {
-      if (!div) {
+    function showPortInfo(node) {
+      if (!infoDiv) {
         return;
       }
       // add <h4>Name of port</h4>
-      div.appendChild(createTag('h4', {}, [document.createTextNode(node.data('label'))]));
+      infoDiv.appendChild(createTag('h4', {}, [document.createTextNode(node.data('label'))]));
 
       const routerId = node.data('routerId');
       const router = cy.$id(routerId);
       if (router) {
         // add <h4>Router</h4>
-        div.appendChild(createTag('h4', {}, [document.createTextNode('Router')]));
+        infoDiv.appendChild(createTag('h4', {}, [document.createTextNode('Router')]));
         const aTag = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode(routerId)]);
         aTag.addEventListener('click', function (evt) {
           evt.stopPropagation();
@@ -557,13 +576,13 @@
           cy.elements().unselect();
           router.select();
         });
-        div.appendChild(createTag('p', {}, [aTag]));
+        infoDiv.appendChild(createTag('p', {}, [aTag]));
       }
 
       const connectedEdges = node.connectedEdges('.portToPort');
       if (connectedEdges && connectedEdges.length > 0) {
         // add <h4>Edges</h4>
-        div.appendChild(createTag('h4', {}, [document.createTextNode('Edges')]));
+        infoDiv.appendChild(createTag('h4', {}, [document.createTextNode('Edges')]));
         connectedEdges.forEach((edge) => {
           const aTag = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode(edge.id())]);
           aTag.addEventListener('click', function (evt) {
@@ -572,26 +591,26 @@
             cy.elements().unselect();
             edge.select();
           });
-          div.appendChild(createTag('p', {}, [aTag]));
+          infoDiv.appendChild(createTag('p', {}, [aTag]));
         });
       }
     }
 
-    function showEdgeInfo(div, edge) {
+    function showEdgeInfo(edge) {
       // create enable/disable checkbox
       if (nwdiagramState.menuName === 'topology') {
-        showEdgeInfoT(div, edge);
+        showEdgeInfoT(edge);
       } else {
-        showEdgeInfoP(div, edge);
+        showEdgeInfoP(edge);
       }
     }
 
-    function showEdgeInfoP(div, edge) {
-      if (!div) {
+    function showEdgeInfoP(edge) {
+      if (!infoDiv) {
         return;
       }
       // add <h4>Source port</h4>
-      div.appendChild(createTag('h4', {}, [document.createTextNode('Source port')]));
+      infoDiv.appendChild(createTag('h4', {}, [document.createTextNode('Source port')]));
       const sourcePort = cy.$id(edge.source().id());
       let aTag = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode(edge.source().id())]);
       aTag.addEventListener('click', function (evt) {
@@ -600,10 +619,10 @@
         cy.elements().unselect();
         sourcePort.select();
       });
-      div.appendChild(createTag('p', {}, [aTag]));
+      infoDiv.appendChild(createTag('p', {}, [aTag]));
 
       // add <h4>Target port</h4>
-      div.appendChild(createTag('h4', {}, [document.createTextNode('Target port')]));
+      infoDiv.appendChild(createTag('h4', {}, [document.createTextNode('Target port')]));
       const targetPort = cy.$id(edge.target().id());
       aTag = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode(edge.target().id())]);
       aTag.addEventListener('click', function (evt) {
@@ -612,10 +631,10 @@
         cy.elements().unselect();
         targetPort.select();
       });
-      div.appendChild(createTag('p', {}, [aTag]));
+      infoDiv.appendChild(createTag('p', {}, [aTag]));
     }
 
-    function showEdgeInfoT(div, edge) {
+    function showEdgeInfoT(edge) {
       const inputTag = createTag('input', { type: 'checkbox', id: 'infoDiv_' + edge.id(), value: edge.id() }, []);
       inputTag.checked = !edge.hasClass('disabled');
       inputTag.addEventListener('change', function (evt) {
@@ -631,14 +650,14 @@
 
       const labelTag = createTag('label', {}, [document.createTextNode('enable/disable edge')]);
       labelTag.htmlFor = 'infoDiv_' + edge.id();
-      div.append(createTag('div', {}, [inputTag, labelTag]));
+      infoDiv.append(createTag('div', {}, [inputTag, labelTag]));
 
       // add <h4>Connected routers</h4>
-      div.appendChild(createTag('h4', {}, [document.createTextNode('Connected routers')]));
+      infoDiv.appendChild(createTag('h4', {}, [document.createTextNode('Connected routers')]));
 
       // add link to connected routers
       const ulRouters = createTag('ul', {}, []);
-      div.appendChild(ulRouters);
+      infoDiv.appendChild(ulRouters);
       edge.connectedNodes().forEach((neighbor) => {
         const liTag = createTag('li', {}, []);
         ulRouters.appendChild(liTag);
