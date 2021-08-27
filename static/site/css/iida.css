@@ -174,15 +174,6 @@ fieldset:focus-within {
   white-space: nowrap;
 }
 
-.tip_div {
-  display: block;
-  /*
-  background: #fff;
-  */
-  padding: 5px;
-  border: 1px solid #ccc;
-}
-
 .control_span {
   display: inline-block;
   font-size: 14px;
@@ -279,7 +270,21 @@ fieldset:focus-within {
 
 /* end of video_play */
 
-/* element info Large */
+/* this should be removed */
+.tip_div {
+  display: block;
+  padding: 5px;
+  border: 1px solid #ccc;
+}
+
+/* element info */
+.elementInfo {
+  display: block;
+  padding: 5px;
+  border: 1px solid #ccc;
+}
+
+/* element detail info */
 .detailInfo {
   display: none;
   position: absolute;
