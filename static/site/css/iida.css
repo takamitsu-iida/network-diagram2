@@ -218,8 +218,10 @@ fieldset:focus-within {
   pointer-events: none;
 }
 
-/* https://migi.me/css/video-play-pause-icon/ */
-
+/*
+ * video-play-pause
+ * https://migi.me/css/video-play-pause-icon/
+ */
 .video_play_pause {
   display: inline-block;
   position: relative;
@@ -268,23 +270,19 @@ fieldset:focus-within {
   left: 60%;
 }
 
-/* end of video_play */
 
-/* this should be removed */
-.tip_div {
-  display: block;
-  padding: 5px;
-  border: 1px solid #ccc;
-}
-
-/* element info */
+/*
+ * element info
+ */
 .elementInfo {
   display: block;
   padding: 5px;
   border: 1px solid #ccc;
 }
 
-/* element detail info */
+/*
+ * element detail info with animation
+ */
 .detailInfo {
   display: none;
   position: absolute;
