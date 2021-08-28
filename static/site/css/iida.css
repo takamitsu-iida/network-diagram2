@@ -289,7 +289,7 @@ fieldset:focus-within {
   z-index: 20;
   left: 0;
   top: 0;
-  width: 300px;
+  width: 400px;
   height: 100%;
   overflow: auto;
   background-color: #fefefe;
@@ -298,6 +298,11 @@ fieldset:focus-within {
   animation-name: slideIn;
   animation-duration: 0.4s;
 }
+
+.detailInfoContents {
+  padding-left: 10px;
+}
+
 
 .detailInfoClose {
   color: #aaaaaa;

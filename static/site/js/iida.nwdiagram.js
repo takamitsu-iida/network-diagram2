@@ -396,6 +396,43 @@
       }
     }
 
+
+    function detailContentsInterfaces(intfList) {
+      intfList.forEach(obj => {
+        const intf = obj['interface'];
+        const descr = obj['description'];
+        const vrf = obj['vrf'];
+        const bundle = obj['bundle'];
+        const addr = obj['ipv4addr'];
+        const mask = obj['ipv4mask'];
+
+        const h4_intf = createTag('h4', {}, [document.createTextNode(intf)]);
+        detailInfoContentsDiv.appendChild(h4_intf);
+
+        const td_style = {width: '30%;', style: 'background-color: #f5f5f5;'} // whitesmoke
+        const table = createTag('table', {width: '100%;'}, []);
+        if (descr) {
+          const tr_descr = createTag('tr', {}, [createTag('td', td_style, [document.createTextNode('descr')]), createTag('td', {}, [document.createTextNode(descr)])]);
+          table.appendChild(tr_descr);
+        }
+        if (bundle) {
+          const tr_bundle = createTag('tr', {}, [createTag('td', td_style, [document.createTextNode('bundle')]), createTag('td', {}, [document.createTextNode(bundle)])]);
+          table.appendChild(tr_bundle);
+        }
+        if (vrf) {
+          const tr_vrf = createTag('tr', {}, [createTag('td', td_style, [document.createTextNode('vrf')]), createTag('td', {}, [document.createTextNode(vrf)])]);
+          table.appendChild(tr_vrf);
+        }
+        if (addr || mask) {
+          const tr_addr = createTag('tr', {}, [createTag('td', td_style, [document.createTextNode('addr')]), createTag('td', {}, [document.createTextNode(addr)])]);
+          const tr_mask = createTag('tr', {}, [createTag('td', td_style, [document.createTextNode('mask')]), createTag('td', {}, [document.createTextNode(mask)])]);
+          table.appendChild(tr_addr);
+          table.appendChild(tr_mask);
+        }
+        detailInfoContentsDiv.appendChild(table);
+      });
+    }
+
     function showRouterInfoP(node) {
       if (!infoDiv) {
         return;
@@ -404,25 +441,26 @@
       infoDiv.appendChild(createTag('h4', {}, [document.createTextNode(node.id())]));
 
       // if the node has additional info, create link to show it
-      if (detailInfoContentsDiv && iida.appdata.interfaces && iida.appdata.interfaces[node.id()]) {
-        const aTag = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode('detail info')]);
-        aTag.addEventListener('click', function (evt) {
-          evt.stopPropagation();
-          evt.preventDefault();
-          detailInfoDiv.style.display = 'block';
-        });
-        infoDiv.appendChild(aTag);
-        iida.appdata.interfaces[node.id()].forEach(obj => {
-          for (const [key, value] of Object.entries(obj)) {
-            detailInfoContentsDiv.appendChild(document.createTextNode(`${key}: ${value}`));
-          }
-        });
+      if (detailInfoContentsDiv) {
+        infoDiv.appendChild(createTag('h4', {}, [document.createTextNode('Detail info')]));
+        if (iida.appdata.interfaces && iida.appdata.interfaces[node.id()]) {
+          const aTag = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode('interfaces')]);
+          aTag.addEventListener('click', function (evt) {
+            evt.stopPropagation();
+            evt.preventDefault();
+            detailInfoDiv.style.display = 'block';
+          });
+          infoDiv.appendChild(createTag('ul', {}, [createTag('li', {}, [aTag])]));
+          detailContentsInterfaces(iida.appdata.interfaces[node.id()]);
+        } else {
+          infoDiv.appendChild(createTag('ul', {}, [createTag('li', {}, [document.createTextNode('no information is provided')])]));
+        }
       }
 
       // add <h4>Ports</h4>
       infoDiv.appendChild(createTag('h4', {}, [document.createTextNode('Ports')]));
 
-      // add link to own ports
+      // add link to ports
       const ulPorts = createTag('ul', {}, []);
       infoDiv.appendChild(ulPorts);
 
