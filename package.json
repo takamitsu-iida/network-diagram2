@@ -1,0 +1,29 @@
+{
+  "name": "network-diagram2",
+  "version": "1.0.0",
+  "description": "show network diagram using cytoscape.js",
+  "main": "iida.startup.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/takamitsu-iida/network-diagram2.git"
+  },
+  "keywords": [
+    "cytoscape.js"
+  ],
+  "author": "takamitsu-iida",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/takamitsu-iida/network-diagram2/issues"
+  },
+  "homepage": "https://github.com/takamitsu-iida/network-diagram2#readme",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.4",
+    "cytoscape": "^3.19.1",
+    "cytoscape-panzoom": "^2.5.3",
+    "cytoscape-popper": "^2.0.0",
+    "jquery": "^3.6.0"
+  }
+}
