@@ -1368,7 +1368,20 @@
     }
 
     function updateSearched() {
-      const results = nwdiagramState.searchMap.byText;
+      let searched = [];
+      for (const [_key, value] of Object.entries(nwdiagramState.searchMap)) {
+        if (!value || value.length === 0) {
+          continue;
+        }
+        if (searched.length === 0) {
+          searched = value;
+          continue;
+        }
+        searched = value.filter((item) => searched.indexOf(item) >= 0);
+      }
+      //iida
+
+
 
       // show search results by <p> tag
       /*
@@ -1376,7 +1389,7 @@
       while (idSearchResult.lastChild) {
         idSearchResult.removeChild(idSearchResult.lastChild);
       }
-      results.forEach((routerId) => {
+      searched.forEach((routerId) => {
         var p = document.createElement('p');
         p.appendChild(document.createTextNode(routerId));
         idSearchResult.appendChild(p);
@@ -1385,7 +1398,7 @@
 
       // show search results by node color
       cy.nodes('.router').forEach((router) => {
-        if (results.indexOf(router.id()) < 0) {
+        if (searched.indexOf(router.id()) < 0) {
           router.removeClass('searched');
         } else {
           router.addClass('searched');
