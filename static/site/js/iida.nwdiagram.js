@@ -443,7 +443,7 @@
       // if the node has additional info, create link to show it
       if (detailInfoContentsDiv) {
         infoDiv.appendChild(createTag('h4', {}, [document.createTextNode('Detail info')]));
-        if (iida.appdata.interfaces && iida.appdata.interfaces[node.id()]) {
+        if (iida.appdata.host_int && iida.appdata.host_int[node.id()]) {
           const aTag = createTag('a', { href: '#', style: 'text-decoration: none;' }, [document.createTextNode('interfaces')]);
           aTag.addEventListener('click', function (evt) {
             evt.stopPropagation();
@@ -451,7 +451,7 @@
             detailInfoDiv.style.display = 'block';
           });
           infoDiv.appendChild(createTag('ul', {}, [createTag('li', {}, [aTag])]));
-          detailContentsInterfaces(iida.appdata.interfaces[node.id()]);
+          detailContentsInterfaces(iida.appdata.host_int[node.id()]);
         } else {
           infoDiv.appendChild(createTag('ul', {}, [createTag('li', {}, [document.createTextNode('no information is provided')])]));
         }
