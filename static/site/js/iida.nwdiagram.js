@@ -396,9 +396,8 @@
       }
     }
 
-
     function detailContentsInterfaces(intfList) {
-      intfList.forEach(obj => {
+      intfList.forEach((obj) => {
         const intf = obj['interface'];
         const descr = obj['description'];
         const vrf = obj['vrf'];
@@ -409,8 +408,8 @@
         const h4_intf = createTag('h4', {}, [document.createTextNode(intf)]);
         detailInfoContentsDiv.appendChild(h4_intf);
 
-        const td_style = {width: '30%;', style: 'background-color: #f5f5f5;'} // whitesmoke
-        const table = createTag('table', {width: '100%;'}, []);
+        const td_style = { width: '30%;', style: 'background-color: #f5f5f5;' }; // whitesmoke
+        const table = createTag('table', { width: '100%;' }, []);
         if (descr) {
           const tr_descr = createTag('tr', {}, [createTag('td', td_style, [document.createTextNode('descr')]), createTag('td', {}, [document.createTextNode(descr)])]);
           table.appendChild(tr_descr);
@@ -448,10 +447,10 @@
           aTag.addEventListener('click', function (evt) {
             evt.stopPropagation();
             evt.preventDefault();
+            detailContentsInterfaces(iida.appdata.host_int[node.id()]);
             detailInfoDiv.style.display = 'block';
           });
           infoDiv.appendChild(createTag('ul', {}, [createTag('li', {}, [aTag])]));
-          detailContentsInterfaces(iida.appdata.host_int[node.id()]);
         } else {
           infoDiv.appendChild(createTag('ul', {}, [createTag('li', {}, [document.createTextNode('no information is provided')])]));
         }
@@ -1001,18 +1000,9 @@
     });
 
     function updateFiltered() {
-      let filtered = [];
-      for (const [_key, value] of Object.entries(nwdiagramState.filterMap)) {
-        if (!value || value.length === 0) {
-          continue;
-        }
-        if (filtered.length === 0) {
-          filtered = value;
-          continue;
-        }
-        filtered = value.filter((item) => filtered.indexOf(item) >= 0);
-      }
+      let filtered = getDuplicated(nwdiagramState.filterMap);
       // console.log(filtered);
+
       const showRouters = [];
       const hideRouters = [];
       cy.nodes('.router').forEach((router) => {
@@ -1367,21 +1357,23 @@
       });
     }
 
-    function updateSearched() {
-      let searched = [];
-      for (const [_key, value] of Object.entries(nwdiagramState.searchMap)) {
+    function getDuplicated(obj) {
+      let filtered = [];
+      for (const [_key, value] of Object.entries(obj)) {
         if (!value || value.length === 0) {
           continue;
         }
-        if (searched.length === 0) {
-          searched = value;
+        if (filtered.length === 0) {
+          filtered = value;
           continue;
         }
-        searched = value.filter((item) => searched.indexOf(item) >= 0);
+        filtered = value.filter((item) => filtered.indexOf(item) >= 0);
       }
-      //iida
+      return filtered;
+    }
 
-
+    function updateSearched() {
+      const searched = getDuplicated(nwdiagramState.searchMap);
 
       // show search results by <p> tag
       /*
