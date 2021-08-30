@@ -910,7 +910,8 @@
         evt.target.classList.add('active');
 
         if (redundantNumber === 'All') {
-          nwdiagramState.filterMap.byRedundant = cy.nodes('.router').map((router) => router.id());
+          // nwdiagramState.filterMap.byRedundant = cy.nodes('.router').map((router) => router.id());
+          nwdiagramState.filterMap.byRedundant = [];
           updateFiltered();
           return;
         }
@@ -979,7 +980,8 @@
         });
         evt.target.classList.add('active');
         if (buildingNumber === 'All') {
-          nwdiagramState.filterMap.byBuilding = cy.nodes('.router').map((router) => router.id());
+          // nwdiagramState.filterMap.byBuilding = cy.nodes('.router').map((router) => router.id());
+          nwdiagramState.filterMap.byBuilding = [];
           updateFiltered();
           return;
         }
@@ -996,6 +998,10 @@
     function updateFiltered() {
       let filtered = getDuplicated(nwdiagramState.filterMap);
       // console.log(filtered);
+      if (filtered.length === 0) {
+        // in case of All
+        filtered = cy.nodes('.router').map((router) => router.id());
+      }
 
       const showRouters = [];
       const hideRouters = [];
