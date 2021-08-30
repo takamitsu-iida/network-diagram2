@@ -9,7 +9,9 @@
       shortestPathDuration: 1000, // msec
       moveFilteredToCenter: true,
       searchMap: {
-        byText: [], // list of routerId(not element)
+        byText: [], // list of router.id(not element)
+        byAddr: [], // list of hostname(not element)
+        byEvi: [], // list of hostname(not element)
       },
       filterMap: {
         byRedundant: [], // list of routerId(not element)
@@ -894,10 +896,6 @@
     }
 
     // filter by redundant system number All or #1 or #2
-    if (document.querySelector('#idRedundantAll')) {
-      // in case of All, list up all routerId
-      nwdiagramState.filterMap.byRedundant = cy.nodes('.router').map((router) => router.id());
-    }
     ['All', '1', '2'].forEach((redundantNumber) => {
       var aTag = document.getElementById('idRedundant' + redundantNumber);
       if (!aTag) {
@@ -968,10 +966,6 @@
     }
 
     // filter by building number 'All' or 'B' or 'C'
-    if (document.querySelector('#idBuildingAll')) {
-      // in case of All, list up all the routerId
-      nwdiagramState.filterMap.byBuilding = cy.nodes('.router').map((router) => router.id());
-    }
     ['All', 'B', 'C'].forEach((buildingNumber) => {
       var aTag = document.getElementById('idBuilding' + buildingNumber);
       if (!aTag) {
@@ -1331,12 +1325,6 @@
     if (document.querySelector('#idSearchText')) {
       const idSearchText = document.getElementById('idSearchText');
 
-      // init search results
-      cy.nodes('.router').forEach((r) => {
-        nwdiagramState.searchMap.byText.push(r.id());
-      });
-
-      // init clear button
       document.getElementById('idSearchTextClear').addEventListener('click', function (evt) {
         evt.stopPropagation();
         evt.preventDefault();
@@ -1349,9 +1337,55 @@
         evt.preventDefault();
         var searchText = evt.target.value;
         if (searchText) {
-          nwdiagramState.searchMap.byText = iida.appdata.searchRouters(searchText);
+          nwdiagramState.searchMap.byText = iida.appdata.searchRouters(searchText); // see iida.elements.jp
         } else {
           nwdiagramState.searchMap.byText = [];
+        }
+        updateSearched();
+      });
+    }
+
+    if (document.querySelector('#idSearchAddr')) {
+      const idSearchAddr = document.getElementById('idSearchAddr');
+
+      document.getElementById('idSearchAddrClear').addEventListener('click', function (evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        idSearchAddr.value = '';
+        idSearchAddr.dispatchEvent(new Event('input'));
+      });
+
+      idSearchAddr.addEventListener('input', function (evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        var searchAddr = evt.target.value;
+        if (searchAddr) {
+          nwdiagramState.searchMap.byAddr = iida.appdata.searchAddress(searchAddr); // see iida.elements.jp
+        } else {
+          nwdiagramState.searchMap.byAddr = [];
+        }
+        updateSearched();
+      });
+    }
+
+    if (document.querySelector('#idSearchEvi')) {
+      const idSearchEvi = document.getElementById('idSearchEvi');
+
+      document.getElementById('idSearchEviClear').addEventListener('click', function (evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        idSearchEvi.value = '';
+        idSearchEvi.dispatchEvent(new Event('input'));
+      });
+
+      idSearchEvi.addEventListener('input', function (evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        var searchEvi = evt.target.value;
+        if (searchEvi) {
+          nwdiagramState.searchMap.byEvi = iida.appdata.searchEvi(searchEvi); // see iida.elements.jp
+        } else {
+          nwdiagramState.searchMap.byEvi = [];
         }
         updateSearched();
       });

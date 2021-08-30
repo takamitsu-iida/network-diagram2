@@ -192,7 +192,16 @@
         <div>
           <h3>Search</h3>
           <form>
-            <input type="text" id="idSearchText" placeholder="id label search"><input type="button" id="idSearchTextClear" value="X" />
+            <p>ID LABEL</p>
+            <input type="text" id="idSearchText" autocomplete="on" list="idlist" placeholder="id label search" /><input type="button" id="idSearchTextClear" value="&times;" />
+            <datalist id="idlist">
+              <option value="cr103"></option>
+              <option value="cr104"></option>
+              <option value="cr201"></option>
+              <option value="cr202"></option>
+              <option value="tab-his-"></option>
+              <option value="tac-his-"></option>
+            </datalist>
           </form>
           <div id="idSearchResult"></div>
         </div>

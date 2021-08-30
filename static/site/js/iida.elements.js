@@ -280,7 +280,7 @@
         case 'B': // Bottom
           _offsetY = routerHeight / 2 - portHeight / 2;
           break;
-          case 'BO': // Bottom Outside
+        case 'BO': // Bottom Outside
           _offsetY = routerHeight / 2 + portHeight / 2;
           break;
         case 'B1': // 1st from Bottom
@@ -689,12 +689,16 @@
 
   iida.appdata.elements = createElements(iida.appdata.routers, iida.appdata.edges);
 
-
-  iida.appdata.searchRouters = function(searchText) {
+  iida.appdata.searchRouters = function (searchText) {
+    // return list of router.id
     const routers = iida.appdata.routers || [];
+    if (routers.length === 0) {
+      return [];
+    }
+
     const searchTextLower = searchText.toLowerCase();
-    let ids = [];
-    routers.forEach(router => {
+    const ids = [];
+    routers.forEach((router) => {
       const id = router.id || '';
       const label = router.label || '';
       if (id.toLowerCase().indexOf(searchTextLower) !== -1) {
@@ -704,6 +708,37 @@
       }
     });
     return ids;
+  };
+
+  iida.appdata.searchAddress = function (searchAddr) {
+    // return list of hostnames which may be different from node's id
+    const host_int = iida.appdata.host_int || {};
+    if (!Object.keys(host_int).length) {
+      return [];
+    }
+
+    const hostnames = [];
+    for (const [host, intfList] of Object.entries(host_int)) {
+      if (!intfList || intfList.length === 0) {
+        continue;
+      }
+      intfList.forEach((intf) => {
+        const ipv4addr = intf.ipv4addr || '';
+        if (ipv4addr.startsWith(searchAddr)) {
+          hostnames.push(host);
+        }
+      });
+    }
+    return hostnames;
+  };
+
+  iida.appdata.searchEvi = function (searchEvi) {
+    // return list of hostnames which may be different from node's id
+    const evi_host = iida.appdata.evi_host || {};
+    if (!Object.keys(evi_host).length) {
+      return [];
+    }
+    return evi_host[searchEvi] || [];
   }
 
 })();
