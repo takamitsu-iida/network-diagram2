@@ -9,9 +9,10 @@
       shortestPathDuration: 1000, // msec
       moveFilteredToCenter: true,
       searchMap: {
-        byText: [], // list of router.id(not element)
-        byAddr: [], // list of hostname(not element)
-        byEvi: [], // list of hostname(not element)
+        byText: [], // list of router.id as string (not element)
+        byAddr: [], // list of hostname as string (not element)
+        byEvi: [], // list of hostname as string (not element)
+        byVrf: [], // list of hostname as string (not element)
       },
       filterMap: {
         byRedundant: [], // list of routerId(not element)
@@ -1392,6 +1393,29 @@
           nwdiagramState.searchMap.byEvi = iida.appdata.searchEvi(searchEvi); // see iida.elements.jp
         } else {
           nwdiagramState.searchMap.byEvi = [];
+        }
+        updateSearched();
+      });
+    }
+
+    if (document.querySelector('#idSearchVrf')) {
+      const idSearchVrf = document.getElementById('idSearchVrf');
+
+      document.getElementById('idSearchVrfClear').addEventListener('click', function (evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        idSearchVrf.value = '';
+        idSearchVrf.dispatchEvent(new Event('input'));
+      });
+
+      idSearchVrf.addEventListener('input', function (evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        var searchVrf = evt.target.value;
+        if (searchVrf) {
+          nwdiagramState.searchMap.byVrf = iida.appdata.searchVrf(searchVrf); // see iida.elements.jp
+        } else {
+          nwdiagramState.searchMap.byVrf = [];
         }
         updateSearched();
       });

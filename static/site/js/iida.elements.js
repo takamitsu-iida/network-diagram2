@@ -741,4 +741,13 @@
     return evi_host[searchEvi] || [];
   }
 
+  iida.appdata.searchVrf = function (searchVrf) {
+    // return list of hostnames which may be different from node's id
+    const vrf_host = iida.appdata.vrf_host || {};
+    if (!Object.keys(vrf_host).length) {
+      return [];
+    }
+    return vrf_host[searchVrf] || [];
+  }
+
 })();
