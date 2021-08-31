@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+  <head>
+    <title>HIS TA</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- iida.css -->
+    <link rel="stylesheet" type="text/css" href="./static/site/css/iida.css" />
+
+    <!-- jQuery -->
+    <!-- cytoscape-panzoom.js requires jquery -->
+    <script src="//unpkg.com/jquery/dist/jquery.min.js"></script>
+
+    <!-- cytoscape.js https://js.cytoscape.org/ -->
+    <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+
+    <!-- cytoscape-panzoom.js https://github.com/cytoscape/cytoscape.js-panzoom -->
+    <script src="https://unpkg.com/cytoscape-panzoom/cytoscape-panzoom.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/cytoscape-panzoom/cytoscape.js-panzoom.css" />
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/cytoscape-panzoom/font-awesome-4.0.3/css/font-awesome.min.css" />
+
+    <!-- cytoscape-popper.js https://github.com/cytoscape/cytoscape.js-popper -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/cytoscape-popper@2.0.0/cytoscape-popper.js"></script>
+
+    <!-- iida.*.js -->
+    <!--
+    <script type="text/javascript" src="./dist/nwdiagram2.min.js"></script>
+    -->
+
+    <!-- iida.startup.js -->
+    <script type="text/javascript" src="./static/site/js/iida.startup.js"></script>
+
+    <!-- iida.appdata.*.js -->
+    <script type="text/javascript" src="./static/site/js/iida.appdata.his_tab_router.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.appdata.his_tab_edge.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.appdata.his_tac_router.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.appdata.his_tac_edge.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.appdata.his_props.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.appdata.his_int.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.appdata.his_evi.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.appdata.his_vrf.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.appdata.svg.js"></script>
+
+    <!-- iida.elements.js -->
+    <script type="text/javascript" src="./static/site/js/iida.elements.js"></script>
+
+    <!-- iida.cystyles.js and iida.cylayouts.js-->
+    <script type="text/javascript" src="./static/site/js/iida.cystyles.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.cylayouts.js"></script>
+
+    <!-- iida.nwdiagram.js -->
+    <script type="text/javascript" src="./static/site/js/iida.nwdiagram.js"></script>
+
+    <!-- iida.models.xxx.js -->
+    <script type="text/javascript" src="./static/site/js/iida.cymodel.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.models.ncs5501.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.models.ncs55a1.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.models.asr9901.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.models.asr9903.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.models.asr1001hx.js"></script>
+    <script type="text/javascript" src="./static/site/js/iida.models.n3172pq.js"></script>
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <div class="header_panel">
+        <span class="control_span">
+          [Menu]
+          <a id="idPhysical" name="menuChange" class="active">physical diagram</a>
+          <a id="idTopology" name="menuChange">topology diagram</a>
+          &nbsp;&nbsp; [Redundant]
+          <a id="idRedundantAll" name="redundantFilter" class="active">#1-#2</a>
+          <a id="idRedundant1" name="redundantFilter">#1</a>
+          <a id="idRedundant2" name="redundantFilter">#2</a>
+          &nbsp;&nbsp; [Building]
+          <a id="idBuildingAll" name="buildingFilter" class="active">B-C</a>
+          <a id="idBuildingB" name="buildingFilter">B</a>
+          <a id="idBuildingC" name="buildingFilter">C</a>
+        </span>
+        <span style="float: right">
+          <a href="https://github.com/takamitsu-iida/network-diagram2" target="_blank" rel="noopener noreferrer">github</a>
+        </span>
+      </div>
+
+      <div id="idLeftPanel" class="left_panel">
+        <div id="idMenuP">
+          <!--
+          <h3>SID popper</h3>
+          <label><input id="idPopper" type="checkbox" />show or hide</label>
+
+          <h3>BundleEther</h3>
+          <div id="idBundleEther"></div>
+          -->
+
+          <!--
+          <h3>debug</h3>
+          <input id="idDebugButton" type="button" value="Debug" style="width: 100%;"></td>
+          -->
+        </div>
+
+        <div id="idMenuL" style="display: none">
+          <h3>Dijkstra path</h3>
+          <table style="width: 100%; table-layout: fixed">
+            <tr>
+              <th width="45%"></th>
+              <th width="55%"></th>
+            </tr>
+
+            <tr>
+              <td>-----</td>
+              <td>-----</td>
+            </tr>
+
+            <tr>
+              <td><span> cost #1-#1 </span></td>
+              <td>
+                <span title="edge cost between #1 and #1"><input type="range" min="1" max="10" step="1" value="1" id="cost1_1" /></span><span id="cost1_1Value">1</span>
+              </td>
+            </tr>
+
+            <tr>
+              <td><span> cost #1-#2 </span></td>
+              <td>
+                <span title="edge cost between #1 and #2"><input type="range" min="1" max="10" step="1" value="1" id="cost1_2" /></span><span id="cost1_2Value">1</span>
+              </td>
+            </tr>
+
+            <tr>
+              <td><span> cost #2-#2 </span></td>
+              <td>
+                <span title="edge cost between #2 and #2"><input type="range" min="1" max="10" step="1" value="5" id="cost2_2" /></span><span id="cost2_2Value">5</span>
+              </td>
+            </tr>
+
+            <tr>
+              <td>-----</td>
+              <td>-----</td>
+            </tr>
+
+            <tr>
+              <td style="background-color: #ff8c00; color: white"><span> Source </span></td>
+              <td>
+                <span title="Select source node"><select id="idDijkstraSource"></select></span>
+              </td>
+            </tr>
+
+            <tr>
+              <td style="background-color: #ff8c00; color: white"><span> Target </span></td>
+              <td>
+                <span title="Select target node"><select id="idDijkstraTarget"></select></span>
+              </td>
+            </tr>
+
+            <tr>
+              <td>-----</td>
+              <td>-----</td>
+            </tr>
+
+            <tr>
+              <td><span title="Select next source and target"> Auto move to next pair </span></td>
+              <td>
+                <label class="video_play_pause" style="font-size: 30px">
+                  <input type="checkbox" id="idDijkstraStartStop" />
+                  <span title="Start or stop to move next source target pair"></span>
+                </label>
+              </td>
+            </tr>
+
+            <tr>
+              <td>-----</td>
+              <td>-----</td>
+            </tr>
+
+            <tr>
+              <td><span> Shortest path </span></td>
+              <td>
+                <span title="Clear highlighted path"><input id="idDijkstraClear" , type="button" value="Clear" style="width: 90%" /></span>
+              </td>
+            </tr>
+
+            <tr>
+              <td>-----</td>
+              <td>-----</td>
+            </tr>
+
+            <tr>
+              <td><span> Disabled edge </span></td>
+              <td>
+                <span title="Reset disabled edge"><input id="idResetDisabledEdge" , type="button" value="Reset" style="width: 90%" /></span>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div>
+          <h3>Search</h3>
+          <form>
+            <p>ID LABEL</p>
+            <input type="text" id="idSearchText" autocomplete="on" list="idList" placeholder="id label search" /><input type="button" id="idSearchTextClear" value="&times;" />
+            <datalist id="idList">
+              <option value="cr103"></option>
+              <option value="cr104"></option>
+              <option value="cr201"></option>
+              <option value="cr202"></option>
+              <option value="tab-his-"></option>
+              <option value="tac-his-"></option>
+            </datalist>
+          </form>
+          <form>
+            <p>ADDRESS</p>
+            <input type="text" id="idSearchAddr" placeholder="ip address search" /><input type="button" id="idSearchAddrClear" value="&times;" />
+          </form>
+          <form>
+            <p>EVI</p>
+            <input type="text" id="idSearchEvi" autocomplete="on" list="eviList" placeholder="evi search" /><input type="button" id="idSearchEviClear" value="&times;" />
+            <datalist id="eviList">
+              <option value="10001"></option>
+              <option value="10002"></option>
+              <option value="20000"></option>
+              <option value="31010"></option>
+              <option value="50001"></option>
+            </datalist>
+          </form>
+          <form>
+            <p>VRF</p>
+            <input type="text" id="idSearchVrf" autocomplete="on" list="vrfList" placeholder="vrf search" /><input type="button" id="idSearchVrfClear" value="&times;" />
+            <datalist id="vrfList">
+              <option value="vrf10000"></option>
+              <option value="vrf20000"></option>
+              <option value="vrf30001"></option>
+              <option value="vrf30002"></option>
+              <option value="vrf30003"></option>
+            </datalist>
+          </form>
+
+          <div id="idSearchResult"></div>
+        </div>
+
+        <div>
+          <h3>Element info</h3>
+          <div id="idElementInfo" class="elementInfo"></div>
+        </div>
+      </div>
+
+      <div id="idRightPanel" class="right_panel">
+        <div id="cy"></div>
+
+        <div id="on_cy">
+          <table style="width: 100%">
+            <tr>
+              <td><span title="Revert to initial position"> Initial Position </span></td>
+              <td><input id="idInitialPosition" type="button" value="Revert" style="width: 90%" /></td>
+            </tr>
+            <tr>
+              <td><span title="show connected nodes"> Connected nodes </span></td>
+              <td><input id="idConnected" type="button" value="Connected" style="width: 90%" /></td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- show graphical hardware -->
+        <div id="idCyModel" style="visibility: hidden"></div>
+
+        <!-- show detail info -->
+        <div id="idDetailInfo" class="detailInfo">
+          <span id="idDetailInfoClose" class="detailInfoClose">&times;</span>
+          <div id="idDetailInfoContents" class="detailInfoContents"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- end of wrapper -->
+  </body>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', iida.main);
+  </script>
+</html>
